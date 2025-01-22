@@ -1,10 +1,24 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "@/styles/index.css";
-import App from "@/App.jsx";
+import ReactDOM from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import App from "./App.jsx";
+import { i18n } from "./i18n/config.js";
 
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
+// import { ErrorScreen } from "./components/ui/ErrorScreen.jsx";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
+
+import "./styles/index.css";
+import { I18nextProvider } from "react-i18next";
+
+const queryClient = new QueryClient();
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <ThemeProvider>
+    <I18nextProvider i18n={i18n}>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        <App />
+      </QueryClientProvider>
+    </I18nextProvider>
+  </ThemeProvider>
 );

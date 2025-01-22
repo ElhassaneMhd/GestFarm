@@ -1,4 +1,4 @@
-import { PiCheckBold } from "./Icons";
+import { Check } from "lucide-react";
 
 export function CheckBox({ checked, onChange, className = "", ...props }) {
   return (
@@ -13,7 +13,7 @@ export function CheckBox({ checked, onChange, className = "", ...props }) {
         onChange={onChange}
         {...props}
       />
-      <PiCheckBold className="pointer-events-none absolute left-[3px] top-0.5 text-sm hidden text-center   text-white transition-none duration-0 peer-checked:block" />
+      <Check size={20} className="pointer-events-none absolute  top-0 text-sm hidden text-center   text-white transition-none duration-0 peer-checked:block" />
     </div>
   );
 }

@@ -1,0 +1,48 @@
+{
+  "Sheep": [
+    {
+      "sheepId": 1,
+      "name": "White Merino",
+      "price": 250,
+      "category": "Merino",
+      "saleStatus": "sold",
+      "amount": 250,
+      "shipping": {
+        "isShipped": true,
+        "shippingDate": "2025-01-20",
+        "destination": "Farmhouse, Green Valley, NY"
+      }
+    },
+    {
+      "sheepId": 2,
+      "name": "Black Merino",
+      "price": 300,
+      "category": "Merino",
+      "saleStatus": "available",
+      "amount": 300,
+      "shipping": {
+        "isShipped": false,
+        "shippingDate": "2025-01-20",
+        "destination": "Farmhouse, Green Valley, NY"
+      }
+    },
+    {
+      "sheepId": 3,
+      "name": "Brown Merino",
+      "price": 200,
+      "category": "Merino",
+      "saleStatus": "available",
+      "amount": 200,
+      "shipping": {
+        "isShipped": false,
+        "shippingDate": "2025-01-20",
+        "destination": "Farmhouse, Green Valley, NY"
+      }
+    }
+  ],
+  "Cow": {
+    "name": "Cow",
+    "sound": "Moo",
+    "image": "cow.jpg"
+  }
+}

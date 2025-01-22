@@ -1,10 +1,13 @@
-import { useUser } from '@/hooks/useUser';
-import { forwardRef } from 'react';
+import { useUser } from "@/hooks/useUser";
+import { forwardRef } from "react";
 
 const getFallback = (role, gender) => {
-  if (['user', 'intern'].includes(role)) return gender === 'M' ? '/images/male.png' : '/images/female.png';
-  if (['super-admin', 'admin', 'supervisor'].includes(role))
-    return gender === 'M' ? '/images/male-admin.png' : '/images/female-admin.png';
+  if (["user"].includes(role))
+    return gender === "M" ? "/images/male.png" : "/images/female.png";
+  if (["super-admin", "admin"].includes(role))
+    return gender === "M"
+      ? "/images/male-admin.png"
+      : "/images/female-admin.png";
 };
 
 /**
@@ -20,27 +23,37 @@ const getFallback = (role, gender) => {
  *
  * @returns {React.ElementType} Returns an img element with the Avatar.
  */
-const Avatar = forwardRef(({ className = 'h-9 w-9', custom, ...props }, ref) => {
-  const { user } = useUser();
+const Avatar = forwardRef(
+  ({ className = "h-9 w-9", custom, ...props }, ref) => {
+    const { user } = useUser();
 
-  const { role: userRole, gender: userGender, avatar: { src: userAvatar } = {} } = user || {};
-  const { role: customRole, gender: customGender, avatar: customAvatar } = custom || {};
+    const {
+      role: userRole,
+      gender: userGender,
+      avatar: { src: userAvatar } = {},
+    } = user || {};
+    const {
+      role: customRole,
+      gender: customGender,
+      avatar: customAvatar,
+    } = custom || {};
 
-  const role = (custom && (customRole || 'intern')) || userRole;
-  const gender = customGender || userGender || 'M';
-  const avatar = custom ? customAvatar : userAvatar;
+    const role = (custom && (customRole || "intern")) || userRole;
+    const gender = customGender || userGender || "M";
+    const avatar = custom ? customAvatar : userAvatar;
 
-  return (
-    <img
-      ref={ref}
-      className={`rounded-full border border-border object-cover text-center text-xs text-text-tertiary ${className}`}
-      src={avatar || getFallback(role || 'user', gender)}
-      alt='profile image'
-      {...props}
-    />
-  );
-});
+    return (
+      <img
+        ref={ref}
+        className={`rounded-full border border-border object-cover text-center text-xs text-text-tertiary ${className}`}
+        src={avatar || getFallback(role || "user", gender)}
+        alt="profile image"
+        {...props}
+      />
+    );
+  }
+);
 
-Avatar.displayName = 'Avatar';
+Avatar.displayName = "Avatar";
 
 export default Avatar;

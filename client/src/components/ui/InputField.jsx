@@ -1,15 +1,28 @@
-import Tippy from '@tippyjs/react';
-import { forwardRef } from 'react';
-import { cn } from '@/utils/helpers';
-import { tv } from 'tailwind-variants';
-import { Building, Calendar, CircleAlert, FileText, GraduationCap, Key, Mail, Map, MapPin, Phone, Search, Timer } from 'lucide-react';
+import Tippy from "@tippyjs/react";
+import { forwardRef } from "react";
+import { cn } from "@/utils/helpers";
+import { tv } from "tailwind-variants";
+import {
+  Building,
+  Calendar,
+  CircleAlert,
+  FileText,
+  GraduationCap,
+  Key,
+  Mail,
+  Map,
+  MapPin,
+  Phone,
+  Search,
+  Timer,
+} from "lucide-react";
 
 const input = tv({
-  base: 'input-field relative py-1 rounded-lg bg-background-secondary px-2 overflow-hidden border border-border w-full',
+  base: "input-field relative py-1 rounded-lg bg-background-secondary px-2 overflow-hidden border border-border w-full",
   variants: {
-    icon: { true: 'pl-9' },
-    disabled: { true: 'bg-background-disabled' },
-    readOnly: { true: 'bg-background-disabled' },
+    icon: { true: "pl-9" },
+    disabled: { true: "bg-background-disabled" },
+    readOnly: { true: "bg-background-disabled" },
   },
 });
 
@@ -32,8 +45,14 @@ function Label({ label, message }) {
   if (!label) return null;
 
   return (
-    <div className='flex items-center gap-2'>
-      {typeof label === 'string' ? <label className='text-sm font-medium text-text-tertiary'>{label}</label> : label}
+    <div className="flex items-center gap-2">
+      {typeof label === "string" ? (
+        <label className="text-sm font-medium text-text-tertiary">
+          {label}
+        </label>
+      ) : (
+        label
+      )}
       {<ErrorTooltip message={message} />}
     </div>
   );
@@ -61,11 +80,11 @@ export function ErrorTooltip({ message }) {
   );
 }
 
-function Icon({ icon, className = '' }) {
+function Icon({ icon, className = "" }) {
   if (!icon) return null;
   return (
     <span
-      className={`absolute left-0 top-0 z-10 grid h-full w-7 place-content-center border-r border-border bg-background-tertiary text-text-tertiary duration-300 ${className}`}
+      className={`absolute left-0 top-0 z-10 grid h-full w-7 place-content-center border-r border-border  text-text-tertiary duration-300 ${className}`}
     >
       {icon}
     </span>
@@ -98,7 +117,7 @@ export const InputField = forwardRef(
       children,
       type,
       className,
-      parentClassName = '',
+      parentClassName = "",
       name,
       errorMessage,
       label,
@@ -124,11 +143,13 @@ export const InputField = forwardRef(
             className
           )}
         >
-          {customIcon ? customIcon : showIcon && <Icon icon={icon} className={iconClassName} />}
-          {type === 'textarea' ? (
+          {customIcon
+            ? customIcon
+            : showIcon && <Icon icon={icon} className={iconClassName} />}
+          {type === "textarea" ? (
             <textarea ref={ref} {...props}></textarea>
           ) : (
-            <input type={type || 'text'} ref={ref} {...props} />
+            <input type={type || "text"} ref={ref} {...props} />
           )}
           {children}
         </div>
@@ -137,4 +158,4 @@ export const InputField = forwardRef(
   }
 );
 
-InputField.displayName = 'InputField';
+InputField.displayName = "InputField";

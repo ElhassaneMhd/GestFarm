@@ -1,0 +1,18 @@
+import { axiosFetch } from ".";
+
+export const getAllSheep = async () => await axiosFetch("");
+
+export const getSheep = async (id) =>
+  !id ? null : await axiosFetch(`sheep/${id}`);
+
+export const addSheep = async (data) =>
+  await axiosFetch("sheep", "POST", { ...data });
+
+export const updateSheep = async (id, data) =>
+  await axiosFetch(`sheep/${id}`, "PUT", { ...data });
+
+export const deleteSheep = async (id) =>
+  await axiosFetch(`sheep/${id}`, "DELETE");
+
+export const deleteAllSheep = async (ids) =>
+  await axiosFetch(`multiple/sheep/delete`, "POST", { ids });
