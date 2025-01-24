@@ -1,31 +1,52 @@
 package baa3.Entity;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
+
+import java.time.Instant;
 
 @Entity
 @Table(name = "sheep")
 public class Sheep {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) int id;
 
     private int price;
     private int weight;
     private String saleStatus;
     private int amount;
-    private String category;
-    private  String shipping;
 
-    public Sheep() {}
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
-    public Sheep(int price, int weight, String saleStatus, int amount, String category, String shipping) {
+    @ManyToOne
+    @JoinColumn(name = "shipping_id", nullable = false)
+    private Shipping shipping;
+
+    @ColumnDefault("current_timestamp()")
+    @Column(name = "created_at", nullable = false)
+    private Instant createdAt;
+
+    @ColumnDefault("current_timestamp()")
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
+
+
+    public Sheep() {
+
+    }
+
+    public Sheep(int price, int weight, String saleStatus, int amount, Category category, Shipping shipping) {
         this.price = price;
         this.weight = weight;
         this.saleStatus = saleStatus;
         this.amount = amount;
         this.category = category;
         this.shipping = shipping;
+
     }
 
     public int getId() {
@@ -68,20 +89,36 @@ public class Sheep {
         this.amount = amount;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
-    public String getShipping() {
+    public Shipping getString() {
         return shipping;
     }
 
-    public void setShipping(String shipping) {
+    public void setString(Shipping shipping) {
         this.shipping = shipping;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -94,6 +131,7 @@ public class Sheep {
                 ", amount=" + amount +
                 ", category=" + category +
                 ", shipping=" + shipping +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }

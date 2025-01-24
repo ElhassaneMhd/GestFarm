@@ -6,7 +6,7 @@ export function useSheep() {
     queryKey: ["sheep"],
     queryFn: getAllSheep,
   });
-  return { sheep: data?.Sheep, error, isLoading: isPending };
+  return { sheep: data, error, isLoading: isPending };
 }
 
 export function useOneSheep(id) {

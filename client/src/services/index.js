@@ -1,8 +1,29 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "/data.json",
+  baseURL: "http://localhost:8084",
 });
+axiosInstance.interceptors.response.use(
+  (config) => {
+    config.auth = {
+      username: "admin",
+      password: "hassan123",
+    }
+  },
+  (error) => {
+    if (error.response) {
+      return Promise.reject(error.response);
+    } else if (error.request) {
+      return Promise.reject({
+        code: "ERR_NO_RESPONSE",
+      });
+    } else {
+      return Promise.reject({
+        code: "ERR_REQUEST_TIMEOUT",
+      });
+    }
+  }
+);
 
 export const axiosFetch = async (resource, method, data, headers) => {
   try {
