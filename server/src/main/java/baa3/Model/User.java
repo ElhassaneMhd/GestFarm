@@ -1,9 +1,10 @@
-package baa3.Entity;
+package baa3.Model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.Instant;
+import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private int id;
 
     @Column(name = "username", nullable = false, length = 50)
     private String username;
@@ -24,16 +25,18 @@ public class User {
     @Column(name = "password", nullable = false, length = 68)
     private String password;
 
-    @Column(name = "enabled", nullable = false)
-    private Byte enabled;
 
     @ColumnDefault("current_timestamp()")
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date createdAt;
 
     @ColumnDefault("current_timestamp()")
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date updatedAt;
 
     @OneToMany(mappedBy = "user")
     private Set<Role> roles = new LinkedHashSet<>();
@@ -70,27 +73,19 @@ public class User {
         this.password = password;
     }
 
-    public Byte getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Byte enabled) {
-        this.enabled = enabled;
-    }
-
-    public Instant getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Instant createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Instant getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Instant updatedAt) {
+    public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 
@@ -102,4 +97,16 @@ public class User {
         this.roles = roles;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", roles=" + roles +
+                '}';
+    }
 }

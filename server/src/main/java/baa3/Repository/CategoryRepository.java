@@ -1,6 +1,6 @@
 package baa3.Repository;
 
-import baa3.Entity.Category;
+import baa3.Model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 

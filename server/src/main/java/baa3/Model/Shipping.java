@@ -1,9 +1,8 @@
-package baa3.Entity;
+package baa3.Model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.time.Instant;
 import java.time.Instant;
 import java.util.List;
 

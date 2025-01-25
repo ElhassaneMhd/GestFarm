@@ -1,6 +1,6 @@
 package baa3.Controller;
 
-import baa3.Entity.ErrorResponse;
+import baa3.DTO.ErrorResponse;
 import baa3.Exception.NotFound;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,5 @@
-package baa3.Entity;
+package baa3.Model;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 

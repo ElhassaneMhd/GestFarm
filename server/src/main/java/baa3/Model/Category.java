@@ -1,4 +1,4 @@
-package baa3.Entity;
+package baa3.Model;
 
 import jakarta.persistence.*;
 
