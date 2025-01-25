@@ -16,8 +16,12 @@ public class CostumeUserDetailsService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(login);
+        if (user == null){
+            System.out.println("search by name");
+            user = userRepository.findByUsername(login);
+        }
         if(user == null){
             System.out.println("User not found");
             throw new UsernameNotFoundException("User not found");

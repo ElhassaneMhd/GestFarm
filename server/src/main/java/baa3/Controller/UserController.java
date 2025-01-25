@@ -19,9 +19,11 @@ public class UserController {
     private UserService userService;
 
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
+
+
     @PostMapping("/login")
-    public User login(@RequestBody User user) {
-        return null;
+    public String login(@RequestBody User user) {
+        return userService.verify(user);
     }
 
     @PostMapping("/register")
