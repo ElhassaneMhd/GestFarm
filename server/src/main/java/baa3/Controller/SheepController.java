@@ -5,16 +5,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/sheep")
 public class SheepController {
-
-    private final SheepRepository sheepRepository;
-
-    public SheepController(SheepRepository sheepRepository) {
-        this.sheepRepository = sheepRepository;
-    }
-
-
-
 
 }

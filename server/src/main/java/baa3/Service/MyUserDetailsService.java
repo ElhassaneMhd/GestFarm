@@ -1,7 +1,7 @@
 package baa3.Service;
 
 import baa3.Model.User;
-import baa3.DTO.userDto;
+import baa3.Dto.userDto;
 import baa3.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,13 +10,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CostumeUserDetailsService implements UserDetailsService {
+public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        System.out.println(login);
         User user = userRepository.findByEmail(login);
         if (user == null){
             System.out.println("search by name");

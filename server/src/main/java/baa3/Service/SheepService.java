@@ -1,11 +1,15 @@
 //package baa3.Service;
 //
-//
-//import baa3.Entity.Sheep;
+//import baa3.Model.Sheep;
+//import baa3.Repository.SheepRepository;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Service;
 //
 //import java.util.List;
 //
-//public interface SheepService {
+//@Service
+//public class SheepService {
+//    @Autowired
+//    private SheepRepository sheepRepository;
 //
-//    List<Sheep> FindByCategory(int id);
 //}

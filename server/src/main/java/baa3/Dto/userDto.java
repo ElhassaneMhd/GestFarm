@@ -1,12 +1,11 @@
-package baa3.DTO;
+package baa3.Dto;
 
 import baa3.Model.User;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 public class userDto implements UserDetails {
 
@@ -18,7 +17,8 @@ public class userDto implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ADMIN")) ;
+
+        return List.of();
     }
 
     @Override
@@ -29,6 +29,13 @@ public class userDto implements UserDetails {
     @Override
     public String getUsername() {
         return user.getUsername();
+    }
+
+    public Integer getId() {
+        return user.getId();
+    }
+    public String getEmail() {
+        return user.getEmail();
     }
 
 }

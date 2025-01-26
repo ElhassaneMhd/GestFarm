@@ -1,4 +1,4 @@
-package baa3.DTO;
+package baa3.Dto;
 
 
 public class ErrorResponse {

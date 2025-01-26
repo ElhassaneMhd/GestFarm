@@ -6,6 +6,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import javax.crypto.KeyGenerator;
@@ -20,6 +22,9 @@ import java.util.function.Function;
 
 @Service
 public class JWTService {
+
+    @Autowired
+    ApplicationContext context;
 
     private String secretKey="";
 
@@ -41,13 +46,14 @@ public class JWTService {
 
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
+        UserDetails userDetails = context.getBean(MyUserDetailsService.class).loadUserByUsername(user.getUsername());
 
         return Jwts.builder()
                 .claims()
                 .add(claims)
-                .subject(user.getUsername())
+                .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() +60 * 60 * 10))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .and()
                 .signWith(getKey())
                 .compact();
