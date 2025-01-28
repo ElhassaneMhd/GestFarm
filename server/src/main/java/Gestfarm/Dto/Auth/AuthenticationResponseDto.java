@@ -1,4 +1,4 @@
-package baa3.Dto.Auth;
+package Gestfarm.Dto.Auth;
 
 // AuthenticationResponseDto.java
 public record AuthenticationResponseDto(String token) {

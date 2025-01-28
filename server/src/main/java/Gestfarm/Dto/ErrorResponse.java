@@ -1,4 +1,4 @@
-package baa3.Dto;
+package Gestfarm.Dto;
 
 
 public class ErrorResponse {

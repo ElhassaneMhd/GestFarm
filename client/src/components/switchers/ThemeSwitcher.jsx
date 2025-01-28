@@ -13,13 +13,13 @@ export function ThemeSwitcher() {
     >
       <Moon
         size={16}
-        className={`absolute text-text-tertiary   transition-transform duration-300 ${
+        className={`absolute   transition-transform duration-300 ${
           currentTheme === "light" ? " translate-y-10 " : " translate-y-0"
         }`}
       />
       <SunMedium
         size={20}
-        className={`absolute text-text-tertiary transition-transform duration-300 ${
+        className={`absolute transition-transform duration-300 ${
           currentTheme === "light" ? " translate-y-0 " : " translate-y-10"
         }`}
       />

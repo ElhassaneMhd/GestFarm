@@ -1,17 +1,16 @@
-package baa3.Controller;
+package Gestfarm.Controller;
 
-import baa3.Dto.Auth.RegistrationRequestDto;
-import baa3.Dto.Auth.RegistrationResponseDto;
-import baa3.Mapper.UserRegistrationMapper;
-import baa3.Model.User;
-import baa3.Service.UserService;
+import Gestfarm.Dto.Auth.RegistrationRequestDto;
+import Gestfarm.Dto.Auth.RegistrationResponseDto;
+import Gestfarm.Mapper.UserRegistrationMapper;
+import Gestfarm.Model.User;
+import Gestfarm.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;

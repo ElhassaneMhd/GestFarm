@@ -1,19 +1,25 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/homePage";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./styles/App.css";
-import { Login } from "./pages/auth/Login";
-import { Register } from "./pages/auth/Register";
 import { Toaster } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader } from "lucide-react";
 import { useTheme } from "./context/ThemeContext";
 import { AuthLayout } from "./layouts/AuthLayout";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { ProtectedRoute } from "./components/ProtectedRoutes";
 import AppLayout from "./layouts/AppLayout";
-import { NotFound } from "./pages/NotFound";
+import { HomePage, NotFound, Overview, Sheep, Login, Register } from "./pages";
+import SheepDetails from "./features/sheep/SheepDetails";
 
 function App() {
   const { theme } = useTheme();
+  const routes = ["overview", "sheep"];
+  const routesElements = {
+    overview: <Overview />,
+    sheep: <Sheep />,
+    "sheep/new": <Sheep />,
+    "sheep/:id": <SheepDetails />,
+    // "sheep/:id/:tab": <ProjectDetails />,
+    // users: <Users />,
+  };
   return (
     <>
       <BrowserRouter>
@@ -31,6 +37,31 @@ function App() {
               </ProtectedRoute>
             }
           ></Route>
+
+          <Route
+            path="app"
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route
+              index
+              element={<Navigate to="/app/overview" replace={true} />}
+            />
+            {/*  Routes of specific role */}
+            {routes?.map((route) => (
+              <Route
+                key={route}
+                path={route}
+                element={
+                  <ProtectedRoute>{routesElements[route]}</ProtectedRoute>
+                }
+              />
+            ))}
+            <Route path="*" element={<NotFound />} />
+          </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
@@ -38,7 +69,7 @@ function App() {
       <Toaster
         icons={{
           loading: (
-            <Loader2 className="animate-spin text-lg text-text-secondary" />
+            <Loader className="animate-spin text-lg text-text-secondary" />
           ),
         }}
         position={"bottom-right"}

@@ -1,19 +1,19 @@
 import { NavLink } from "react-router-dom";
-import { ThemeSwitcher } from "./ThemeSwitcher";
-// import { LoggedUser } from '../AuthSwitcher';
+import { ThemeSwitcher } from "../switchers/ThemeSwitcher";
+import { LoggedUser } from "../switchers/AuthSwitcher";
 import { Button } from "../ui";
 import { Overlay } from "../ui/Modal";
 import { SocialMedia } from "../ui/SocialMedia";
-// import { useLogout, useUser } from '@/hooks/useUser';
 import { HOMEPAGE_ROUTES } from "@/utils/constants";
 import { LogOut, X } from "lucide-react";
-import { LanguageSwitcher } from "./LanguageSwitcher";
+import { LanguageSwitcher } from "../switchers/LanguageSwitcher";
 import { useTranslation } from "react-i18next";
+import { useLogout, useUser } from "@/hooks/useUser";
 
 export function MobileHeader({ isOpen, onClose }) {
-  const user = null;
+  const {user} = useUser();
   const { t } = useTranslation();
-  // const { logout } = useLogout();
+  const { logout } = useLogout();
 
   return (
     <>
@@ -25,10 +25,10 @@ export function MobileHeader({ isOpen, onClose }) {
         }
       >
         <div className="flex items-center justify-between gap-3 px-5 pt-5">
-          {/* {user && <LoggedUser user={user} />} */}
+          {user && <LoggedUser user={user} />}
           <div className="ml-auto flex gap-2">
             {user && (
-              <Button onClick={() => console.log("Lougout")} shape="icon">
+              <Button onClick={() => logout()} shape="icon">
                 <LogOut />
               </Button>
             )}
@@ -43,14 +43,9 @@ export function MobileHeader({ isOpen, onClose }) {
         <ul className="flex flex-1 flex-col items-center justify-center gap-6">
           {[
             ...HOMEPAGE_ROUTES,
-            ...(user?.role === "user"
-              ? [{ label: "Applications", path: "/applications" }]
-              : []),
-            ...(user && user?.role !== "user"
-              ? [{ label: "Dashboard", path: "/app" }]
-              : []),
+            ...(user ? [{ label: "dashboard", path: "/app" }] : [])
           ].map(({ label, path }) => (
-            <NavLink key={label} to={path} className=" mobile_header">
+            <NavLink key={label} to={path} className="mobile_header">
               <li className=" text-2xl font-semibold capitalize text-text-primary transition-all duration-300 hover:scale-110 hover:text-text-secondary sm:text-xl">
                 {t(`header.navbar.${label}`)}
               </li>
@@ -66,6 +61,7 @@ export function MobileHeader({ isOpen, onClose }) {
               ))}
             </ul>
           )}
+
         </ul>
 
         <div className="mx-auto ">

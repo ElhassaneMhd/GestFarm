@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { useLogout, useUser } from "@/hooks/useUser";
 import Avatar from "../ui/Avatar";
-import { AppWindow, LogOut, UserRoundCheck } from "lucide-react";
+import { LayoutGrid, LogOut, UserRoundCheck } from "lucide-react";
 
 export function AuthSwitcher() {
   const { t } = useTranslation();
@@ -24,11 +24,11 @@ export function AuthSwitcher() {
             <LoggedUser user={user} />
           </DropDown.Title>
           <DropDown.Divider />
-            <Link to="/app">
-              <DropDown.Option>
-                <AppWindow /> {t(`header.auth.dashboard`)}
-              </DropDown.Option>
-            </Link>
+          <Link to="/app">
+            <DropDown.Option>
+              <LayoutGrid /> {t(`header.auth.dashboard`)}
+            </DropDown.Option>
+          </Link>
           <DropDown.Option onClick={logout}>
             <LogOut />
             {t(`header.auth.logout`)}

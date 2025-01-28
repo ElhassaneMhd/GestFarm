@@ -7,6 +7,9 @@ export const cn = (...inputs) => twMerge(clsx(inputs));
 
 export const changeTitle = (title) => (document.title = title || "Loading...");
 
+export const capitalize = (string) =>
+  string?.charAt(0).toUpperCase() + string?.slice(1);
+
 //*------ Dates And Time
 export const getIsoDate = (date) =>
   DateTime.fromISO(new Date(date).toISOString());

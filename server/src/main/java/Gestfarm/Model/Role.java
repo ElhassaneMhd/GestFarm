@@ -1,4 +1,4 @@
-package baa3.Model;
+package Gestfarm.Model;
 
 import jakarta.persistence.*;
 

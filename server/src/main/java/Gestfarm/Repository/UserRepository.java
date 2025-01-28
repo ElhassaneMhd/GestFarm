@@ -1,11 +1,8 @@
-package baa3.Repository;
+package Gestfarm.Repository;
 
-import baa3.Model.User;
+import Gestfarm.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-
-import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {

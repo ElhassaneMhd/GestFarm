@@ -1,9 +1,9 @@
-package baa3.Service;
+package Gestfarm.Service;
 
-import baa3.Dto.Auth.RegistrationRequestDto;
-import baa3.Dto.Auth.RegistrationResponseDto;
-import baa3.Model.User;
-import baa3.Repository.UserRepository;
+import Gestfarm.Dto.Auth.RegistrationRequestDto;
+import Gestfarm.Dto.Auth.RegistrationResponseDto;
+import Gestfarm.Model.User;
+import Gestfarm.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

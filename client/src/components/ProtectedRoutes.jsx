@@ -11,7 +11,10 @@ export function ProtectedRoute({ children }) {
   // return children;
 
   useEffect(() => {
-    if (!user && !isLoading) navigate("/login", { replace: true });
+    if (!user && !isLoading) {
+      localStorage.removeItem("token");
+      navigate("/login", { replace: true });
+    }
   }, [user, isLoading, navigate]);
 
   if (isLoading) return <LoadingScreen />;

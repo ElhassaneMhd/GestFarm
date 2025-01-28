@@ -1,10 +1,9 @@
-package baa3.Repository;
+package Gestfarm.Repository;
 
-import baa3.Model.Sheep;
+import Gestfarm.Model.Sheep;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 

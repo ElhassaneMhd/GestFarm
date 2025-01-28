@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
-import { cn } from '../../utils/helpers';
+import { cn } from '@/utils/helpers';
 import { tv } from 'tailwind-variants';
-import { LoaderCircle } from 'lucide-react';
+import { Loader } from 'lucide-react';
 
 const button = tv({
   base: 'transition-colors flex-shrink-0 duration-300 flex font-medium',
@@ -103,7 +103,7 @@ export const Button = forwardRef(
       >
         {isLoading ? (
           <div className="flex items-center gap-3 text-white">
-            <LoaderCircle className="animate-spin" />
+            <Loader className="animate-spin" />
             
             {children}
           </div>

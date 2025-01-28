@@ -19,7 +19,7 @@ export function LanguageSwitcher({ size, layout }) {
           </Button>
         ) : (
           <Button size={size} shape="icon">
-            <Languages className=" text-text-tertiary" size={16} />
+            <Languages  size={16} />
           </Button>
         )
       }

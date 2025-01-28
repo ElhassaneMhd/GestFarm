@@ -1,7 +1,7 @@
-package baa3.Controller;
+package Gestfarm.Controller;
 
-import baa3.Dto.ErrorResponse;
-import baa3.Exception.NotFound;
+import Gestfarm.Dto.ErrorResponse;
+import Gestfarm.Exception.NotFound;
 import io.micrometer.core.instrument.config.validate.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

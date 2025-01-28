@@ -1,6 +1,6 @@
-package baa3.Dto;
+package Gestfarm.Dto;
 
-import baa3.Model.User;
+import Gestfarm.Model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

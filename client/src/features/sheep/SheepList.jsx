@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useSheep } from "./useSheep";
-import { useUser } from "../hooks/useUser";
+import { useUser } from "../../hooks/useUser";
 
 export function SheepList() {
   const { sheep, error, isLoading } = useSheep();

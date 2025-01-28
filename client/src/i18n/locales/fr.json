@@ -4,7 +4,8 @@
       "home": "Acceuil",
       "offers": "Offres",
       "contact": "Contact",
-      "about": "À propos"
+      "about": "À propos",
+      "dashboard": "Tableau de bord"
     },
     "auth": {
       "login": "S'autentifier",
@@ -61,25 +62,9 @@
       "label": "Nom",
       "placeholder": "Entrez votre nom"
     },
-    "establishment": {
-      "label": "Établissement",
-      "placeholder": "Entrez votre établissement"
-    },
-    "specialty": {
-      "label": "Spécialité",
-      "placeholder": "Entrez votre spécialité"
-    },
-    "academicLevel": {
-      "label": "Niveau académique",
-      "placeholder": "Entrez votre niveau académique"
-    },
     "phone": {
       "label": "Votre numéro de téléphone",
       "placeholder": "Entrez votre numéro de téléphone"
-    },
-    "birthday": {
-      "label": "Anniversaire",
-      "placeholder": "Entrez votre date de naissance"
     },
     "city": {
       "label": "Ville",
@@ -102,39 +87,7 @@
     "description": "Description"
   },
 
-  "offers": {
-    "recent": "Les Offres de stage récentes",
-    "exploreMore": "Explorer plus",
-    "internshipOffers": "Offres de stage",
-    "apply": "Postuler",
-    "alreadyApplied": "Déjà postulé"
-  },
-  "overview": {
-    "title": "Vue d'ensemble",
-    "interns": "Stagiaires",
-    "supervisors": "Encadrants",
-    "admins": "Admins",
-    "offers": "Offers",
-    "applications": "Demandes",
-    "projects": "Projets",
-    "totalApplications": "Total Applicationes",
-    "totalOffers": "Total Offers",
-    "totalProjects": "Total Projets",
-    "totalPersonnel": "Total Personnel",
-    "pendingApplications": "Applicationes en attente",
-    "applicationsStatus": "Statut des applicationes",
-    "pending": "En attente",
-    "approved": "Approuvé",
-    "rejected": "Rejeté",
-    "latestOffers": "Dernières offres",
-    "completedInternship": "Stages terminés",
-    "noCompletedInternship": "Aucun stage terminé"
-  },
   "actions": {
-    "duration": "Durée",
-    "Urgency": "Urgence",
-    "publicationDate": "Date de publication",
-    "experience": "Expérience",
     "filter": "Filtrer",
     "sortBby": "Trier par",
     "orderBy": "ordrer par",
@@ -150,21 +103,13 @@
     "download": "Télécharger",
     "cancel": "Annuler",
     "search": "Rechercher",
-    "reset": "Réinitialiser",
-    "addOffer": "Ajouter une offre",
-    "addProject": "Ajouter un projet"
+    "reset": "Réinitialiser"
   },
 
   "app": {
     "sidebar": {
       "overview": "Acceuil",
-      "interns": "Stagiaires",
-      "teams": "Équipes",
-      "supervisors": "Encadrants",
-      "admins": "Admins",
-      "absences": "Absences",
-      "offers": "Offres",
-      "applications": "Demandes",
+      "sheep": "Mouton",
       "users": "Utilisateurs",
       "projects": "Projects",
       "sessions": "Sessions",

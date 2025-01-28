@@ -1,9 +1,9 @@
-package baa3.Mapper;
+package Gestfarm.Mapper;
 
-import baa3.Dto.Auth.RegistrationRequestDto;
-import baa3.Dto.Auth.RegistrationResponseDto;
-import baa3.Model.User;
-import baa3.Service.UserService;
+import Gestfarm.Dto.Auth.RegistrationRequestDto;
+import Gestfarm.Dto.Auth.RegistrationResponseDto;
+import Gestfarm.Model.User;
+import Gestfarm.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

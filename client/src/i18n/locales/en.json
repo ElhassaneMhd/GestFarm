@@ -4,7 +4,8 @@
       "home": "Home",
       "offers": "Offers",
       "contact": "Contact",
-      "about": "About Us"
+      "about": "About Us",
+      "dashboard": "Dashboard"
     },
     "auth": {
       "login": "Log In",
@@ -55,22 +56,7 @@
       "label": "Phone Number",
       "placeholder": "Phone Number"
     },
-    "establishment": {
-      "label": "Establishment",
-      "placeholder": "Establishment"
-    },
-    "academicLevel": {
-      "label": "Academic Level",
-      "placeholder": ""
-    },
-    "specialty": {
-      "label": "Specialty",
-      "placeholder": "Specialty"
-    },
-    "birthday": {
-      "label": "Birthday",
-      "placeholder": "Birthday"
-    },
+
     "city": {
       "label": "City",
       "placeholder": ""
@@ -91,32 +77,8 @@
     "location": "Location",
     "description": "Description"
   },
-  "overview": {
-    "title": "Overview",
-    "interns": "Interns",
-    "supervisors": "Supervisors",
-    "admins": "Admins",
-    "offers": "Offers",
-    "applications": "Applications",
-    "projects": "Projects",
-    "totalApplications": "Total Applications",
-    "totalOffers": "Total Offers",
-    "totalProjects": "Total Projects",
-    "totalPersonnel": "Total Personnel",
-    "pendingApplications": "Pending Applications",
-    "applicationsStatus": "Applications Status",
-    "pending": "Pending",
-    "approved": "Approved",
-    "rejected": "Rejected",
-    "latestOffers": "Latest Offers",
-    "completedInternship": "Completed Internship",
-    "noCompletedInternship": "No interns have finished their internship yet."
-  },
+  "overview": {  },
   "actions": {
-    "duration": "Duration",
-    "Urgency": "Urgency",
-    "publicationDate": "Publication Date",
-    "experience": "Experience",
     "search": "Search",
     "close": "Close",
     "save": "Save",
@@ -137,13 +99,7 @@
   "app": {
     "sidebar": {
       "overview": "Overview",
-      "interns": "Interns",
-      "teams": "Teams",
-      "supervisors": "Supervisors",
-      "admins": "Admins",
-      "absences": "Absences",
-      "offers": "Offers",
-      "applications": "Applications",
+      "sheep": "Sheep",
       "users": "Users",
       "projects": "Projects",
       "sessions": "Sessions",

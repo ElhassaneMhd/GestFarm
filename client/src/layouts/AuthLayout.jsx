@@ -1,5 +1,4 @@
-import { LanguageSwitcher } from "@/components/home/LanguageSwitcher";
-import { ThemeSwitcher } from "@/components/home/ThemeSwitcher";
+import { LanguageSwitcher, ThemeSwitcher } from "@/components/switchers";
 import { Button } from "@/components/ui";
 import { Logo } from "@/components/ui/Logo";
 import { useUser } from "@/hooks/useUser";
@@ -14,7 +13,7 @@ export function AuthLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user && !isLoading) navigate(user?.role === "user" ? "/" : "/app");
+    if (user && !isLoading) navigate("/app");
   }, [isLoading, user, navigate]);
 
   return (

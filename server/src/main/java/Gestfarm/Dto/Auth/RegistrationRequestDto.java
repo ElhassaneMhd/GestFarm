@@ -1,4 +1,4 @@
-package baa3.Dto.Auth;
+package Gestfarm.Dto.Auth;
 
 // RegistrationRequestDto.java
 public record RegistrationRequestDto(

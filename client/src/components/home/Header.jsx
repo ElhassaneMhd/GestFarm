@@ -1,28 +1,19 @@
-import { useEffect, useState } from "react";
-import { NavLink, useHref } from "react-router-dom";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { MobileHeader } from "./MobileHeader";
-import { ThemeSwitcher } from "./ThemeSwitcher";
+import { ThemeSwitcher, AuthSwitcher } from "../switchers";
 import { Button, Logo } from "../ui";
-import { AuthSwitcher } from './AuthSwitcher';
-// import { Notifications } from '@/features/notifications/Notifications';
-import { useUser } from '@/hooks/useUser';
 import { HOMEPAGE_ROUTES } from "@/utils/constants";
 import { Menu } from "lucide-react";
-import { LanguageSwitcher } from "./LanguageSwitcher";
+import { LanguageSwitcher } from "../switchers/LanguageSwitcher";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user } = useUser();
-  const currentPath = useHref().split("/")[1];
-
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [currentPath]);
 
   return (
     <header className="flex items-center justify-between border-b border-border h-[10vh] px-2 py-5 md:px-5">
-      <Logo />
+      <Logo className={'  text-2xl'} />
       <Links />
 
       <div className="flex items-center gap-4">
@@ -30,7 +21,6 @@ export function Header() {
           <LanguageSwitcher />
           <ThemeSwitcher />
         </div>
-        {/* {user && <Notifications />} */}
         <AuthSwitcher />
         <Button
           shape="icon"
