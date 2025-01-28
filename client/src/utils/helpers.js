@@ -67,3 +67,28 @@ export const getRelativeTime = (date) => {
   const years = get("years");
   return `${years}y ago`;
 };
+
+//*------ Object Helpers
+
+export const objectDeepEquals = (a, b) => {
+  if (!a && !b) return true;
+  if (a === b) return true;
+  if (typeof a !== "object" || typeof b !== "object") return false;
+  if (a && b && Object.keys(a).length !== Object.keys(b).length) return false;
+
+  for (const key in a) {
+    if (!objectDeepEquals(a?.[key], b?.[key])) return false;
+  }
+
+  return true;
+};
+
+
+export const filterObject = (obj, keys, keysType) => {
+  const filtered = {};
+  for (const key in obj) {
+    if (keysType === "include" && keys.includes(key)) filtered[key] = obj[key];
+    if (keysType === "exclude" && !keys.includes(key)) filtered[key] = obj[key];
+  }
+  return filtered;
+};

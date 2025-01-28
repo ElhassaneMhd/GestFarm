@@ -1,4 +1,3 @@
-
 import { DateTime } from "luxon";
 
 export const HOMEPAGE_ROUTES = [
@@ -124,3 +123,45 @@ export const intervals = [
     time: "past",
   },
 ];
+
+//OAUth2
+export const OAuthProviders = {
+  GOOGLE: "oauth2/code/google",
+  GITHUB: "oauth2/code/github",
+  FACEBOOK: "oauth2/code/facebook",
+};
+
+//Validation rules
+export const RULES = {
+  username: {
+    pattern: {
+      value: /^[a-zA-Z0-9_]+$/,
+      message: "Username can only contain letters, numbers, and underscores",
+    },
+  },
+  email: {
+    pattern: {
+      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+      message: "Invalid email address",
+    },
+  },
+  phone: {
+    pattern: {
+      value: /^(\+212\s?0?|0)(5|6|7)\d{8}$/,
+      message:
+        "Invalid phone number format. \n Ex: +212 0637814207 or 0637814207",
+    },
+  },
+  password: {
+    pattern: {
+      value: /^(?=.*?[A-Za-z])(?=.*?[0-9]).{8,}$/,
+      message:
+        "Password must contain at least 8 characters, one letter (either uppercase or lowercase), and one number",
+    },
+  },
+  passwordConfirmation: {
+    validate: (value, getValue) =>
+      value === getValue("password") || "Passwords do not match",
+  },
+
+};

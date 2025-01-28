@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import { NavLink, useHref } from "react-router-dom";
-// import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { MobileHeader } from "./MobileHeader";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { Button, Logo } from "../ui";
-// import { AuthSwitcher } from './AuthSwitcher';
+import { AuthSwitcher } from './AuthSwitcher';
 // import { Notifications } from '@/features/notifications/Notifications';
-// import { useUser } from '@/hooks/useUser';
+import { useUser } from '@/hooks/useUser';
 import { HOMEPAGE_ROUTES } from "@/utils/constants";
 import { Menu } from "lucide-react";
 import { LanguageSwitcher } from "./LanguageSwitcher";
-import { useTranslation } from "react-i18next";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // const { user } = useUser();
+  const { user } = useUser();
   const currentPath = useHref().split("/")[1];
 
   useEffect(() => {
@@ -32,7 +31,7 @@ export function Header() {
           <ThemeSwitcher />
         </div>
         {/* {user && <Notifications />} */}
-        {/* <AuthSwitcher /> */}
+        <AuthSwitcher />
         <Button
           shape="icon"
           onClick={() => setIsMobileMenuOpen(true)}

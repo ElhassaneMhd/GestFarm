@@ -3,18 +3,15 @@ import { forwardRef } from "react";
 import { cn } from "@/utils/helpers";
 import { tv } from "tailwind-variants";
 import {
-  Building,
   Calendar,
   CircleAlert,
   FileText,
-  GraduationCap,
   Key,
   Mail,
   Map,
   MapPin,
   Phone,
   Search,
-  Timer,
 } from "lucide-react";
 
 const input = tv({
@@ -27,18 +24,15 @@ const input = tv({
 });
 
 const icons = {
-  search: <Search />,
-  email: <Mail />,
-  password: <Key />,
-  phone: <Phone />,
-  text: <FileText />,
-  date: <Calendar />,
-  establishment: <Building />,
-  academicLevel: <GraduationCap />,
-  city: <MapPin />,
-  duration: <Timer />,
-  location: <MapPin />,
-  maps: <Map />,
+  search: <Search size={16} />,
+  email: <Mail size={16} />,
+  password: <Key size={16} />,
+  phone: <Phone size={16} />,
+  text: <FileText size={16} />,
+  date: <Calendar size={16} />,
+  city: <MapPin size={16} />,
+  location: <MapPin size={16} />,
+  maps: <Map size={16} />,
 };
 
 function Label({ label, message }) {
@@ -74,7 +68,7 @@ export function ErrorTooltip({ message }) {
           message ? "scale-100" : "scale-0"
         }`}
       >
-        <CircleAlert />
+        <CircleAlert size={16} />
       </span>
     </Tippy>
   );

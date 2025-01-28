@@ -2,6 +2,7 @@ package baa3.Controller;
 
 import baa3.Dto.ErrorResponse;
 import baa3.Exception.NotFound;
+import io.micrometer.core.instrument.config.validate.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,5 +25,10 @@ public class ExceptionController {
         error.setMessage(exc.getMessage());
         return new ResponseEntity<>(error,HttpStatus.NOT_FOUND);
 
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<String> handleValidationException(ValidationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

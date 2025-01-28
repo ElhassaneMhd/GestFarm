@@ -45,6 +45,10 @@
       "label": "Votre e-mail",
       "placeholder": "Entrez votre adresse e-mail"
     },
+    "username": {
+      "label": "Nom d'utilisateur",
+      "placeholder": "Entrez votre nom d'utilisateur"
+    },
     "fullName": {
       "label": "Nom Complet",
       "placeholder": "Entrez votre Nom Complet"

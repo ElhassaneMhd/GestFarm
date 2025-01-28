@@ -6,9 +6,10 @@ import baa3.Mapper.UserRegistrationMapper;
 import baa3.Model.User;
 import baa3.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +24,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
     @Autowired
     private UserRegistrationMapper userRegistrationMapper;
-
 
     @GetMapping("/")
     public String home() {
@@ -42,23 +41,22 @@ public class UserController {
         return Map.of("user",principal);
     }
 
-
-
     @PostMapping("/login")
-    public String login(@RequestBody User user) {
+    public ResponseEntity<String> login(@RequestBody User user) {
         System.out.println(user);
         return userService.verify(user);
     }
 
     @PostMapping("/register")
     public ResponseEntity<RegistrationResponseDto> registerUser(
-            @Validated @RequestBody final RegistrationRequestDto registrationDTO) {
+            @RequestBody RegistrationRequestDto registrationDTO) {
 
-        final var registeredUser = userService
-                .registerUser(userRegistrationMapper.toEntity(registrationDTO));
+        final var regestred = userService.registerUser(userRegistrationMapper.toEntity(registrationDTO));
 
-        return ResponseEntity.ok(userRegistrationMapper.toRegistrationResponseDto(registeredUser));
+            if (regestred.status() == 406) {
+                return new ResponseEntity<>(regestred, HttpStatusCode.valueOf(406));
+            }else {
+                return new ResponseEntity<>(regestred, HttpStatus.OK);
+            }
     }
-
-
 }

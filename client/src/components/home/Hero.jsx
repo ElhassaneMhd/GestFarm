@@ -18,8 +18,10 @@ import { Sheep } from "../ui/Sheep";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useSearchParams } from "react-router-dom";
 import { useTheme } from "@/context/ThemeContext";
+
 export default function Hero() {
   const [searchParams] = useSearchParams();
+
   return (
     <Operations>
       <div className="flex w-full   justify-center p-5 md:p-10 ">
@@ -48,7 +50,6 @@ function Search({ query }) {
   const [city, setCity] = useState("City");
   const [keyword, setKeyword] = useState(query || "");
   const { onFilter, onSearch } = useOperations();
-
   return (
     <div className="flex z-20 flex-col gap-3 rounded-xl bg-background-primary p-2 shadow-md sm:gap-5 sm:p-4 md:flex-row md:items-center md:self-center md:justify-center w-full mx-2 md:w-fit md:mx-auto">
       <FilterDropDown

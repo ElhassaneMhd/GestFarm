@@ -6,7 +6,13 @@ export function useSheep() {
     queryKey: ["sheep"],
     queryFn: getAllSheep,
   });
-  return { sheep: data, error, isLoading: isPending };
+  return {
+    sheep: data?._embedded,
+    links: data?._links,
+    page: data?.page,
+    error,
+    isLoading: isPending,
+  };
 }
 
 export function useOneSheep(id) {
@@ -14,5 +20,11 @@ export function useOneSheep(id) {
     queryKey: ["sheep", id],
     queryFn: () => getSheep(id),
   });
-  return { sheep: data, error, isLoading: isPending };
+  return {
+    sheep: data?._embedded,
+    links: data?._links,
+    page: data?.page,
+    error,
+    isLoading: isPending,
+  };
 }

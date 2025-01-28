@@ -7,7 +7,7 @@
       "about": "About Us"
     },
     "auth": {
-      "login": "Log n",
+      "login": "Log In",
       "register": "Sign Up",
       "logout": "Logout",
       "dashboard": "Dashboard"
@@ -34,6 +34,10 @@
     "email": {
       "label": "Email Address",
       "placeholder": "Email Address"
+    },
+    "username": {
+      "label": "Username",
+      "placeholder": "Username"
     },
     "fullName": {
       "label": "Full Name",

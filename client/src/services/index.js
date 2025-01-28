@@ -1,29 +1,16 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8084",
+  baseURL: import.meta.env.VITE_SERVER_URL || "http://localhost:8000",
 });
-axiosInstance.interceptors.response.use(
-  (config) => {
-    config.auth = {
-      username: "admin",
-      password: "hassan123",
-    }
-  },
-  (error) => {
-    if (error.response) {
-      return Promise.reject(error.response);
-    } else if (error.request) {
-      return Promise.reject({
-        code: "ERR_NO_RESPONSE",
-      });
-    } else {
-      return Promise.reject({
-        code: "ERR_REQUEST_TIMEOUT",
-      });
-    }
+
+axiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers["Authorization"] = `Bearer ${token}`;
   }
-);
+  return config;
+});
 
 export const axiosFetch = async (resource, method, data, headers) => {
   try {

@@ -1,18 +1,23 @@
+import { useEffect } from "react";
 import { useSheep } from "./useSheep";
+import { useUser } from "../hooks/useUser";
 
 export function SheepList() {
   const { sheep, error, isLoading } = useSheep();
+  const { user } = useUser();
+
+
+  useEffect(() => {
+    if (user) {
+      console.log(user);
+    }
+  }, [user]);
   return (
     <div>
       {isLoading && <p>Loading...</p>}
       {error && <p>{error.message}</p>}
-      {sheep && (
-        <ul>
-          {sheep.map((s) => (
-            <li key={s.name}>{s.name}</li>
-          ))}
-        </ul>
-      )}
+      {user && <p>{user.username}</p>}
+      {sheep && <p>{sheep.length} </p>}
     </div>
   );
 }
