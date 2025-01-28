@@ -1,6 +1,6 @@
 import { axiosFetch } from ".";
 
-export const getAllSheep = async () => await axiosFetch("/sheep");
+export const getAllSheep = async () => await axiosFetch("sheep");
 
 export const getSheep = async (id) =>
   !id ? null : await axiosFetch(`sheep/${id}`);

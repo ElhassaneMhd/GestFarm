@@ -6,9 +6,9 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 export default function AppLayout() {
 
   return (
-    <div className="flex size-full">
+    <div className="flex size-full h-full">
       <Sidebar />
-      <div className="ml-14 flex flex-1 flex-col overflow-hidden bg-background-secondary p-1.5 md:ml-0">
+      <div className="h-full ml-14 flex flex-1 flex-col overflow-hidden bg-background-secondary p-1.5 md:ml-0">
         <AppBar />
         <Main />
       </div>
@@ -20,11 +20,11 @@ function Main() {
   const [parent] = useAutoAnimate({ duration: 300 });
 
   return (
-    <main
-      className="flex flex-1 flex-col gap-5 overflow-y-auto overflow-x-hidden rounded-xl bg-background-primary p-3 sm:rounded-2xl sm:px-5"
+    <section
+      className="flex flex-1 flex-col gap-5 overflow-y-auto overflow-x-hidden rounded-xl bg-background-primary p-3 sm:rounded-2xl sm:px-5 h-full"
       ref={parent}
     >
       <Outlet />
-    </main>
+    </section>
   );
 }
