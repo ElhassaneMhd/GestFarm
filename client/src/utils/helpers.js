@@ -10,6 +10,12 @@ export const changeTitle = (title) => (document.title = title || "Loading...");
 export const capitalize = (string) =>
   string?.charAt(0).toUpperCase() + string?.slice(1);
 
+export function formatEmbeddedData(data, key) {
+  return data?._embedded[key].map((e) => ({
+    ...e,
+    id: e._links.self.href.split("/").pop(),
+  }));
+}
 //*------ Dates And Time
 export const getIsoDate = (date) =>
   DateTime.fromISO(new Date(date).toISOString());
@@ -85,7 +91,6 @@ export const objectDeepEquals = (a, b) => {
 
   return true;
 };
-
 
 export const filterObject = (obj, keys, keysType) => {
   const filtered = {};

@@ -19,11 +19,15 @@ export function Sort() {
     <DropDown
       toggler={
         <Button display="with-icon" type="outline" color="tertiary">
-          {direction === "asc" ? <ArrowUp /> : <ArrowDown />}
+          {direction === "asc" ? (
+            <ArrowUp size={16} />
+          ) : (
+            <ArrowDown size={16} />
+          )}
           <span className="mr-3 text-start">
             {sortOptions.find((s) => s.key === sortBy)?.display || "Sort By"}
           </span>
-          <ChevronDown className="text-base" />
+          <ChevronDown size={16} className="text-base" />
         </Button>
       }
       options={{

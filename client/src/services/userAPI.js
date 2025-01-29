@@ -8,6 +8,8 @@ export const getUser = async () => {
   return { user: data.user };
 };
 
+export const getUserById = async (id) => await axiosFetch(`users/${id}`);
+
 export const deleteUser = async (id) =>
   await axiosFetch(`profiles/${id}`, "DELETE");
 

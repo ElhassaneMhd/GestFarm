@@ -1,32 +1,33 @@
-import { Button, CheckBox, DropDown } from '@/components/ui';
-import { useTable } from './useTable';
-import { ArrowDown, ArrowUp, SortAsc } from 'lucide-react';
+import { Button, CheckBox, DropDown } from "@/components/ui";
+import { useTable } from "./useTable";
+import { ArrowDown, ArrowUp, SortAsc } from "lucide-react";
 
 const icons = {
-  asc: <ArrowUp />,
-  desc: <ArrowDown />,
+  asc: <ArrowUp size={16} />,
+  desc: <ArrowDown size={16} />,
 };
 
 export function Sort({ column }) {
-  const { sortBy, direction, onSort, onFilter, filters, appliedFiltersNumber } = useTable();
+  const { sortBy, direction, onSort, onFilter, filters, appliedFiltersNumber } =
+    useTable();
   const sort = (dir) => onSort(column.key, dir);
 
-
+  if (!column) return null;
   if (column.filter)
     return (
       <DropDown
         toggler={
           <Button
-            color='tertiary'
-            type='transparent'
-            display='with-icon'
-            onClick={() => sort(direction === 'asc' ? 'desc' : 'asc')}
+            color="tertiary"
+            type="transparent"
+            display="with-icon"
+            onClick={() => sort(direction === "asc" ? "desc" : "asc")}
           >
             {column.displayLabel}
             {sortBy === column.key ? icons[direction] : <SortAsc size={12} />}
             <span
               className={`absolute -right-2 -top-2 h-5 w-5 rounded-full bg-primary text-center text-xs font-bold leading-5 text-white transition-transform duration-300 ${
-                appliedFiltersNumber(column.key) > 0 ? 'scale-100' : 'scale-0'
+                appliedFiltersNumber(column.key) > 0 ? "scale-100" : "scale-0"
               }`}
             >
               {appliedFiltersNumber(column.key)}
@@ -34,24 +35,30 @@ export function Sort({ column }) {
           </Button>
         }
         options={{
-          className: 'min-w-[150px] max-h-[250px] overflow-y-auto',
+          className: "min-w-[150px] max-h-[250px] overflow-y-auto",
           shouldCloseOnClick: false,
         }}
-        togglerClassName='relative'
+        togglerClassName="relative"
       >
-        <DropDown.Option onClick={() => sort('asc')}>
+        <DropDown.Option onClick={() => sort("asc")}>
           {icons.asc}
           Asc
         </DropDown.Option>
-        <DropDown.Option onClick={() => sort('desc')}>
+        <DropDown.Option onClick={() => sort("desc")}>
           {icons.desc}
           Desc
         </DropDown.Option>
         <DropDown.Divider />
         {filters[column.key]?.map(({ value, checked }) => (
-          <DropDown.Option key={value?.value || value} className='justify-between capitalize'>
+          <DropDown.Option
+            key={value?.value || value}
+            className="justify-between capitalize"
+          >
             {value?.value || value}
-            <CheckBox checked={checked} onChange={() => onFilter(column.key, value)} />
+            <CheckBox
+              checked={checked}
+              onChange={() => onFilter(column.key, value)}
+            />
           </DropDown.Option>
         ))}
       </DropDown>
@@ -59,10 +66,10 @@ export function Sort({ column }) {
 
   return (
     <Button
-      color='tertiary'
-      type='transparent'
-      display='with-icon'
-      onClick={() => sort(direction === 'asc' ? 'desc' : 'asc')}
+      color="tertiary"
+      type="transparent"
+      display="with-icon"
+      onClick={() => sort(direction === "asc" ? "desc" : "asc")}
     >
       {column.displayLabel}
       {sortBy === column.key ? icons[direction] : <Sort size={12} />}

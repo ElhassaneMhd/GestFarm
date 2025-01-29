@@ -6,20 +6,28 @@ import { useTheme } from "./context/ThemeContext";
 import { AuthLayout } from "./layouts/AuthLayout";
 import { ProtectedRoute } from "./components/ProtectedRoutes";
 import AppLayout from "./layouts/AppLayout";
-import { HomePage, NotFound, Overview, Sheep, Login, Register } from "./pages";
+import {
+  HomePage,
+  NotFound,
+  Overview,
+  Sheep,
+  Login,
+  Register,
+  Users,
+} from "./pages";
 import SheepDetails from "./features/sheep/SheepDetails";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 function App() {
   const { theme } = useTheme();
   const [parent] = useAutoAnimate({ duration: 300 });
-  const routes = ["overview", "sheep"];
+  const routes = ["overview", "sheep", "sheep/new", "sheep/:id", "users"];
   const routesElements = {
     overview: <Overview />,
     sheep: <Sheep />,
     "sheep/new": <Sheep />,
     "sheep/:id": <SheepDetails />,
-    // users: <Users />,
+    users: <Users />,
   };
   return (
     <>

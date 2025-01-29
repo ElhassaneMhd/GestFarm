@@ -12,5 +12,4 @@ public interface SheepRepository extends JpaRepository<Sheep, Integer> {
 
     @RestResource(path = "status")
     List<Sheep> findAllBySaleStatus(String status);
-
 }

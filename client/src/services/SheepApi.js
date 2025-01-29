@@ -16,3 +16,6 @@ export const deleteSheep = async (id) =>
 
 export const deleteAllSheep = async (ids) =>
   await axiosFetch(`multiple/sheep/delete`, "POST", { ids });
+
+export const getSheepByField = async (field, value) =>
+  await axiosFetch(`sheep/search/${field}?${field}=${value}`);

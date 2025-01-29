@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllSheep, getSheep } from "@/services/SheepAPI";
+import { getAllSheep, getSheep, getSheepByField } from "@/services/SheepAPI";
+import { formatEmbeddedData } from "../../utils/helpers";
 
 export function useAllSheep() {
   const { data, error, isPending } = useQuery({
@@ -7,7 +8,7 @@ export function useAllSheep() {
     queryFn: getAllSheep,
   });
   return {
-    sheep: data?._embedded.sheep,
+    sheep: formatEmbeddedData(data, "sheep"),
     links: data?._links,
     page: data?.page,
     error,
@@ -20,8 +21,22 @@ export function useSheep(id) {
     queryKey: ["sheep", id],
     queryFn: () => getSheep(id),
   });
+  console.log(data);
   return {
-    sheep: data?._embedded,
+    sheep: { id: data?._links.self.href.split("/").pop(), ...data },
+    error,
+    isLoading: isPending,
+  };
+}
+
+export function useSheepByField() {
+  const { data, error, isPending } = useQuery({
+    queryKey: ["sheep"],
+    queryFn: getSheepByField,
+  });
+  if (!data) return { sheep: [], error, isLoading: isPending };
+  return {
+    sheep: formatEmbeddedData(data, "sheep"),
     links: data?._links,
     page: data?.page,
     error,

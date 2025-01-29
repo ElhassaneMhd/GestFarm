@@ -1,10 +1,9 @@
-import {SheepList} from '@/features/sheep/SheepList';
+import { SheepList } from "@/features/sheep/SheepList";
 
 export function Sheep() {
-    return (
-        <div>
-            <SheepList/>
-        </div>
-    )
+  return (
+    <>
+      <SheepList />
+    </>
+  );
 }
-

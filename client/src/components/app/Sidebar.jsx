@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Home, LogOut, PanelRightClose, PanelRightOpen } from "lucide-react";
+import {
+  Home,
+  LogOut,
+  PanelRightClose,
+  PanelRightOpen,
+  Users2,
+} from "lucide-react";
 import { Button } from "../ui";
 import { capitalize, changeTitle } from "@/utils/helpers";
 import { useLogout } from "@/hooks/useUser";
@@ -37,16 +43,14 @@ export default function Sidebar() {
   }, [location]);
 
   const sideBarElements = [
-    
-      { name: "overview", icon: <Home size={isExpanded ? 18 : 20} /> },
-      {
-        name: "sheep",
-        icon: <Sheep size={`${isExpanded ? "xs" : "xs"}`} />,
-      },
-    
+    { name: "overview", icon: <Home size={isExpanded ? 18 : 20} /> },
+    {
+      name: "sheep",
+      icon: <Sheep size={`${isExpanded ? "xs" : "xs"}`} />,
+    },
+    { name: "users", icon: <Users2 size={isExpanded ? 18 : 20} /> },
+    {name :"categories", icon: <Users2 size={isExpanded ? 18 : 20} />},
   ];
-
-  
 
   return (
     <aside

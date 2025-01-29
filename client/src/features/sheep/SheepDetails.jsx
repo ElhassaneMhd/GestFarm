@@ -1,10 +1,26 @@
-function SheepDetails() {
+import { useParams } from "react-router-dom";
+import { useSheep } from "./useSheep";
 
-    return (
+function SheepDetails() {
+  const { id } = useParams();
+  const { sheep, error, isLoading } = useSheep(id);
+  console.log(sheep);
+  return (
+    <div>
+      <h1>Sheep Details</h1>
+      {isLoading && <p>Loading...</p>}
+      {error && <p>Error: {error.message}</p>}
+      {sheep && (
         <div>
-            SheepDetails
+          <p>Sheep ID: {sheep.id}</p>
+          <p>Sheep Amount: {sheep.amount}</p>
+          <p>Sheep Price: {sheep.price}</p>
+          <p>She ep Sale Status: {sheep.saleStatus}</p>
+          <p>Sheep Created At: {sheep.createdAt}</p>
         </div>
-    )
+      )}
+    </div>
+  );
 }
 
-export default SheepDetails
+export default SheepDetails;
