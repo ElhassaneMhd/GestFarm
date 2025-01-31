@@ -1,6 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllSheep, getSheep, getSheepByField } from "@/services/SheepAPI";
-import { formatEmbeddedData } from "../../utils/helpers";
+import {
+  getAllSheep,
+  getSheep,
+  getSheepByField,
+  addSheep,
+} from "@/services/SheepAPI";
+import { formatEmbeddedData } from "@/utils/helpers";
+import { useMutate } from "@/hooks/useMutate";
 
 export function useAllSheep() {
   const { data, error, isPending } = useQuery({
@@ -43,3 +49,11 @@ export function useSheepByField() {
     isLoading: isPending,
   };
 }
+
+export const useAddSheep = () =>
+  useMutate({
+    queryKey: ["sheep", "add"],
+    mutationFn: addSheep,
+    loadingMessage: "Adding sheep...",
+    successMessage: "Sheep added successfully",
+  });

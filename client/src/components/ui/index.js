@@ -6,6 +6,6 @@ export { Modal } from "./Modal";
 export { PasswordInput } from "./PasswordInput";
 export { SearchInput } from "./SearchInput";
 export { Status } from "./Status";
-export { Switch } from "./Switch";
 export { ToolTip } from "./ToolTip";
 export { Logo } from "./Logo";
+export { LoadingScreen } from "./LoadingScreen";

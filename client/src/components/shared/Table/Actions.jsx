@@ -28,12 +28,12 @@ export function Actions({ onUpdate, onDelete, row, actions }) {
   const defaultActions = {
     view: {
       text: "View",
-      icon: <Eye />,
+      icon: <Eye size={16} />,
       onClick: () => navigate(row.id),
     },
     edit: {
       text: "Edit",
-      icon: <SquarePen />,
+      icon: <SquarePen size={16} />,
       onClick: () => {
         showForm({
           fields: formOptions.fields.map((field) =>
@@ -57,7 +57,7 @@ export function Actions({ onUpdate, onDelete, row, actions }) {
     },
     delete: {
       text: "Delete",
-      icon: <Trash />,
+      icon: <Trash size={16} />,
       onClick: () => {
         const onConfirm = () => {
           onDelete(row.profile_id || row.id);
@@ -79,7 +79,7 @@ export function Actions({ onUpdate, onDelete, row, actions }) {
     <DropDown
       toggler={
         <Button shape="icon">
-          <Ellipsis />
+          <Ellipsis size={18} />
         </Button>
       }
       togglerDisabled={(() => {

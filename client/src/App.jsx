@@ -14,6 +14,8 @@ import {
   Login,
   Register,
   Users,
+  Categories,
+  Shipments,
 } from "./pages";
 import SheepDetails from "./features/sheep/SheepDetails";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -21,13 +23,23 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 function App() {
   const { theme } = useTheme();
   const [parent] = useAutoAnimate({ duration: 300 });
-  const routes = ["overview", "sheep", "sheep/new", "sheep/:id", "users"];
+  const routes = [
+    "overview",
+    "sheep",
+    "sheep/new",
+    "sheep/:id",
+    "users",
+    "categories",
+    "shipments",
+  ];
   const routesElements = {
     overview: <Overview />,
     sheep: <Sheep />,
     "sheep/new": <Sheep />,
     "sheep/:id": <SheepDetails />,
     users: <Users />,
+    categories: <Categories />,
+    shipments: <Shipments />,
   };
   return (
     <>

@@ -8,13 +8,14 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Home } from "lucide-react";
 
 export function AuthLayout() {
-  const { isLoading, user } = useUser();
+  const { isLoading, user, error } = useUser();
   const [parent] = useAutoAnimate({ duration: 300 });
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!user || error || isLoading) localStorage.removeItem("token");
     if (user && !isLoading) navigate("/app");
-  }, [isLoading, user, navigate]);
+  }, [isLoading, user, navigate, error]);
 
   return (
     <div className="grid h-full w-full grid-cols-1 md:grid-cols-2">

@@ -23,7 +23,6 @@ export function TableLayout({
 
   const newRecord =
     typeof displayNewRecord === 'boolean' && displayNewRecord ? <Table.NewRecord onAdd={onAdd} /> : displayNewRecord;
-
   return (
     <div className='flex h-full flex-col gap-5 overflow-auto'>
       <Table {...tableProps}>

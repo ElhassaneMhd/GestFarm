@@ -1,12 +1,18 @@
 package Gestfarm.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.List;
+import java.time.Instant;
 
 @Entity
 @Table(name = "categories")
-public class Category {
+@EntityListeners(AuditingEntityListener.class)
+public class        Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -14,7 +20,16 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Sheep> sheep;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreatedDate
+    private Instant createdAt;
+
+    @Column(name = "updated_at")
+    @LastModifiedDate
+    private Instant updatedAt;
 
     public Category() {
     }
@@ -38,6 +53,9 @@ public class Category {
         return sheep;
     }
 
+    public void addSheep(Sheep sheep) {
+        this.sheep.add(sheep);
+    }
     public void setSheep(List<Sheep> sheep) {
         this.sheep = sheep;
     }

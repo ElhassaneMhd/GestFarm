@@ -1,14 +1,19 @@
 package Gestfarm.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Table(name = "shippings")
-public class Shipping {
+@Table(name = "Shipments")
+@EntityListeners(AuditingEntityListener.class)
+public class Shipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -19,25 +24,26 @@ public class Shipping {
     private String email;
     private String status;
 
-    @OneToMany(mappedBy = "shipping", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Sheep> sheep;
 
-    private Instant shipping_date;
+    @Column(name = "shipping_date", nullable = false)
+    private Instant shippingDate;
 
-    @ColumnDefault("current_timestamp()")
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreatedDate
     private Instant createdAt;
 
-    @ColumnDefault("current_timestamp()")
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
+    @LastModifiedDate
     private Instant updatedAt;
-    ;
 
-    public Shipping() {
+    public Shipment() {
     }
 
 
-    public Shipping(String name, String address, String phone, String email, String note, String status, Instant createdAt, Instant updatedAt) {
+    public Shipment(String name, String address, String phone, String email, String note, String status, Instant createdAt, Instant updatedAt) {
         this.name = name;
         this.address = address;
         this.phone = phone;
@@ -79,12 +85,12 @@ public class Shipping {
         this.sheep = sheep;
     }
 
-    public Instant getShipping_date() {
-        return shipping_date;
+    public Instant getShippingDate() {
+        return shippingDate;
     }
 
-    public void setShipping_date(Instant shipping_date) {
-        this.shipping_date = shipping_date;
+    public void setShippingDate(Instant shippingDate) {
+        this.shippingDate = shippingDate;
     }
 
     public String getPhone() {
@@ -129,7 +135,7 @@ public class Shipping {
 
     @Override
     public String toString() {
-        return "Shipping{" +
+        return "Shipment{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
@@ -137,7 +143,7 @@ public class Shipping {
                 ", email='" + email + '\'' +
                 ", status='" + status + '\'' +
                 ", sheep=" + sheep +
-                ", shipping_date=" + shipping_date +
+                ", shippingDate=" + shippingDate +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

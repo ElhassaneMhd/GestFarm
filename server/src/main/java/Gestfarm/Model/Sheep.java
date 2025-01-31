@@ -1,51 +1,61 @@
 package Gestfarm.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
 @Entity
 @Table(name = "sheep")
+@EntityListeners(AuditingEntityListener.class)
 public class Sheep {
 
-
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) int id;
+
+    @Column(name = "number", nullable = false , unique = true)
+    private int number;
 
     private int price;
     private int weight;
     private String saleStatus;
     private int amount;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "shipping_id", nullable = false)
-    private Shipping shipping;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "shipment_id", nullable = true)
+    private Shipment shipment;
 
-    @ColumnDefault("current_timestamp()")
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
+    @CreatedDate
     private Instant createdAt;
 
-    @ColumnDefault("current_timestamp()")
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
+    @LastModifiedDate
     private Instant updatedAt;
 
+    public Sheep() {}
 
-    public Sheep() {
-
-    }
-
-    public Sheep(int price, int weight, String saleStatus, int amount, Category category, Shipping shipping) {
+    public Sheep(int price, int weight, String saleStatus, int amount, Category category, Shipment shipment) {
         this.price = price;
         this.weight = weight;
         this.saleStatus = saleStatus;
         this.amount = amount;
         this.category = category;
-        this.shipping = shipping;
+        this.shipment = shipment;
+    }
 
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public int getId() {
@@ -96,12 +106,12 @@ public class Sheep {
         this.category = category;
     }
 
-    public Shipping getString() {
-        return shipping;
+    public Shipment getShipment() {
+        return shipment;
     }
 
-    public void setString(Shipping shipping) {
-        this.shipping = shipping;
+    public void setShipment(Shipment shipment) {
+        this.shipment = shipment;
     }
 
     public Instant getCreatedAt() {
@@ -124,12 +134,13 @@ public class Sheep {
     public String toString() {
         return "Sheep{" +
                 "id=" + id +
+                "number=" +number+
                 ", price=" + price +
                 ", weight=" + weight +
                 ", saleStatus='" + saleStatus + '\'' +
                 ", amount=" + amount +
                 ", category=" + category +
-                ", shipping=" + shipping +
+                ", shipment=" + shipment +
                 ", createdAt=" + createdAt +
                 '}';
     }

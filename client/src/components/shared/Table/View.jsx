@@ -12,7 +12,7 @@ export function View() {
     <DropDown
       toggler={
         <Button shape="icon">
-          <Sheet />
+          <Sheet size={18} />
         </Button>
       }
       options={{
@@ -23,9 +23,9 @@ export function View() {
     >
       <DropDown.Option
         onClick={() => onChangeView(null, true)}
-        disabled={columns.filter((c) => c.visible).length === columns.length}
+        disabled={hiddenColumns.length === 0}
       >
-        <ListChecks />
+        <ListChecks size={16} />
         Check All
       </DropDown.Option>
       <DropDown.Divider />

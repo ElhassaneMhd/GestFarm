@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
+  ChartNoAxesGantt,
   Home,
   LogOut,
   PanelRightClose,
   PanelRightOpen,
+  Truck,
   Users2,
 } from "lucide-react";
 import { Button } from "../ui";
@@ -48,8 +50,12 @@ export default function Sidebar() {
       name: "sheep",
       icon: <Sheep size={`${isExpanded ? "xs" : "xs"}`} />,
     },
+    {
+      name: "categories",
+      icon: <ChartNoAxesGantt size={isExpanded ? 18 : 20} />,
+    },
+    { name: "shipments", icon: <Truck size={isExpanded ? 18 : 20} /> },
     { name: "users", icon: <Users2 size={isExpanded ? 18 : 20} /> },
-    {name :"categories", icon: <Users2 size={isExpanded ? 18 : 20} />},
   ];
 
   return (
@@ -84,7 +90,12 @@ export default function Sidebar() {
       >
         {sideBarElements.map(({ name, icon }) => (
           <li key={name}>
-            <NavLink to={`/app/${name}`} className="sidebar-element group ">
+            <NavLink
+              to={`/app/${name}`}
+              className={`sidebar-element group ${
+                isExpanded ? "ps-3" : "ps-2.5"
+              } `}
+            >
               {icon}
               <span className={spanClass}>{t(`app.sidebar.${name}`)}</span>
             </NavLink>

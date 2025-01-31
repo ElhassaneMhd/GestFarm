@@ -13,27 +13,7 @@ const defaultOptions = {
   interactive: true,
   arrow: false,
 };
-/**
- * DropDown component.
- *
- * @component
- *
- * @param {Object} props - Props that get passed to the DropDown component.
- * @param {React.ReactNode} props.children - The content of the dropdown.
- * @param {React.ReactNode} props.toggler - The element that triggers the dropdown.
- * @param {string} [props.togglerClassName] - Additional CSS classes to apply to the toggler.
- * @param {boolean} [props.togglerDisabled=false] - If true, the toggler is disabled.
- * @param {boolean} [props.togglerTooltip=false] - Used to check if the toggler is a Tippy component.
- * @param {Object} [props.options] - Options for the dropdown.
- * @param {string} [props.options.className='max-h-[200px]'] - Additional CSS classes to apply to the dropdown.
- * @param {string} [props.options.placement='bottom-end'] - The placement of the dropdown.
- * @param {string} [props.options.trigger='click'] - The event that triggers the dropdown.
- * @param {boolean} [props.options.shouldCloseOnClick=true] - If true, the dropdown closes when clicked.
- * @param {function} [props.onOpen] - The function to call when the dropdown is shown.
- * @param {function} [props.onClose] - The function to call when the dropdown is hidden.
- *
- * @returns {React.ElementType} Returns a Tippy component with the DropDown.
- */
+
 export function DropDown({
   children,
   toggler,

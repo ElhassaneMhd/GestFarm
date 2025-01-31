@@ -109,8 +109,9 @@
   "app": {
     "sidebar": {
       "overview": "Acceuil",
-      "sheep": "Mouton",
+      "sheep": "Moutons",
       "users": "Utilisateurs",
+      "shipments": "Expéditions",
       "categories": "Catégories",
       "sessions": "Sessions",
       "emails": "Emails",
