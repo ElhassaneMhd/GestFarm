@@ -1,10 +1,10 @@
-import { Button } from '@/components/ui';
-import { useTable } from './useTable';
-import { Plus } from 'lucide-react';
+import { Button } from "@/components/ui";
+import { useTable } from "./useTable";
+import { Plus } from "lucide-react";
 
 export function NewRecord({ onAdd, component }) {
-  const { showForm, resourceName, formOptions, formFields, disabled,  } = useTable();
-
+  const { showForm, resourceName, formOptions, formFields, disabled } =
+    useTable();
 
   if (component)
     return component(() =>
@@ -15,13 +15,13 @@ export function NewRecord({ onAdd, component }) {
         defaultValues: formOptions.defaultValues,
         heading: `New ${resourceName}`,
         submitButtonText: `Add ${resourceName}`,
-        type: 'create',
+        type: "create",
       })
     );
   return (
     <Button
-      display='with-icon'
-      className='text-nowrap'
+      display="with-icon"
+      className="text-nowrap"
       onClick={() => {
         showForm({
           isOpen: true,
@@ -31,7 +31,7 @@ export function NewRecord({ onAdd, component }) {
           submitButtonText: `Add ${resourceName}`,
         });
       }}
-      disabled={disabled}
+      disabled={false}
     >
       <Plus size={18} />
       {`New ${resourceName}`}

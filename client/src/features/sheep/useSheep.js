@@ -14,7 +14,7 @@ export function useAllSheep() {
     queryFn: getAllSheep,
   });
   return {
-    sheep: formatEmbeddedData(data, "sheep"),
+    sheep: data,
     links: data?._links,
     page: data?.page,
     error,
@@ -27,7 +27,6 @@ export function useSheep(id) {
     queryKey: ["sheep", id],
     queryFn: () => getSheep(id),
   });
-  console.log(data);
   return {
     sheep: { id: data?._links.self.href.split("/").pop(), ...data },
     error,
@@ -35,10 +34,10 @@ export function useSheep(id) {
   };
 }
 
-export function useSheepByField() {
+export function useSheepByField(field = "status", value = "available") {
   const { data, error, isPending } = useQuery({
-    queryKey: ["sheep"],
-    queryFn: getSheepByField,
+    queryKey: ["sheep", field, value],
+    queryFn: getSheepByField(field, value),
   });
   if (!data) return { sheep: [], error, isLoading: isPending };
   return {

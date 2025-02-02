@@ -158,3 +158,15 @@
     writing-mode:vertical-rl;
     text-orientation:mixed;
 }
+
+.pending {
+    @apply bg-yellow-100 text-yellow-600 p-2 rounded-lg text-sm flex gap-1 items-center;
+}
+
+.delivered {
+    @apply bg-[#e5f5e0] text-green-600 p-2 rounded-lg text-sm flex gap-1 items-center;
+}
+
+.cancelled {
+    @apply bg-red-200 text-red-600 p-2 rounded-lg text-sm flex gap-1 items-center;
+}

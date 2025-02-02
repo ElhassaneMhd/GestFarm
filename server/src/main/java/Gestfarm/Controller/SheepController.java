@@ -8,11 +8,12 @@ import Gestfarm.Service.SheepService;
 import Gestfarm.Repository.CategoryRepository;
 import Gestfarm.Service.ShipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/sheep")
+@RequestMapping("/api/sheep")
 public class SheepController {
 
     @Autowired
@@ -24,9 +25,9 @@ public class SheepController {
     @Autowired
     private ShipmentService shipmentService;
 
-    @GetMapping("/all")
-    public Iterable<Sheep> getAllSheep() {
-        return sheepService.findAll();
+    @GetMapping("")
+    public ResponseEntity<Object> getAllSheep() {
+        return ResponseEntity.ok(sheepService.findAll());
     }
 
     @PostMapping("/add")
@@ -36,6 +37,7 @@ public class SheepController {
         if (category == null) {
             return false;
         }
+
         sheep.setAmount(0);
         sheep.setShipment(shipment);
         sheep.setCategory(category);

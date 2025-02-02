@@ -13,6 +13,19 @@ export function SheepList() {
   const { navigate } = useNavigate();
   const { t } = useTranslation();
 
+  const allStatus = {
+    available: (
+      <span className="p-2 rounded-md bg-[#e5f5e0] text-green-600 ">
+        Available
+      </span>
+    ),
+    sold: <span className="p-2 rounded-md bg-red-300 text-red-600">Sold</span>,
+    reserved: (
+      <span className="p-2 rounded-md bg-yellow-100 text-yellow-600">
+        Reserved
+      </span>
+    ),
+  };
   return (
     <>
       <Heading count={sheep?.length}>{t("app.sidebar.sheep")}</Heading>
@@ -23,8 +36,8 @@ export function SheepList() {
         resourceName="Sheep"
         columns={[
           {
-            key: "id",
-            displayLabel: "ID",
+            key: "number",
+            displayLabel: "Number",
             type: "number",
             visible: true,
           },
@@ -33,22 +46,36 @@ export function SheepList() {
             displayLabel: "Weight",
             type: "number",
             visible: true,
+            format: (weight) => `${weight} kg`,
           },
           {
             key: "price",
             displayLabel: "Price",
             type: "number",
             visible: true,
+            format: (price) => `${price} Dh`,
           },
           {
             key: "amount",
             displayLabel: "Amount",
             type: "number",
             visible: true,
+            format: (amount) => `${amount} Dh`,
           },
           {
-            key: "saleStatus",
+            key: "status",
             displayLabel: "Status",
+            type: "string",
+            visible: true,
+            format: (status) => (
+              <span className="px-2 py-1 rounded-full">
+                {allStatus[status.toLowerCase()]}
+              </span>
+            ),
+          },
+          {
+            key: "categoryName",
+            displayLabel: "Category",
             type: "string",
             visible: true,
           },
@@ -58,7 +85,7 @@ export function SheepList() {
             name: "number",
             label: "Number",
             type: "number",
-            min: 0,
+            min: 1000,
             required: true,
           },
           {
@@ -76,16 +103,19 @@ export function SheepList() {
             required: true,
           },
           {
-            name: "saleStatus",
-            label: "Status",
-            type: "text",
+            name: "amount",
+            label: "Amount",
+            min: 0,
+            type: "number",
+          },
+          {
+            name: "status",
             required: true,
             customComponent: <StatusDropDown />,
           },
           {
             name: "category",
-            label: "Category",
-            type: "number",
+            required: true,
             customComponent: <CategoriesDropDown />,
           },
         ]}
@@ -94,11 +124,11 @@ export function SheepList() {
           price: 0,
           weight: 0,
           amount: 0,
-          saleStatus: "Status",
-          category: {},
+          status: null,
+          category: null,
         }}
         onAdd={addSheep}
-        fieldsToSearch={["number", "amount", "price"]}
+        fieldsToSearch={["number", "amount", "price", "status"]}
         downloadOptions={{
           pdfFileName: "Sheep",
         }}
@@ -123,7 +153,7 @@ export function SheepList() {
         }}
         selectedOptions={{
           deleteOptions: {
-            resourceName: "application",
+            resourceName: "sheep",
             onConfirm: (ids) => console.log(ids),
           },
         }}
@@ -135,7 +165,7 @@ export function SheepList() {
 const CategoriesDropDown = ({ getValue, setValue }) => {
   const { categories, error, isLoading } = useCategories();
   const categoryName = categories?.map((c) =>
-    getValue("category").id === c.id ? c.name : null
+    getValue("category")?.id === c.id ? c.name : null
   );
   return (
     <div className="flex flex-col space-y-2">
@@ -150,7 +180,7 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
             color="tertiary"
           >
             <span className="p-0.5 text-sm font-medium text-text-tertiary w-full text-start">
-              {categoryName ?? "Category"}
+              {getValue("category")?.id ? categoryName : "Category"}
             </span>
             <ChevronDown className="text-text-tertiary" />
           </Button>
@@ -168,7 +198,7 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
             onClick={() => {
               setValue("category", { id: category.id });
             }}
-            isCurrent={getValue("category").id === category.id}
+            isCurrent={getValue("category")?.id === category.id}
             key={category.id}
           >
             {category.name}
@@ -195,7 +225,7 @@ const StatusDropDown = ({ getValue, setValue }) => {
             color="tertiary"
           >
             <span className="p-0.5 text-sm font-medium text-text-tertiary w-full text-start">
-              {getValue("saleStatus") || "Status"}
+              {getValue("status") || "Status"}
             </span>
             <ChevronDown className="text-text-tertiary" />
           </Button>
@@ -208,9 +238,9 @@ const StatusDropDown = ({ getValue, setValue }) => {
         {statuses.map((stat) => (
           <DropDown.Option
             onClick={() => {
-              setValue("saleStatus", stat);
+              setValue("status", stat);
             }}
-            isCurrent={getValue("saleStatus") === stat}
+            isCurrent={getValue("status") === stat}
             key={stat}
           >
             {stat}

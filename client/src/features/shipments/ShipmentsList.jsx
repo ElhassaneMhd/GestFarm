@@ -1,19 +1,32 @@
 import { Heading } from "@/components/app/Heading";
 import { TableLayout } from "@/layouts/TableLayout";
-import { useShipments } from "./useShipments";
+import { useShipments, useAddShipment } from "./useShipments";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { ChevronDown, Eye, Loader } from "lucide-react";
+import {
+  ChevronDown,
+  Eye,
+  Loader,
+  Package,
+  PackageCheck,
+  PackageX,
+} from "lucide-react";
 import { useAllSheep } from "../sheep/useSheep";
+import { Button, DropDown } from "@/components/ui";
 import { useState } from "react";
-import { Button, DropDown } from "../../components/ui";
+import { CheckBox } from "../../components/ui";
 
 export function ShipmentsList() {
   const { shipments, error, isLoading } = useShipments();
-  const [otherFields, setOtherFields] = useState({ sheep: [] });
+  const { mutate: addShipment } = useAddShipment();
   const { t } = useTranslation();
   const navigate = useNavigate();
 
+  const allStatus = {
+    pending: <Package size={16} />,
+    delivered: <PackageCheck size={16} />,
+    cancelled: <PackageX size={16} />,
+  };
   return (
     <>
       <Heading count={shipments?.length}>{t("app.sidebar.shipments")}</Heading>
@@ -52,12 +65,24 @@ export function ShipmentsList() {
             displayLabel: "Status",
             type: "string",
             visible: true,
+            format: (status) => (
+              <span className={`${status.toLowerCase()}`}>
+                {status}
+                {allStatus[status.toLowerCase()]}
+              </span>
+            ),
           },
           {
-            key: "createdAt",
-            displayLabel: "Created At",
+            key: "shippingDate",
+            displayLabel: "Shipping Date",
             type: "date",
             visible: true,
+          },
+          {
+            key: "sheep",
+            displayLabel: "Sheep",
+            visible: true,
+            format: (sheep) => sheep.length,
           },
         ]}
         formFields={[
@@ -80,35 +105,37 @@ export function ShipmentsList() {
             required: true,
           },
           {
-            name: "status",
-            label: "Status",
-            type: "text",
+            name: "shippingDate",
+            label: "Shipping Date",
+            type: "date",
             required: true,
+          },
+          {
+            name: "status",
+            required: true,
+            customComponent: <StatusDropDown />,
           },
           {
             name: "sheep",
             label: "Sheep",
             required: true,
-            customComponent: (
-              <ShipmentsDropDown
-                otherFields={otherFields}
-                setOtherFields={setOtherFields}
-              />
-            ),
+            customComponent: <ShipmentsDropDown />,
           },
         ]}
         defaultValues={{
           name: "",
           phone: "",
           address: "",
-          status: "",
-          // ...otherFields,
+          status: "Pending",
+          shippingDate: "",
+          sheep: [],
         }}
         fieldsToSearch={["name", "address", "phone", "status"]}
         downloadOptions={{
-          pdfFileName: "Sheep",
+          pdfFileName: "Shipments",
         }}
-        //   onDelete={deleteApplication}
+        onAdd={addShipment}
+        //onDelete={deleteApplication}
         layoutOptions={{
           displayNewRecord: true,
           displayTableRecord: true,
@@ -132,15 +159,18 @@ export function ShipmentsList() {
   );
 }
 
-const ShipmentsDropDown = ({ otherFields, setOtherFields }) => {
+const ShipmentsDropDown = ({ setValue, getValue }) => {
   const { sheep, error, isLoading } = useAllSheep();
+  const availableSheep = sheep?.filter(
+    (sheep) => sheep?.status?.toLowerCase() === "available"
+  );
 
-  console.log(otherFields);
+  const selectedSheep = getValue("sheep") || [];
   return (
     <div className="flex flex-col space-y-2">
       <p className="text-sm font-medium text-text-tertiary">Sheep</p>
       <DropDown
-        options={{ className: "w-full" }}
+        options={{ className: "w-48 ", shouldCloseOnClick: false }}
         toggler={
           <Button
             display="with-icon"
@@ -149,31 +179,91 @@ const ShipmentsDropDown = ({ otherFields, setOtherFields }) => {
             color="tertiary"
           >
             <span className="text-sm font-medium w-full text-start ">
-              Sheep
+              Sheep ({selectedSheep?.length})
             </span>
             <ChevronDown className="text-text-tertiary" />
           </Button>
         }
-        togglerClassName=" text-text-tertiary bg-background-secondary "
+        togglerClassName="text-text-tertiary bg-background-secondary"
       >
-        <DropDown.Title>Sheep</DropDown.Title>
+        <DropDown.Title>
+          <span className=" text-text-tertiary ">Available Sheep</span>{" "}
+        </DropDown.Title>
+        {/* <DropDown.SearchBar
+          query={query}
+          onChange={setQuery}
+          placeholder="Search..."
+        /> */}
         <DropDown.Divider />
 
         {isLoading && <Loader className=" animate-spin m-auto " />}
         {error && <p>{error}</p>}
 
-        {sheep?.map((sheep) => (
+        <div className="overflow-scroll flex gap-1 flex-col">
+          {availableSheep?.map((sheep) => (
+            <div key={sheep.id} className="flex flex-col gap-1">
+              <div className="flex  gap-1 text-text-tertiary p-1">
+                <span className="w-full text-sm text-text-tertiary">
+                  {" "}
+                  {sheep.number} | {sheep?.category?.name}
+                </span>
+                <CheckBox
+                  checked={selectedSheep.some((s) => s.id === sheep.id)}
+                  onChange={() => {
+                    if (selectedSheep.some((s) => s.id === sheep.id)) {
+                      setValue(
+                        "sheep",
+                        selectedSheep.filter((s) => s.id !== sheep.id)
+                      );
+                    } else {
+                      setValue("sheep", [...selectedSheep, { id: sheep.id }]);
+                    }
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </DropDown>
+    </div>
+  );
+};
+
+const StatusDropDown = ({ getValue, setValue }) => {
+  const statuses = ["Pending", "Delivered", "Cancelled"];
+  return (
+    <div className="flex flex-col space-y-2">
+      <p className="text-sm font-medium text-text-tertiary">Status</p>
+      <DropDown
+        options={{ className: "w-full", placement: "top" }}
+        position="top"
+        toggler={
+          <Button
+            display="with-icon"
+            size="small"
+            type="outline"
+            color="tertiary"
+          >
+            <span className="p-0.5 text-sm font-medium text-text-tertiary w-full text-start">
+              {getValue("status") || "Status"}
+            </span>
+            <ChevronDown className="text-text-tertiary" />
+          </Button>
+        }
+        togglerClassName=" bg-background-secondary "
+      >
+        <DropDown.Title>Status</DropDown.Title>
+        <DropDown.Divider />
+
+        {statuses.map((stat) => (
           <DropDown.Option
             onClick={() => {
-              setOtherFields({
-                ...otherFields,
-                ["sheep"]: [...otherFields["sheep"], sheep.number],
-              });
+              setValue("status", stat);
             }}
-            isCurrent={otherFields.sheep.includes(sheep.number)}
-            key={sheep.id}
+            isCurrent={getValue("status") === stat}
+            key={stat}
           >
-            {sheep.number}
+            {stat}
           </DropDown.Option>
         ))}
       </DropDown>

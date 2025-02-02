@@ -1,6 +1,6 @@
 import { axiosFetch } from ".";
 
-export const getCategories = async () => await axiosFetch("categories");
+export const getCategories = async () => await axiosFetch("api/categories");
 
 export const getCategory = async (id) =>
   !id ? null : await axiosFetch(`categories/${id}`);

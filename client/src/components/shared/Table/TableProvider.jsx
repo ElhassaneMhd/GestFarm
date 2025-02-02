@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react';
-import { Table } from './Table';
-import { Search } from './Search';
-import { View } from './View';
-import { Pagination } from './Pagination';
-import { Download } from './Download';
-import { TableRecord } from './TableRecord';
-import { Actions } from './Actions';
-import { NewRecord } from './NewRecord';
-import { Selected } from './Selected';
-import { TableContext } from './useTable';
-import { useMethods } from '@/hooks/useMethods';
-import { useNavigateState } from '@/hooks/useNavigateWithQuery';
-
+import { useEffect, useState } from "react";
+import { Table } from "./Table";
+import { Search } from "./Search";
+import { View } from "./View";
+import { Pagination } from "./Pagination";
+import { Download } from "./Download";
+import { TableRecord } from "./TableRecord";
+import { Actions } from "./Actions";
+import { NewRecord } from "./NewRecord";
+import { Selected } from "./Selected";
+import { TableContext } from "./useTable";
+import { useMethods } from "@/hooks/useMethods";
 
 export function TableProvider({
   children,
@@ -25,12 +23,14 @@ export function TableProvider({
   selectedOptions: defaultSelectedOptions,
   formDefaults,
   fieldsToSearch,
-  defaultSortBy = 'id',
-  defaultDirection = 'desc',
+  defaultSortBy = "id",
+  defaultDirection = "desc",
   downloadOptions,
   displayAllData,
 }) {
-  const [hiddenColumns, setHiddenColumns] = useState(columns.filter((c) => !c.visible).map((c) => c.displayLabel));
+  const [hiddenColumns, setHiddenColumns] = useState(
+    columns.filter((c) => !c.visible).map((c) => c.displayLabel)
+  );
   const [selected, setSelected] = useState([]);
   const [formOptions, setFormOptions] = useState({
     defaultValues: formDefaults,
@@ -38,10 +38,10 @@ export function TableProvider({
     onSubmit: () => {},
     resetToDefault: true,
     gridLayout: true,
-    submitButtonText: '',
-    heading: '',
+    submitButtonText: "",
+    heading: "",
     isOpen: false,
-    type: 'create',
+    type: "create",
   });
   const [selectedOptions, setSelectedOptions] = useState({
     isOpen: false,
@@ -66,26 +66,31 @@ export function TableProvider({
     defaultSortBy,
     defaultDirection,
   });
-  const state = useNavigateState();
 
   // Variables
-  const rows = data?.search(query, fieldsToSearch).customFilter(filters, 'AND').customSort(sortBy, direction, columns);
+  const rows = data
+    ?.search(query, fieldsToSearch)
+    .customFilter(filters, "AND")
+    .customSort(sortBy, direction, columns);
 
   const totalItems = data?.length;
   const totalPages = Math.ceil(totalItems / limit);
 
-  const excludedFields = columns.filter((c) => hiddenColumns.includes(c.displayLabel)).map((c) => c.displayLabel);
-
+  const excludedFields = columns
+    .filter((c) => hiddenColumns.includes(c.displayLabel))
+    .map((c) => c.displayLabel);
 
   const pdfConfig = {
     filename: downloadOptions?.pdfFileName || resourceName,
-    tableHeaders: columns.map((c) => c.displayLabel).filter((c) => !excludedFields.includes(c)),
+    tableHeaders: columns
+      .map((c) => c.displayLabel)
+      .filter((c) => !excludedFields.includes(c)),
   };
 
   const confirmOptions = {
     message: `Are you sure you want to delete this ${resourceName.toLowerCase()} ?`,
     title: `Delete ${resourceName}`,
-    confirmText: 'Delete',
+    confirmText: "Delete",
   };
 
   useEffect(() => {
@@ -96,16 +101,20 @@ export function TableProvider({
           acc[col.key] = col.filter;
           return acc;
         }, {}) || {};
-    if (Object.keys(newFilters).length !== Object.keys(filters).length || state?.filter) {
+    if (Object.keys(newFilters).length !== Object.keys(filters).length) {
       setFilters(newFilters);
     }
-  }, [columns, filters, setFilters, state?.filter]);
+  }, [columns, filters, setFilters]);
 
   // Handlers
 
   const onChangeView = (column, showAll) => {
     if (showAll) return setHiddenColumns([]);
-    setHiddenColumns((prev) => (prev.includes(column) ? prev.filter((c) => c !== column) : [...prev, column]));
+    setHiddenColumns((prev) =>
+      prev.includes(column)
+        ? prev.filter((c) => c !== column)
+        : [...prev, column]
+    );
   };
 
   const showForm = (options) => {
@@ -117,8 +126,8 @@ export function TableProvider({
           ...prev,
           isOpen: false,
           defaultValues: formDefaults,
-          heading: '',
-          submitButtonText: '',
+          heading: "",
+          submitButtonText: "",
         }));
       },
     }));
@@ -126,7 +135,11 @@ export function TableProvider({
 
   const onSelect = (id, isAll) => {
     setSelected((prev) => {
-      const selected = prev.includes(id) ? (isAll ? prev : prev.filter((s) => s !== id)) : [...prev, id];
+      const selected = prev.includes(id)
+        ? isAll
+          ? prev
+          : prev.filter((s) => s !== id)
+        : [...prev, id];
       setSelectedOptions((prev) => ({
         ...prev,
         isOpen: selected.length > 0,
@@ -148,7 +161,11 @@ export function TableProvider({
     columns,
     rows: displayAllData ? rows : rows?.paginate(page, limit),
     hiddenColumns,
-    disabled: isLoading || error || data?.length === 0 || (page > totalPages && !query && !appliedFiltersNumber('all')),
+    disabled:
+      isLoading ||
+      error ||
+      data?.length === 0 ||
+      (page > totalPages && !query && !appliedFiltersNumber("all")),
     // Selection
     selected,
     isSelecting: selected.length > 0,
@@ -183,7 +200,9 @@ export function TableProvider({
     confirmOptions,
   };
 
-  return <TableContext.Provider value={context}>{children}</TableContext.Provider>;
+  return (
+    <TableContext.Provider value={context}>{children}</TableContext.Provider>
+  );
 }
 
 TableProvider.Table = Table;

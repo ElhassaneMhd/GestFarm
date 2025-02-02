@@ -22,16 +22,23 @@ export function CategoriesList() {
         resourceName="Categories"
         columns={[
           {
-            key: "id",
-            displayLabel: "ID",
-            type: "number",
+            key: "name",
+            displayLabel: "Owner",
+            type: "string",
             visible: true,
           },
           {
-            key: "name",
-            displayLabel: "Name",
-            type: "string",
+            key: "sheep",
+            displayLabel: "Total",
+            type: "array",
             visible: true,
+            format: (sheep) => sheep.length,
+          },
+          {
+            key: "sheep",
+            displayLabel: "Status",
+            visible: true,
+            format: (sheep) => <SheepStatus sheep={sheep} />,
           },
         ]}
         formFields={[
@@ -68,5 +75,29 @@ export function CategoriesList() {
         }}
       />
     </>
+  );
+}
+
+function SheepStatus({ sheep }) {
+  let reserved = 0;
+  let totalSheep = sheep.length;
+  let availableSheep = 0;
+  let soldSheep = 0;
+  sheep.forEach((sheep) => {
+    if (sheep.status === "Sold") soldSheep += 1;
+    if (sheep.status === "Reserved") reserved += 1;
+  });
+  availableSheep = totalSheep - soldSheep - reserved;
+
+  return (
+    <div className="flex items-center">
+      <span className="pending rounded-r-none bg-[#e5f5e0] text-green-600 ">
+        {availableSheep} Available
+      </span>
+      <span className="pending rounded-none text-blue-700 bg-blue-200">
+        {soldSheep} Sold
+      </span>
+      <span className="pending  rounded-l-none"> {reserved} Reserved</span>
+    </div>
   );
 }

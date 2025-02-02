@@ -1,6 +1,6 @@
-import { getShipping, getShipments } from "@/services/shippingApi";
-import { formatEmbeddedData } from "@/utils/helpers";
+import { getShipment, getShipments, addShipment } from "@/services/shipmentApi";
 import { useQuery } from "@tanstack/react-query";
+import { useMutate } from "@/hooks/useMutate";
 
 export function useShipments() {
   const { data, error, isPending } = useQuery({
@@ -8,7 +8,7 @@ export function useShipments() {
     queryFn: getShipments,
   });
   return {
-    shipments: formatEmbeddedData(data, "shipments"),
+    shipments: data,
     links: data?._links,
     page: data?.page,
     error,
@@ -16,14 +16,22 @@ export function useShipments() {
   };
 }
 
-export function useShipping(id) {
+export function useShipment(id) {
   const { data, error, isPending } = useQuery({
     queryKey: ["shipments", id],
-    queryFn: () => getShipping(id),
+    queryFn: () => getShipment(id),
   });
   return {
-    shipping: { id: data?._links.self.href.split("/").pop(), ...data },
+    Shipment: { id: data?._links.self.href.split("/").pop(), ...data },
     error,
     isLoading: isPending,
   };
 }
+
+export const useAddShipment = () =>
+  useMutate({
+    queryKey: ["shipments", "add"],
+    mutationFn: addShipment,
+    loadingMessage: "Adding shipments...",
+    successMessage: "shipments added successfully",
+  });

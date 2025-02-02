@@ -4,7 +4,6 @@ import {
   getCategories,
   getCategory,
 } from "@/services/categoryApi";
-import { formatEmbeddedData } from "@/utils/helpers";
 import { useMutate } from "@/hooks/useMutate";
 
 export function useCategories() {
@@ -13,9 +12,7 @@ export function useCategories() {
     queryFn: getCategories,
   });
   return {
-    categories: formatEmbeddedData(data, "categories"),
-    links: data?._links,
-    page: data?.page,
+    categories: data,
     error,
     isLoading: isPending,
   };

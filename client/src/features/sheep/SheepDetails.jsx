@@ -15,7 +15,7 @@ function SheepDetails() {
           <p>Sheep ID: {sheep.id}</p>
           <p>Sheep Amount: {sheep.amount}</p>
           <p>Sheep Price: {sheep.price}</p>
-          <p>She ep Sale Status: {sheep.saleStatus}</p>
+          <p>Sheep Status: {sheep.status}</p>
           <p>Sheep Created At: {sheep.createdAt}</p>
         </div>
       )}

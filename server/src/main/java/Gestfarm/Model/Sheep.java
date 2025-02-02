@@ -1,5 +1,6 @@
 package Gestfarm.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -7,6 +8,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
+import java.util.List;
 
 @Entity
 @Table(name = "sheep")
@@ -20,15 +22,17 @@ public class Sheep {
 
     private int price;
     private int weight;
-    private String saleStatus;
+    private String status;
     private int amount;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id", nullable = false)
+    @JsonBackReference
     private Category category;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "shipment_id", nullable = true)
+    @JsonIgnore
     private Shipment shipment;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -41,10 +45,10 @@ public class Sheep {
 
     public Sheep() {}
 
-    public Sheep(int price, int weight, String saleStatus, int amount, Category category, Shipment shipment) {
+    public Sheep(int price, int weight, String status, int amount, Category category, Shipment shipment) {
         this.price = price;
         this.weight = weight;
-        this.saleStatus = saleStatus;
+        this.status = status;
         this.amount = amount;
         this.category = category;
         this.shipment = shipment;
@@ -82,12 +86,12 @@ public class Sheep {
         this.weight = weight;
     }
 
-    public String getSaleStatus() {
-        return saleStatus;
+    public String getStatus() {
+        return status;
     }
 
-    public void setSaleStatus(String saleStatus) {
-        this.saleStatus = saleStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public int getAmount() {
@@ -137,7 +141,7 @@ public class Sheep {
                 "number=" +number+
                 ", price=" + price +
                 ", weight=" + weight +
-                ", saleStatus='" + saleStatus + '\'' +
+                ", status='" + status + '\'' +
                 ", amount=" + amount +
                 ", category=" + category +
                 ", shipment=" + shipment +
