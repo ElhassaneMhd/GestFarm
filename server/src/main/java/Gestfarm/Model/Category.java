@@ -3,6 +3,8 @@ package Gestfarm.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,8 +14,12 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "categories")
+@DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
-public class        Category {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -32,39 +38,4 @@ public class        Category {
     @LastModifiedDate
     private Instant updatedAt;
 
-    public Category() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    public List<Sheep> getSheep() {
-        return sheep;
-    }
-
-    public void addSheep(Sheep sheep) {
-        this.sheep.add(sheep);
-    }
-    public void setSheep(List<Sheep> sheep) {
-        this.sheep = sheep;
-    }
-    @Override
-    public String toString() {
-        return "Category{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

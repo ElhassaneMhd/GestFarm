@@ -1,13 +1,13 @@
 package Gestfarm.Controller;
 
+import Gestfarm.Dto.Auth.AuthenticationRequestDto;
 import Gestfarm.Dto.Auth.RegistrationRequestDto;
-import Gestfarm.Dto.Auth.RegistrationResponseDto;
+import Gestfarm.Dto.RegisterResponse;
 import Gestfarm.Mapper.UserRegistrationMapper;
 import Gestfarm.Model.User;
 import Gestfarm.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -25,6 +26,7 @@ public class UserController {
 
     @Autowired
     private UserRegistrationMapper userRegistrationMapper;
+
 
     @GetMapping("/")
     public String home() {
@@ -47,15 +49,12 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegistrationResponseDto> registerUser(
+    public ResponseEntity<String> registerUser(
             @RequestBody RegistrationRequestDto registrationDTO) {
-
-        final var regestred = userService.registerUser(userRegistrationMapper.toEntity(registrationDTO));
-
-            if (regestred.status() == 406) {
-                return new ResponseEntity<>(regestred, HttpStatusCode.valueOf(406));
-            }else {
-                return new ResponseEntity<>(regestred, HttpStatus.OK);
-            }
+        RegisterResponse res = userService.register(userRegistrationMapper.toEntity(registrationDTO));
+        if (res.getStatus()){
+            return  ResponseEntity.ok(res.getToken());
+        }
+        return new ResponseEntity<>(res.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

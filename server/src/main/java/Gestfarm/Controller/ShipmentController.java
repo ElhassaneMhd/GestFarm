@@ -1,14 +1,11 @@
 package Gestfarm.Controller;
 
-import Gestfarm.Dto.ShipmentRequest;
-import Gestfarm.Model.Sheep;
+import Gestfarm.Dto.Request.ShipmentRequest;
 import Gestfarm.Model.Shipment;
 import Gestfarm.Service.SheepService;
 import Gestfarm.Service.ShipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/shipments")

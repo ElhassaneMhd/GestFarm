@@ -2,9 +2,11 @@ package Gestfarm.Service;
 
 import Gestfarm.Dto.Auth.RegistrationRequestDto;
 import Gestfarm.Dto.Auth.RegistrationResponseDto;
+import Gestfarm.Dto.RegisterResponse;
 import Gestfarm.Model.User;
 import Gestfarm.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -29,11 +33,6 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
-   public User register(User user){
-       return userRepository.save(user);
-   }
-
     public ResponseEntity<String> verify(User user) {
 
         Authentication authentication = authManager.authenticate(
@@ -47,19 +46,27 @@ public class UserService {
     }
 
     @Transactional
-    public RegistrationResponseDto registerUser(RegistrationRequestDto request)  {
-        if (userRepository.existsByUsername(request.username()) ||
-                userRepository.existsByEmail(request.email())) {
-            return new RegistrationResponseDto( request.username() ,
-                    request.email(),null ,"User already exists" ,406);
+    public RegisterResponse  register(RegistrationRequestDto request)  {
+        RegisterResponse rep = new RegisterResponse();
+        rep.setStatus(false);
+        if (userRepository.existsByUsername(request.username())) {
+            rep.setMessage("Username is already taken");
+            return rep;
         }
+
+        if (userRepository.existsByEmail(request.email())) {
+            rep.setMessage("Email is already taken");
+            return rep;
+        }
+
         if (!request.password().equals(request.passwordConfirmation())) {
-            return new RegistrationResponseDto( request.username() ,
-                    request.email(),null ,"Passwords do not match" ,406);
+            rep.setMessage("Passwords do not match");
+            return rep;
         }
-        if (userRepository.existsByPhone(request.phone())){
-            return new RegistrationResponseDto( request.username() ,
-                    request.email(),null ,"Phone number already exists" ,406);
+
+        if (userRepository.existsByPhone(request.phone())) {
+            rep.setMessage("Phone number is already in use");
+            return rep;
         }
 
         User user = new User();
@@ -68,7 +75,12 @@ public class UserService {
         user.setPhone(request.phone());
         user.setPassword(passwordEncoder.encode(request.password()));
         User savedUser = userRepository.save(user);
-        return new RegistrationResponseDto(savedUser.getUsername(), savedUser.getEmail(),null,"User registered successfully" ,201);
+        String token = jwtService.generateToken(savedUser);
+
+        rep.setStatus(true);
+        rep.setUser(savedUser);
+        rep.setToken(token);
+        return rep;
     }
 }
 

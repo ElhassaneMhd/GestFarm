@@ -1,34 +1,43 @@
 package Gestfarm.Model;
 
+import Gestfarm.Enum.ShipmentStatus;
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Date;
 import java.time.Instant;
-import java.util.List;
+
 
 @Entity
 @Table(name = "Shipments")
+@DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Shipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
     private String address;
     private String phone;
     private String email;
-    private String status;
 
+    @Enumerated(EnumType.STRING)
+    private ShipmentStatus status;
 
-    @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Sheep> sheep;
 
     @Column(name = "shipping_date", nullable = false)
     private Date shippingDate;
+
+    @OneToOne
+    @JoinColumn(name = "sale_id", unique = true) // Foreign key and uniqueness constraint
+    private Sale sale;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreatedDate
@@ -38,113 +47,6 @@ public class Shipment {
     @LastModifiedDate
     private Instant updatedAt;
 
-    public Shipment() {
-    }
 
 
-    public Shipment(String name, String address, String phone, String email, String note, String status, Instant createdAt, Instant updatedAt) {
-        this.name = name;
-        this.address = address;
-        this.phone = phone;
-        this.email = email;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public List<Sheep> getSheep() {
-        return sheep;
-    }
-
-    public void setSheep(List<Sheep> sheep) {
-        this.sheep = sheep;
-    }
-
-    public Date getShippingDate() {
-        return shippingDate;
-    }
-
-    public void setShippingDate(Date shippingDate) {
-        this.shippingDate = shippingDate;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Shipment{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", status='" + status + '\'' +
-                ", sheep=" + sheep +
-                ", shippingDate=" + shippingDate +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
 }

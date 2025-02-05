@@ -1,6 +1,8 @@
 package Gestfarm.Controller;
 
+import Gestfarm.Dto.SheepDTO;
 import Gestfarm.Model.Category;
+import Gestfarm.Model.Sale;
 import Gestfarm.Model.Sheep;
 import Gestfarm.Model.Shipment;
 import Gestfarm.Service.CategoryService;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/sheep")
+@CrossOrigin(origins = "http://localhost:5173")
 public class SheepController {
 
     @Autowired
@@ -22,26 +25,28 @@ public class SheepController {
     @Autowired
     private CategoryService categoryService;
 
-    @Autowired
-    private ShipmentService shipmentService;
-
     @GetMapping("")
     public ResponseEntity<Object> getAllSheep() {
         return ResponseEntity.ok(sheepService.findAll());
     }
 
-    @PostMapping("/add")
-    public Boolean createSheep(@RequestBody Sheep sheep) {
-        Shipment shipment = null;
+    @PostMapping("")
+    public Sheep createSheep(@RequestBody Sheep sheep) {
+        Sale sale = null;
         Category category = categoryService.find(sheep.getCategory().getId());
-        if (category == null) {
-            return false;
+        if (category != null) {
+            sheep.setCategory(category);
         }
-
-        sheep.setAmount(0);
-        sheep.setShipment(shipment);
-        sheep.setCategory(category);
-        sheepService.saveSheep(sheep);
-        return true;
+        sheep.setAmount(1);
+        sheep.setSale(sale);
+        return  sheepService.saveSheep(sheep);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateSheep(@PathVariable int id, @RequestBody SheepDTO sheep) {
+        Sheep updatedSheep = sheepService.updateSheep(id, sheep);
+        if (updatedSheep == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updatedSheep);
     }
 }

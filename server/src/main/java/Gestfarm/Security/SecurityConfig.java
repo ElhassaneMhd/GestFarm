@@ -26,7 +26,6 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-
 public class SecurityConfig {
 
     @Autowired

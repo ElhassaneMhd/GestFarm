@@ -1,8 +1,10 @@
 package Gestfarm.Model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
+@DynamicUpdate
 @Table(name = "roles")
 public class Role {
     @Id

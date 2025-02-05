@@ -9,10 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UserRegistrationMapper {
-
     @Autowired
     private UserService userService;
-
 
     public RegistrationRequestDto toEntity(RegistrationRequestDto registrationRequestDto) {
         final var user = new User();
@@ -26,7 +24,6 @@ public class UserRegistrationMapper {
 
     public RegistrationResponseDto toRegistrationResponseDto(
             final RegistrationRequestDto request) {
-        //Authenticate user by registering
 
         User user = new User();
         user.setEmail(request.email());
@@ -34,7 +31,7 @@ public class UserRegistrationMapper {
         user.setPassword(request.password());
         String str = String.valueOf(userService.verify(user));
 
-        return new RegistrationResponseDto(
+            return new RegistrationResponseDto(
                 user.getEmail(), user.getUsername(), str,"User registered successfully",200);
     }
 
