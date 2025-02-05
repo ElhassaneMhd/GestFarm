@@ -4,6 +4,7 @@ import {
   getSheep,
   getSheepByField,
   addSheep,
+  updateSheep,
 } from "@/services/SheepAPI";
 import { formatEmbeddedData } from "@/utils/helpers";
 import { useMutate } from "@/hooks/useMutate";
@@ -55,4 +56,12 @@ export const useAddSheep = () =>
     mutationFn: addSheep,
     loadingMessage: "Adding sheep...",
     successMessage: "Sheep added successfully",
+  });
+
+export const useUpdateSheep = () =>
+  useMutate({
+    queryKey: ["sheep", "update"],
+    mutationFn: updateSheep,
+    loadingMessage: "Updating sheep...",
+    successMessage: "Sheep updated successfully",
   });

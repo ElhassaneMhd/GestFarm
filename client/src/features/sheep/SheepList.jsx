@@ -1,8 +1,8 @@
-import { useAddSheep, useAllSheep } from "./useSheep";
+import { useAddSheep, useAllSheep, useUpdateSheep } from "./useSheep";
 import { useCategories } from "@/features/categories/useCategory";
 import { TableLayout } from "@/layouts/TableLayout";
-import { useNavigate } from "react-router-dom";
-import { ChevronDown, Edit, Eye, Loader } from "lucide-react";
+import { data, useNavigate } from "react-router-dom";
+import { ChevronDown, Loader } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Heading } from "@/components/app/Heading";
 import { DropDown, Button } from "@/components/ui";
@@ -10,7 +10,7 @@ import { DropDown, Button } from "@/components/ui";
 export function SheepList() {
   const { sheep, error, isLoading } = useAllSheep();
   const { mutate: addSheep } = useAddSheep();
-  const { navigate } = useNavigate();
+  const { mutate: updateSheep } = useUpdateSheep();
   const { t } = useTranslation();
 
   const allStatus = {
@@ -26,6 +26,7 @@ export function SheepList() {
       </span>
     ),
   };
+
   return (
     <>
       <Heading count={sheep?.length}>{t("app.sidebar.sheep")}</Heading>
@@ -128,6 +129,7 @@ export function SheepList() {
           category: null,
         }}
         onAdd={addSheep}
+        onUpdate={updateSheep}
         fieldsToSearch={["number", "amount", "price", "status"]}
         downloadOptions={{
           pdfFileName: "Sheep",
@@ -136,20 +138,7 @@ export function SheepList() {
         layoutOptions={{
           displayNewRecord: true,
           displayTableRecord: true,
-          actions: (def) => [
-            {
-              text: "Review",
-              icon: <Eye size={16} />,
-              onClick: (sheep) => navigate(`/app/sheep/${sheep.id}`),
-            },
-            {
-              text: "Edit",
-              icon: <Edit size={16} />,
-              onClick: (sheep) => navigate(`/app/sheep/edit/${sheep.id}`),
-            },
-
-            def.delete,
-          ],
+          actions: (def) => [def.edit, def.delete],
         }}
         selectedOptions={{
           deleteOptions: {

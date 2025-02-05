@@ -13,8 +13,7 @@ import {
 } from "lucide-react";
 import { useAllSheep } from "../sheep/useSheep";
 import { Button, DropDown } from "@/components/ui";
-import { useState } from "react";
-import { CheckBox } from "../../components/ui";
+import { CheckBox } from "@/components/ui";
 
 export function ShipmentsList() {
   const { shipments, error, isLoading } = useShipments();
@@ -27,6 +26,7 @@ export function ShipmentsList() {
     delivered: <PackageCheck size={16} />,
     cancelled: <PackageX size={16} />,
   };
+
   return (
     <>
       <Heading count={shipments?.length}>{t("app.sidebar.shipments")}</Heading>
@@ -36,12 +36,6 @@ export function ShipmentsList() {
         error={error}
         resourceName="shipments"
         columns={[
-          {
-            key: "id",
-            displayLabel: "ID",
-            type: "number",
-            visible: true,
-          },
           {
             key: "name",
             displayLabel: "Name",
@@ -66,7 +60,7 @@ export function ShipmentsList() {
             type: "string",
             visible: true,
             format: (status) => (
-              <span className={`${status.toLowerCase()}`}>
+              <span className={`${status.toLowerCase()} justify-between`}>
                 {status}
                 {allStatus[status.toLowerCase()]}
               </span>
@@ -142,7 +136,7 @@ export function ShipmentsList() {
           actions: (def) => [
             {
               text: "Review",
-              icon: <Eye />,
+              icon: <Eye size={18} />,
               onClick: (sheep) => navigate(`/app/shipments/${sheep.id}`),
             },
             def.delete,
@@ -189,11 +183,6 @@ const ShipmentsDropDown = ({ setValue, getValue }) => {
         <DropDown.Title>
           <span className=" text-text-tertiary ">Available Sheep</span>{" "}
         </DropDown.Title>
-        {/* <DropDown.SearchBar
-          query={query}
-          onChange={setQuery}
-          placeholder="Search..."
-        /> */}
         <DropDown.Divider />
 
         {isLoading && <Loader className=" animate-spin m-auto " />}

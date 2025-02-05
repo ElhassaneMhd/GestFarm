@@ -6,7 +6,7 @@ import { useLogin } from "@/hooks/useUser";
 import { useEffect } from "react";
 import { changeTitle } from "@/utils/helpers";
 import { OAuthProviders } from "@/utils/constants";
-import { useForm } from "../../hooks/useForm";
+import { useForm } from "@/hooks/useForm";
 
 export function Login() {
   const { t } = useTranslation();

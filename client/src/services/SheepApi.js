@@ -6,10 +6,10 @@ export const getSheep = async (id) =>
   !id ? null : await axiosFetch(`sheep/${id}`);
 
 export const addSheep = async (data) =>
-  await axiosFetch("api/sheep/add", "POST", { ...data });
+  await axiosFetch("api/sheep", "POST", { ...data });
 
-export const updateSheep = async (id, data) =>
-  await axiosFetch(`sheep/${id}`, "PUT", { ...data });
+export const updateSheep = async (data) =>
+  await axiosFetch(`api/sheep/${data.data.id}`, "PUT", { ...data.data });
 
 export const deleteSheep = async (id) =>
   await axiosFetch(`sheep/${id}`, "DELETE");

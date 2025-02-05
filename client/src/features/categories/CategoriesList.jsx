@@ -38,7 +38,7 @@ export function CategoriesList() {
             key: "sheep",
             displayLabel: "Status",
             visible: true,
-            format: (sheep) => <SheepStatus sheep={sheep} />,
+            format: (sheep) => <CategorySheepStatus sheep={sheep} />,
           },
         ]}
         formFields={[
@@ -61,7 +61,7 @@ export function CategoriesList() {
           actions: (def) => [
             {
               text: "Review",
-              icon: <Eye />,
+              icon: <Eye size={16} />,
               onClick: (sheep) => navigate(`/app/categories/${sheep.id}`),
             },
             def.delete,
@@ -78,7 +78,7 @@ export function CategoriesList() {
   );
 }
 
-function SheepStatus({ sheep }) {
+function CategorySheepStatus({ sheep }) {
   let reserved = 0;
   let totalSheep = sheep.length;
   let availableSheep = 0;

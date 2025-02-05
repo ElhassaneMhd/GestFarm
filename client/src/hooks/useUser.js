@@ -68,9 +68,9 @@ export function useRegister() {
         "Registered in successfully. You'll be redirected now.",
         data?.role || data?.data?.role
       );
-      localStorage.setItem("token", data?.token);
+      localStorage.setItem("token", data);
     },
-    onError: (error) => console.log(error.email),
+    onError: (error) => toast.error(error.message),
   });
 
   return { register: mutate, isRegistering: isPending, error };
@@ -86,7 +86,7 @@ export function useLogout() {
     },
     onError: (error) => toast.error(error.message),
   });
-    const { openModal } = useConfirmationModal();
+  const { openModal } = useConfirmationModal();
 
   const logoutFn = () => {
     return openModal({
@@ -94,7 +94,7 @@ export function useLogout() {
       title: "Logout",
       confirmText: "Logout",
       onConfirm: mutate,
-    })
+    });
   };
 
   return { logout: logoutFn, isLoggingOut: isPending, error };
