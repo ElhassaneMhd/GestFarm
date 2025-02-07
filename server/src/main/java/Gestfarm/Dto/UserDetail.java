@@ -1,25 +1,35 @@
 package Gestfarm.Dto;
 
+import Gestfarm.Model.Role;
 import Gestfarm.Model.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-public class userDto implements UserDetails {
+public class UserDetail implements UserDetails {
 
     private final User user;
 
-    public userDto(User user) {
+    public UserDetail(User user) {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorities = new HashSet<>();
 
-        return List.of();
+        Role role = user.getRole();
+        if (role != null) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+            role.getPermissions().forEach(permission ->
+                    authorities.add(new SimpleGrantedAuthority(permission.getName()))
+            );
+        }
+        return authorities;
     }
+
 
     @Override
     public String getPassword() {

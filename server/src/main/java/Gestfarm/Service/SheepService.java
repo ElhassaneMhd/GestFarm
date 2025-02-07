@@ -1,16 +1,14 @@
 package Gestfarm.Service;
 
 import Gestfarm.Dto.SheepDTO;
-import Gestfarm.Model.Category;
+import Gestfarm.Mapper.SheepMapper;
 import Gestfarm.Model.Sheep;
-import Gestfarm.Repository.CategoryRepository;
 import Gestfarm.Repository.SheepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,18 +17,13 @@ public class SheepService {
     private SheepRepository sheepRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private SheepMapper sheepMapper;
 
-    @Transactional
-    public Sheep saveSheep(Sheep sheep) {
-        sheepRepository.save(sheep);
-        return sheep;
-    }
 
     public List<SheepDTO> findAll() {
         List<Sheep> sheepList= sheepRepository.findAll();
         return sheepList.stream()
-                .map(this::mapToSheepDTO)
+                .map(sheepMapper::mapToDTO)
                 .collect(Collectors.toList());
     }
 
@@ -38,25 +31,14 @@ public class SheepService {
         return sheepRepository.findById(id).orElse(null);
     }
 
-    private SheepDTO mapToSheepDTO(Sheep sheep) {
-        SheepDTO sheepDTO = new SheepDTO();
-        sheepDTO.setId(Optional.of(sheep.getId()));
-        sheepDTO.setNumber(Optional.of(sheep.getNumber()));
-        sheepDTO.setPrice(Optional.of(sheep.getPrice()));
-        sheepDTO.setWeight(Optional.of(sheep.getWeight()));
-        sheepDTO.setStatus(Optional.ofNullable(sheep.getStatus()));
-        sheepDTO.setAmount(Optional.of(sheep.getAmount()));
-        // Include the category name
-        if (sheep.getCategory() != null) {
-            sheepDTO.setCategory(Optional.of(sheep.getCategory()));
-            sheepDTO.setCategoryName(Optional.ofNullable(sheep.getCategory().getName()));
-        }
-        if (sheep.getSale() !=null){
-
-            sheepDTO.setSale(Optional.of(sheep.getSale()));
-        }
-        return sheepDTO;
+    @Transactional
+    public Sheep saveSheep(Sheep sheep) {
+        sheepRepository.save(sheep);
+        return sheep;
     }
+
+
+
 
     @Transactional
     public Sheep updateSheep(int sheepId, SheepDTO sheepDTO) {

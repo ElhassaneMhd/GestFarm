@@ -1,13 +1,15 @@
 package Gestfarm.Service;
 
+import Gestfarm.Dto.UserDetail;
 import Gestfarm.Model.User;
-import Gestfarm.Dto.userDto;
 import Gestfarm.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+
 
 @Service
 public class MyUserDetailsService implements UserDetailsService {
@@ -24,6 +26,7 @@ public class MyUserDetailsService implements UserDetailsService {
         if(user == null){
             throw new UsernameNotFoundException("User not found");
         }
-        return new userDto(user);
+        return new UserDetail(user);
     }
+
 }

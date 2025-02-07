@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/sheep")
-@CrossOrigin(origins = "http://localhost:5173")
 public class SheepController {
 
     @Autowired
@@ -42,8 +41,8 @@ public class SheepController {
         return  sheepService.saveSheep(sheep);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateSheep(@PathVariable int id, @RequestBody SheepDTO sheep) {
-        Sheep updatedSheep = sheepService.updateSheep(id, sheep);
+    public ResponseEntity<Object> updateSheep(@PathVariable int id, @RequestBody SheepDTO sheepDto) {
+        Sheep updatedSheep = sheepService.updateSheep(id, sheepDto);
         if (updatedSheep == null) {
             return ResponseEntity.notFound().build();
         }

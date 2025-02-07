@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SaleService {
@@ -19,6 +20,14 @@ public class SaleService {
 
     @Autowired
     private SheepService sheepService;
+
+    public List<Sale> findAll(){
+        return saleRepository.findAll();
+    }
+
+    public Optional<Sale> findById(int id){
+        return saleRepository.findById(id);
+    }
 
     public Sale createSale(SaleRequest saleRequest){
         Sale sale = new Sale();

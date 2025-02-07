@@ -1,9 +1,19 @@
 package Gestfarm.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.util.List;
+
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @DynamicUpdate
 @Table(name = "roles")
 public class Role {
@@ -11,27 +21,23 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @Column(name = "name", nullable = false, length = 50)
+    private String name;
 
-    @Column(name = "role", nullable = false, length = 50)
-    private String role;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<User> user;
 
-    public User getUser() {
-        return user;
+    @ManyToMany(fetch = FetchType.EAGER) // Load permissions immediately with the role
+    @JoinTable(
+            name = "roles_permissions",
+            joinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "permission_id", referencedColumnName = "id"))
+    private List<Permission> permissions;
+
+    public Role(String name){
+        this.name = name ;
     }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
 }
