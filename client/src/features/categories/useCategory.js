@@ -3,7 +3,7 @@ import {
   addCategory,
   getCategories,
   getCategory,
-} from "@/services/categoryApi";
+} from "@/services/categoryAPI";
 import { useMutate } from "@/hooks/useMutate";
 
 export function useCategories() {
