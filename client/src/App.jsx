@@ -16,6 +16,7 @@ import {
   Users,
   Categories,
   Shipments,
+  Sales,
 } from "./pages";
 import SheepDetails from "./features/sheep/SheepDetails";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -31,6 +32,7 @@ function App() {
     "users",
     "categories",
     "shipments",
+    "sales",
   ];
   const routesElements = {
     overview: <Overview />,
@@ -40,6 +42,7 @@ function App() {
     users: <Users />,
     categories: <Categories />,
     shipments: <Shipments />,
+    sales: <Sales />,
   };
   return (
     <>

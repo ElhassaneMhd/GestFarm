@@ -7,3 +7,4 @@ export { Register } from "./auth/Register";
 export { Users } from "./Users";
 export { Categories } from "./Categories";
 export { Shipments } from "./Shipments.jsx";
+export { Sales } from "./Sales.jsx";

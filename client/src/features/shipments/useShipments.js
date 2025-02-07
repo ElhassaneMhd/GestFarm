@@ -1,4 +1,4 @@
-import { getShipment, getShipments, addShipment } from "@/services/shipmentApi";
+import { getShipment, getShipments, addShipment } from "@/services/shipmentAPI";
 import { useQuery } from "@tanstack/react-query";
 import { useMutate } from "@/hooks/useMutate";
 

@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
+  BadgeDollarSign,
   ChartNoAxesGantt,
   Home,
+  icons,
   LogOut,
   PanelRightClose,
   PanelRightOpen,
@@ -56,6 +58,7 @@ export default function Sidebar() {
     },
     { name: "shipments", icon: <Truck size={isExpanded ? 18 : 20} /> },
     { name: "users", icon: <Users2 size={isExpanded ? 18 : 20} /> },
+    { name: "sales", icon: <BadgeDollarSign size={isExpanded ? 18 : 20} /> },
   ];
 
   return (
