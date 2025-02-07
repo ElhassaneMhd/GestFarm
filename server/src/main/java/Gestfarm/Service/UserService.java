@@ -1,12 +1,15 @@
 package Gestfarm.Service;
 
-import Gestfarm.Dto.Auth.RegistrationRequestDto;
-import Gestfarm.Dto.Auth.RegistrationResponseDto;
+import Gestfarm.Dto.Auth.RegistrationRequest;
 import Gestfarm.Dto.RegisterResponse;
+import Gestfarm.Dto.SheepDTO;
+import Gestfarm.Dto.UserDTO;
+import Gestfarm.Mapper.UserMapper;
+import Gestfarm.Model.Role;
 import Gestfarm.Model.User;
+import Gestfarm.Repository.RoleRepository;
 import Gestfarm.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,22 +19,35 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final JWTService jwtService;
+    private final AuthenticationManager authManager;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
+    private final UserMapper userMapper;
 
     @Autowired
-    private JWTService jwtService;
+    public  UserService (UserMapper userMapper,UserRepository userRepository,JWTService jwtService,
+                         AuthenticationManager authManager,RoleRepository roleRepository, PasswordEncoder passwordEncoder){
+        this.userMapper = userMapper;
+        this.authManager= authManager;
+        this.passwordEncoder= passwordEncoder;
+        this.jwtService= jwtService;
+        this.roleRepository= roleRepository;
+        this.userRepository=userRepository;
+    }
 
-    @Autowired
-    private AuthenticationManager authManager;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public List<UserDTO>  findAll() {
+        List<User> usersList = userRepository.findAll();
+        return usersList.stream().map(userMapper::mapToDto)
+                .collect(Collectors.toList());
+    }
 
     public ResponseEntity<String> verify(User user) {
 
@@ -46,9 +62,10 @@ public class UserService {
     }
 
     @Transactional
-    public RegisterResponse  register(RegistrationRequestDto request)  {
+    public RegisterResponse  register(RegistrationRequest request)  {
         RegisterResponse rep = new RegisterResponse();
         rep.setStatus(false);
+        Role role = roleRepository.findByName("ROLE_USER");
         if (userRepository.existsByUsername(request.username())) {
             rep.setMessage("Username is already taken");
             return rep;
@@ -69,18 +86,24 @@ public class UserService {
             return rep;
         }
 
+        if (roleRepository.existsByName("ROLE_"+request.role())){
+             role = roleRepository.findByName("ROLE_"+request.role());
+        }
         User user = new User();
         user.setUsername(request.username());
         user.setEmail(request.email());
         user.setPhone(request.phone());
         user.setPassword(passwordEncoder.encode(request.password()));
+        user.setRole(role);
         User savedUser = userRepository.save(user);
-        String token = jwtService.generateToken(savedUser);
 
+        String token = jwtService.generateToken(savedUser);
         rep.setStatus(true);
         rep.setUser(savedUser);
         rep.setToken(token);
         return rep;
     }
+
+
 }
 

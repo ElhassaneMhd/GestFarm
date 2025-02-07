@@ -47,7 +47,7 @@ public class CategoryService {
         sheepDTO.setWeight(Optional.of(sheep.getWeight()));
         sheepDTO.setStatus(Optional.ofNullable(sheep.getStatus()));
         sheepDTO.setAmount(Optional.of(sheep.getAmount()));
-
         return sheepDTO;
+
     }
 }

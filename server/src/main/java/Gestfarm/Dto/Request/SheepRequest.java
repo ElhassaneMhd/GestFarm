@@ -12,6 +12,5 @@ public class SheepRequest {
     private String status;
     private int amount;
     private int categoryId;
-
 }
 

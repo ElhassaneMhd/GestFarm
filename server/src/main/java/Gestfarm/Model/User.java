@@ -1,5 +1,6 @@
 package Gestfarm.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -48,7 +49,9 @@ public class User {
     @LastModifiedDate
     private Instant updatedAt;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Role> roles = new LinkedHashSet<>();
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "role_id", nullable = false)
+    @JsonBackReference
+    private Role role;
 
 }
