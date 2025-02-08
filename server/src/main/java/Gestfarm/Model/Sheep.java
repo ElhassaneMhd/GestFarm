@@ -28,7 +28,6 @@ public class Sheep {
     private int price;
     private int weight;
     private String status;
-    private int amount;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id", nullable = false)

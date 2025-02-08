@@ -1,7 +1,7 @@
 package Gestfarm.Controller;
 
 import Gestfarm.Dto.Auth.RegistrationRequest;
-import Gestfarm.Dto.RegisterResponse;
+import Gestfarm.Dto.Response.RegisterResponse;
 import Gestfarm.Dto.UserDTO;
 import Gestfarm.Mapper.UserMapper;
 import Gestfarm.Model.User;
@@ -10,6 +10,7 @@ import Gestfarm.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
-import java.util.Map;
-import java.util.Objects;
 
 @RestController
 public class AuthController {
@@ -32,11 +31,6 @@ public class AuthController {
     @Autowired
     private UserMapper userMapper;
 
-
-    @GetMapping("/users")
-    public ResponseEntity<Object> home() {
-        return ResponseEntity.ok(userService.findAll());
-    }
 
     @GetMapping("/user")
     public UserDTO user(@AuthenticationPrincipal OAuth2User oAuthuser, Principal principal) {
@@ -55,7 +49,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> registerUser(
+    public ResponseEntity<String> register(
             @RequestBody RegistrationRequest registrationDTO) {
         RegisterResponse res = userService.register(registrationDTO);
         if (res.getStatus()){

@@ -2,14 +2,14 @@ package Gestfarm.Dto;
 
 import Gestfarm.Model.Category;
 import Gestfarm.Model.Sale;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class SheepDTO {
     private Optional<Integer> number;
     private Optional<Integer> price;

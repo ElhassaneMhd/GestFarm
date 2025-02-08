@@ -1,8 +1,7 @@
 package Gestfarm.Service;
 
 import Gestfarm.Dto.Auth.RegistrationRequest;
-import Gestfarm.Dto.RegisterResponse;
-import Gestfarm.Dto.SheepDTO;
+import Gestfarm.Dto.Response.RegisterResponse;
 import Gestfarm.Dto.UserDTO;
 import Gestfarm.Mapper.UserMapper;
 import Gestfarm.Model.Role;
@@ -33,8 +32,12 @@ public class UserService {
     private final UserMapper userMapper;
 
     @Autowired
-    public  UserService (UserMapper userMapper,UserRepository userRepository,JWTService jwtService,
-                         AuthenticationManager authManager,RoleRepository roleRepository, PasswordEncoder passwordEncoder){
+    public  UserService (UserMapper userMapper,
+                         UserRepository userRepository,
+                         JWTService jwtService,
+                         AuthenticationManager authManager,
+                         RoleRepository roleRepository,
+                         PasswordEncoder passwordEncoder){
         this.userMapper = userMapper;
         this.authManager= authManager;
         this.passwordEncoder= passwordEncoder;
@@ -47,6 +50,12 @@ public class UserService {
         List<User> usersList = userRepository.findAll();
         return usersList.stream().map(userMapper::mapToDto)
                 .collect(Collectors.toList());
+    }
+
+    public Boolean checkIfExists(User user){
+        return userRepository.existsByPhone(user.getPhone()) ||
+                userRepository.existsByUsername(user.getUsername()) ||
+                userRepository.existsByEmail(user.getEmail());
     }
 
     public ResponseEntity<String> verify(User user) {

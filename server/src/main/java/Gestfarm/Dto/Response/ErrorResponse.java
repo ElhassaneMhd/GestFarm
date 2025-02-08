@@ -1,4 +1,4 @@
-package Gestfarm.Dto;
+package Gestfarm.Dto.Response;
 
 
 import lombok.*;

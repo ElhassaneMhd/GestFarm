@@ -20,6 +20,8 @@ public class Sale {
 
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) int id;
     private String name;
+    private int amount;
+    private int price;
 
     @Enumerated(EnumType.STRING)
     private SaleStatus status; // Connects with the SaleStatus enum

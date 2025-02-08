@@ -50,7 +50,6 @@ public class SheepService {
         if (sheepDTO.getPrice() != null) sheep.setPrice(sheepDTO.getPrice().get());
         if (sheepDTO.getWeight() != null) sheep.setWeight(sheepDTO.getWeight().get());
         if (sheepDTO.getStatus() != null) sheep.setStatus(sheepDTO.getStatus().get());
-        if (sheepDTO.getAmount() != null) sheep.setAmount(sheepDTO.getAmount().get());
         if (sheepDTO.getCategory() != null) sheep.setCategory( sheepDTO.getCategory().get());
         if (sheepDTO.getSale()!= null) sheep.setSale(sheepDTO.getSale().get());
         // Repeat for other fields...

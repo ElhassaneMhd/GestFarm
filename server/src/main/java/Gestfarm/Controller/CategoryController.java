@@ -23,6 +23,7 @@ public class CategoryController {
 
 
     @GetMapping("")
+    @PreAuthorize("hasPermission('READ_CATEGORIES')")
     public ResponseEntity<Object> getAllCategory() {
         List<Category> categories= (List<Category>) categoryService.findAll();
         List<CategoryDTO> categoryDTOs = categories.stream()

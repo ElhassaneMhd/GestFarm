@@ -1,12 +1,12 @@
 package Gestfarm.Dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
-@Setter
-@Getter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class CategoryDTO {
     private int id;
     private String name;

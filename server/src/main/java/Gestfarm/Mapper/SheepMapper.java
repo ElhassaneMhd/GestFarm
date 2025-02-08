@@ -16,7 +16,6 @@ public class SheepMapper {
         sheepDTO.setPrice(Optional.of(sheep.getPrice()));
         sheepDTO.setWeight(Optional.of(sheep.getWeight()));
         sheepDTO.setStatus(Optional.ofNullable(sheep.getStatus()));
-        sheepDTO.setAmount(Optional.of(sheep.getAmount()));
         // Include the category name
         if (sheep.getCategory() != null) {
             sheepDTO.setCategory(Optional.of(sheep.getCategory()));

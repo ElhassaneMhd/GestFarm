@@ -59,11 +59,13 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login","/register","/error").permitAll()
-                        .requestMatchers("/users/**").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers("/users/**").hasRole("ADMIN")
+                        .requestMatchers("api/sheep/**").hasRole("FARMER")
+                        .requestMatchers("/api/categories/**").hasRole("FARMER" )
+                        .requestMatchers("/api/sales/**").hasRole("FARMER")
+                        .requestMatchers("/api/shipments/**").hasRole("SHIPPER")
+
                         .requestMatchers(HttpMethod.DELETE,"/api/**").hasAnyAuthority("ROLE_ADMIN")
-                        .requestMatchers("/api/categories/**").hasAnyAuthority("WRITE_PRIVILEGE" )
-                        .requestMatchers("/api/sales").hasRole("FARMER")
-                        .requestMatchers("/api/shipments/").hasRole("SHIPPER")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())

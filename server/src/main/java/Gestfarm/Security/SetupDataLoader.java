@@ -14,8 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Component
 public class SetupDataLoader implements
@@ -23,46 +23,75 @@ public class SetupDataLoader implements
 
     boolean alreadySetup = false;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
+    private final RoleRepository roleRepository;
+    private final PermissionRepository permissionRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserService uservice;
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PermissionRepository permissionRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public SetupDataLoader(
+            UserRepository userRepository,
+            UserService userService,
+            RoleRepository roleRepository,
+            PermissionRepository permissionRepository,
+            PasswordEncoder passwordEncoder
+    ) {
+        this.userRepository = userRepository;
+        this.userService = userService;
+        this.roleRepository = roleRepository;
+        this.permissionRepository = permissionRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        if (alreadySetup)
-            return;
-        Permission readPermission
-                = createPermissionIfNotFound("READ_PRIVILEGE");
-        Permission writePermission
-                = createPermissionIfNotFound("WRITE_PRIVILEGE");
+        if (alreadySetup) return;
+        List<String> entities = List.of("SHEEP", "USERS", "SHIPMENTS", "SALES", "CATEGORIES", "PERMISSIONS", "ROLES");
+        List<String> actions = List.of("READ", "WRITE", "UPDATE", "DELETE");
 
-        List<Permission> adminPermissions = Arrays.asList(
-                readPermission, writePermission);
-        createRoleIfNotFound("ROLE_ADMIN", adminPermissions);
-        createRoleIfNotFound("ROLE_USER", Arrays.asList(readPermission));
+        Map<String, List<Permission>> entityPermissions = new HashMap<>();
 
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-        User user = new User();
-        user.setUsername("admin");
-        user.setPassword(passwordEncoder.encode("admin123"));
-        user.setEmail("admin@gmail.com");
-        user.setPhone("0666552211");
-        user.setRole(adminRole);
-        if(!userRepository.existsByEmail(user.getEmail())&& !userRepository.existsByPhone(user.getPhone()) ){
-            userRepository.save(user);
+        for (String entity : entities) {
+            List<Permission> permissions = actions.stream()
+                    .map(action -> createPermissionIfNotFound(action + "_" + entity))
+                    .toList();
+            entityPermissions.put(entity.toLowerCase() + "Permissions", permissions);
         }
+        List<Permission> farmerPermissions = Stream.of(
+                entityPermissions.get("sheepPermissions"),
+                entityPermissions.get("salesPermissions"),
+                entityPermissions.get("categoriesPermissions"),
+                entityPermissions.get("salesPermissions")
+        ).flatMap(List::stream).toList();
+
+        List<Permission> shipperPermissions = entityPermissions.get("shipmentsPermissions");
+        List<Permission> userPermissions = List.of();
+        List<Permission> adminPermissions = entityPermissions.values().stream().flatMap(List::stream).toList();
+
+        createRoleIfNotFound("ROLE_ADMIN", adminPermissions);
+        createRoleIfNotFound("ROLE_USER", userPermissions);
+        createRoleIfNotFound("ROLE_FARMER" ,farmerPermissions);
+        createRoleIfNotFound("ROLE_SHIPPER" ,shipperPermissions);
+
+        List<Role> roles = roleRepository.findAll(); // Fetch all roles
+
+        roles.forEach(role -> {
+            String username = role.getName().replace("ROLE_", "").toLowerCase();
+
+            User user = new User();
+            user.setUsername(username);
+            user.setPassword(passwordEncoder.encode("password123")); // Default password
+            user.setEmail(username + "@gmail.com"); // Auto-generate email
+            user.setPhone("06665555"+role.getId()); // Default phone
+            user.setRole(role);
+
+            if (!userService.checkIfExists(user)) {
+                userRepository.save(user);
+            }
+        });
         alreadySetup = true;
     }
 
@@ -78,15 +107,14 @@ public class SetupDataLoader implements
     }
 
     @Transactional
-    Role createRoleIfNotFound(
-            String name, List<Permission> privileges) {
+    void createRoleIfNotFound(
+            String name, List<Permission> permissions) {
 
         Role role = roleRepository.findByName(name);
         if (role == null) {
             role = new Role(name);
-            role.setPermissions(privileges);
+            role.setPermissions(permissions);
             roleRepository.save(role);
         }
-        return role;
     }
 }

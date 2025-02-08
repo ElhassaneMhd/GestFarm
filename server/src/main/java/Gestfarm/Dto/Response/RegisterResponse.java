@@ -1,10 +1,8 @@
-package Gestfarm.Dto;
+package Gestfarm.Dto.Response;
 
 
 import Gestfarm.Model.User;
 import lombok.*;
-
-import java.util.Optional;
 
 @Data
 @AllArgsConstructor

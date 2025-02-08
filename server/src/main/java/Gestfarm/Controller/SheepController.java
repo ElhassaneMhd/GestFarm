@@ -10,7 +10,9 @@ import Gestfarm.Service.SheepService;
 import Gestfarm.Repository.CategoryRepository;
 import Gestfarm.Service.ShipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -25,23 +27,25 @@ public class SheepController {
     private CategoryService categoryService;
 
     @GetMapping("")
+    @PreAuthorize("hasPermission('READ_SHEEP')")
     public ResponseEntity<Object> getAllSheep() {
         return ResponseEntity.ok(sheepService.findAll());
     }
 
     @PostMapping("")
+    @PreAuthorize("hasPermission('CREATE_SHEEP')")
     public Sheep createSheep(@RequestBody Sheep sheep) {
-        Sale sale = null;
         Category category = categoryService.find(sheep.getCategory().getId());
         if (category != null) {
             sheep.setCategory(category);
         }
-        sheep.setAmount(1);
-        sheep.setSale(sale);
+        sheep.setSale(null);
         return  sheepService.saveSheep(sheep);
     }
-    @PutMapping("/{id}")
+    @PreAuthorize("hasPermission('UPDATE_SHEEP')")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateSheep(@PathVariable int id, @RequestBody SheepDTO sheepDto) {
+            System.out.println(sheepDto);
         Sheep updatedSheep = sheepService.updateSheep(id, sheepDto);
         if (updatedSheep == null) {
             return ResponseEntity.notFound().build();
