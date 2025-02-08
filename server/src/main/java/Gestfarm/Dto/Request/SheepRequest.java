@@ -1,10 +1,13 @@
 package Gestfarm.Dto.Request;
 
+import Gestfarm.Enum.SheepStatus;
 import Gestfarm.Model.Category;
 
 public record SheepRequest(Integer number ,
                            Integer price ,
                            Integer weight,
-                           Category category) {
+                           SheepStatus status,
+                           Category category
+) {
 }
 

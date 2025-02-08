@@ -60,6 +60,7 @@ public class SheepService {
         if (sheepRequest.number() != null) sheep.setNumber(sheepRequest.number());
         if (sheepRequest.price() != null) sheep.setPrice(sheepRequest.price());
         if (sheepRequest.weight() != null) sheep.setWeight(sheepRequest.weight());
+        if (sheepRequest.status()!= null) sheep.setStatus(sheepRequest.status());
         if (sheepRequest.category() != null){
             Category category = categoryService.find(sheepRequest.category().getId());
             sheep.setCategory(category);

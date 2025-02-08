@@ -171,7 +171,7 @@
     @apply bg-red-200 text-red-600 p-2 rounded-lg text-sm flex gap-1 items-center;
 }
 
-.excluded {
+.unlisted {
     @apply p-2 rounded-md bg-blue-300 text-blue-600;
 }
 

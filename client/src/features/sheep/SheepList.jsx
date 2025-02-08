@@ -56,7 +56,7 @@ export function SheepList() {
             visible: true,
             format: (status) => (
               <span className="px-2 py-1 rounded-full">
-                <span className={`${status.toLowerCase()}`}>{status} </span>
+                <span className={`${status?.toLowerCase()}`}>{status} </span>
               </span>
             ),
           },
@@ -90,6 +90,11 @@ export function SheepList() {
             required: true,
           },
           {
+            name: "status",
+            required: true,
+            customComponent: <StatusDropDown />,
+          },
+          {
             name: "category",
             required: true,
             customComponent: <CategoriesDropDown />,
@@ -99,6 +104,7 @@ export function SheepList() {
           number: 0,
           price: 0,
           weight: 0,
+          status: "UNLISTED",
           category: null,
         }}
         onAdd={addSheep}
@@ -173,12 +179,12 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
 };
 
 const StatusDropDown = ({ getValue, setValue }) => {
-  const statuses = ["Available", "Sold", "Reserved"];
+  const statuses = ["Unlisted", "Available", "Sold", "Reserved"];
   return (
     <div className="flex flex-col space-y-2">
       <p className="text-sm font-medium text-text-tertiary">Status</p>
       <DropDown
-        options={{ className: "w-full", placement: "top" }}
+        options={{ className: "w-full" }}
         position="top"
         toggler={
           <Button
@@ -202,9 +208,9 @@ const StatusDropDown = ({ getValue, setValue }) => {
         {statuses.map((stat) => (
           <DropDown.Option
             onClick={() => {
-              setValue("status", stat);
+              setValue("status", stat.toUpperCase());
             }}
-            isCurrent={getValue("status") === stat}
+            isCurrent={getValue("status") === stat.toUpperCase()}
             key={stat}
           >
             {stat}

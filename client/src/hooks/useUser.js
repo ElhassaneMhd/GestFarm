@@ -60,7 +60,6 @@ export function useOAuth2Login() {
 
 export function useRegister() {
   const redirect = useRedirect();
-  const toastId = useRef(null);
 
   const { mutate, isPending, error } = useMutation({
     mutationKey: ["register"],

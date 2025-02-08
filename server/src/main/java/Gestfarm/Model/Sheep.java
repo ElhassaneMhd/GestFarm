@@ -1,5 +1,6 @@
 package Gestfarm.Model;
 
+import Gestfarm.Enum.SheepStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -27,6 +28,7 @@ public class Sheep {
 
     private int price;
     private int weight;
+    private SheepStatus status;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id", nullable = false)

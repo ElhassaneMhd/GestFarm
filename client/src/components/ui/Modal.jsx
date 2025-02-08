@@ -76,7 +76,7 @@ const Content = forwardRef(({ children, isOpen, className }, ref) => {
     <div
       ref={ref}
       className={cn(
-        "relative flex h-full w-full flex-col overflow-hidden border-border bg-background-primary transition-transform duration-200 sm:rounded-xl",
+        "relative flex h-full w-full flex-col border-border bg-background-primary transition-transform duration-200 sm:rounded-xl",
         className,
         isOpen ? "scale-100" : "scale-0"
       )}
