@@ -1,6 +1,5 @@
 package Gestfarm.Dto;
 
-import Gestfarm.Model.Permission;
 import Gestfarm.Model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;

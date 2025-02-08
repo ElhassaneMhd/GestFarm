@@ -15,11 +15,15 @@ import java.util.Optional;
 @Service
 public class SaleService {
 
-    @Autowired
-    private SaleRepository saleRepository;
+
+    private final SaleRepository saleRepository;
+    private final SheepService sheepService;
 
     @Autowired
-    private SheepService sheepService;
+    public SaleService(SaleRepository saleRepository, SheepService sheepService) {
+        this.saleRepository = saleRepository;
+        this.sheepService = sheepService;
+    }
 
     public List<Sale> findAll(){
         return saleRepository.findAll();

@@ -35,7 +35,7 @@ public class Sheep {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "sale_id", nullable = true)
+    @JoinColumn(name = "sale_id")
     @JsonIgnore
     private Sale sale;
 

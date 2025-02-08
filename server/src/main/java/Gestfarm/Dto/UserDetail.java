@@ -44,9 +44,6 @@ public class UserDetail implements UserDetails {
     public Integer getId() {
         return user.getId();
     }
-    public String getEmail() {
-        return user.getEmail();
-    }
 
 }
 

@@ -2,13 +2,9 @@ package Gestfarm.Controller;
 
 import Gestfarm.Dto.SheepDTO;
 import Gestfarm.Model.Category;
-import Gestfarm.Model.Sale;
 import Gestfarm.Model.Sheep;
-import Gestfarm.Model.Shipment;
 import Gestfarm.Service.CategoryService;
 import Gestfarm.Service.SheepService;
-import Gestfarm.Repository.CategoryRepository;
-import Gestfarm.Service.ShipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/sheep")
 public class SheepController {
+    private final SheepService sheepService;
+    private final CategoryService categoryService;
 
     @Autowired
-    private SheepService sheepService;
-
-    @Autowired
-    private CategoryService categoryService;
+    public SheepController(SheepService sheepService, CategoryService categoryService) {
+        this.sheepService = sheepService;
+        this.categoryService = categoryService;
+    }
 
     @GetMapping("")
     @PreAuthorize("hasPermission('READ_SHEEP')")

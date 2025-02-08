@@ -10,9 +10,6 @@ import Gestfarm.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,22 +19,21 @@ import java.security.Principal;
 
 @RestController
 public class AuthController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserMapper userMapper;
+    public AuthController(UserService userService, UserRepository userRepository, UserMapper userMapper) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
+    }
 
 
     @GetMapping("/user")
-    public UserDTO user(@AuthenticationPrincipal OAuth2User oAuthuser, Principal principal) {
+    public UserDTO user( Principal principal) {
 
-//        if (Objects.nonNull(oAuthuser)) {
-//            return oAuthuser.getAttributes();
-//        }
         User user = userRepository.findByUsername(principal.getName());
         return userMapper.mapToDto(user);
     }

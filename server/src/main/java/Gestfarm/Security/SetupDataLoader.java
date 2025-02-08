@@ -10,6 +10,7 @@ import Gestfarm.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.lang.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,7 +47,7 @@ public class SetupDataLoader implements
 
     @Override
     @Transactional
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    public void onApplicationEvent(@NonNull ContextRefreshedEvent event) {
 
         if (alreadySetup) return;
         List<String> entities = List.of("SHEEP", "USERS", "SHIPMENTS", "SALES", "CATEGORIES", "PERMISSIONS", "ROLES");

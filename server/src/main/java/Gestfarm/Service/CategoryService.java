@@ -9,14 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
 
+    private final CategoryRepository categoryRepository;
+
     @Autowired
-    private CategoryRepository categoryRepository;
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
 
     public Iterable<Category> findAll() {
@@ -41,11 +44,11 @@ public class CategoryService {
 
     public SheepDTO mapToSheepDTO(Sheep sheep) {
         SheepDTO sheepDTO = new SheepDTO();
-        sheepDTO.setId(Optional.of(sheep.getId()));
-        sheepDTO.setNumber(Optional.of(sheep.getNumber()));
-        sheepDTO.setPrice(Optional.of(sheep.getPrice()));
-        sheepDTO.setWeight(Optional.of(sheep.getWeight()));
-        sheepDTO.setStatus(Optional.ofNullable(sheep.getStatus()));
+        sheepDTO.setId(sheep.getId());
+        sheepDTO.setNumber(sheep.getNumber());
+        sheepDTO.setPrice(sheep.getPrice());
+        sheepDTO.setWeight(sheep.getWeight());
+        sheepDTO.setStatus(sheep.getStatus());
         return sheepDTO;
 
     }

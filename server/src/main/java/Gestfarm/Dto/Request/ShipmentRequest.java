@@ -1,6 +1,5 @@
 package Gestfarm.Dto.Request;
 
-import Gestfarm.Enum.SaleStatus;
 import Gestfarm.Enum.ShipmentStatus;
 import Gestfarm.Model.Sale;
 import lombok.Data;

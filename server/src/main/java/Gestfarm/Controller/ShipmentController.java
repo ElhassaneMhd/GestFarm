@@ -2,9 +2,7 @@ package Gestfarm.Controller;
 
 import Gestfarm.Dto.Request.ShipmentRequest;
 import Gestfarm.Model.Shipment;
-import Gestfarm.Service.SheepService;
 import Gestfarm.Service.ShipmentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,11 +10,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/shipments")
 public class ShipmentController {
 
-    @Autowired
-    private ShipmentService shipmentService;
+    private final ShipmentService shipmentService;
 
-    @Autowired
-    private SheepService sheepService;
+    public ShipmentController(ShipmentService shipmentService) {
+        this.shipmentService = shipmentService;
+    }
+
 
     @GetMapping("")
     @PreAuthorize("hasPermission('READ_SHIPPMENT')")

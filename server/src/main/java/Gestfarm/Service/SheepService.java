@@ -13,11 +13,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class SheepService {
-    @Autowired
-    private SheepRepository sheepRepository;
+
+    private final SheepRepository sheepRepository;
+    private final SheepMapper sheepMapper;
 
     @Autowired
-    private SheepMapper sheepMapper;
+    public SheepService(SheepRepository sheepRepository, SheepMapper sheepMapper) {
+        this.sheepRepository = sheepRepository;
+        this.sheepMapper = sheepMapper;
+    }
 
 
     public List<SheepDTO> findAll() {
@@ -46,12 +50,12 @@ public class SheepService {
                 .orElseThrow(() -> new RuntimeException("Sheep not found"));
 
         // Update fields if they are present in the request
-        if (sheepDTO.getNumber() != null) sheep.setNumber(sheepDTO.getNumber().get());
-        if (sheepDTO.getPrice() != null) sheep.setPrice(sheepDTO.getPrice().get());
-        if (sheepDTO.getWeight() != null) sheep.setWeight(sheepDTO.getWeight().get());
-        if (sheepDTO.getStatus() != null) sheep.setStatus(sheepDTO.getStatus().get());
-        if (sheepDTO.getCategory() != null) sheep.setCategory( sheepDTO.getCategory().get());
-        if (sheepDTO.getSale()!= null) sheep.setSale(sheepDTO.getSale().get());
+        if (sheepDTO.getNumber() != null) sheep.setNumber(sheepDTO.getNumber());
+        if (sheepDTO.getPrice() != null) sheep.setPrice(sheepDTO.getPrice());
+        if (sheepDTO.getWeight() != null) sheep.setWeight(sheepDTO.getWeight());
+        if (sheepDTO.getStatus() != null) sheep.setStatus(sheepDTO.getStatus());
+        if (sheepDTO.getCategory() != null) sheep.setCategory( sheepDTO.getCategory());
+        if (sheepDTO.getSale()!= null) sheep.setSale(sheepDTO.getSale());
         // Repeat for other fields...
         return sheepRepository.save(sheep);
     }

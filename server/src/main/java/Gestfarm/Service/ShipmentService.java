@@ -12,10 +12,13 @@ import java.util.List;
 @Service
 public class ShipmentService {
 
+
+    private final ShipmentRepository shipmentRepository;
+
     @Autowired
-    private ShipmentRepository shipmentRepository;
-    @Autowired
-    private SheepService sheepService;
+    public ShipmentService(ShipmentRepository shipmentRepository) {
+        this.shipmentRepository = shipmentRepository;
+    }
 
     public List<Shipment> findAll() {
         return shipmentRepository.findAll();
