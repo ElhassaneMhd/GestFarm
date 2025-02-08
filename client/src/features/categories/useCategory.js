@@ -3,6 +3,8 @@ import {
   addCategory,
   getCategories,
   getCategory,
+  updateCategory,
+  deleteCategory,
 } from "@/services/categoryAPI";
 import { useMutate } from "@/hooks/useMutate";
 
@@ -36,4 +38,19 @@ export const useAddCategory = () =>
     mutationFn: addCategory,
     loadingMessage: "Adding category...",
     successMessage: "Category added successfully",
+  });
+
+export const useUpdateCategory = () =>
+  useMutate({
+    queryKey: ["categories", "update"],
+    mutationFn: updateCategory,
+    loadingMessage: "Updating category...",
+    successMessage: "Category updated successfully",
+  });
+export const useDeleteCategory = () =>
+  useMutate({
+    queryKey: ["categories", "delete"],
+    mutationFn: deleteCategory,
+    loadingMessage: "Deleting category...",
+    successMessage: "Category deleted successfully",
   });

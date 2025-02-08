@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { getAllUsers } from "@/services/UserAPI";
-import { formatEmbeddedData } from "@/utils/helpers";
 import { getUserById } from "@/services/UserApi";
 
 export function useUsers() {
@@ -9,10 +8,9 @@ export function useUsers() {
     queryFn: getAllUsers,
   });
   if (!data) return { users: [], error, isLoading: isPending };
+  const users = data.map((value, index) => ({ id: index + 1, ...value }));
   return {
-    users: formatEmbeddedData(data, "users"),
-    links: data?._links,
-    page: data?.page,
+    users,
     error,
     isLoading: isPending,
   };

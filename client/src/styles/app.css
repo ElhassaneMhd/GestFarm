@@ -170,3 +170,19 @@
 .cancelled {
     @apply bg-red-200 text-red-600 p-2 rounded-lg text-sm flex gap-1 items-center;
 }
+
+.excluded {
+    @apply p-2 rounded-md bg-blue-300 text-blue-600;
+}
+
+.reserved {
+    @apply p-2 rounded-md bg-yellow-100 text-yellow-600;
+}
+
+.available {
+    @apply p-2 rounded-md bg-[#e5f5e0] text-green-600;
+}
+
+.sold {
+    @apply p-2 rounded-md bg-red-300 text-red-600
+}

@@ -1,7 +1,12 @@
-import { useAddSheep, useAllSheep, useUpdateSheep } from "./useSheep";
+import {
+  useAddSheep,
+  useAllSheep,
+  useUpdateSheep,
+  useDeleteSheep,
+  useMultipleDeleteSheep,
+} from "./useSheep";
 import { useCategories } from "@/features/categories/useCategory";
 import { TableLayout } from "@/layouts/TableLayout";
-import { data, useNavigate } from "react-router-dom";
 import { ChevronDown, Loader } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Heading } from "@/components/app/Heading";
@@ -11,21 +16,9 @@ export function SheepList() {
   const { sheep, error, isLoading } = useAllSheep();
   const { mutate: addSheep } = useAddSheep();
   const { mutate: updateSheep } = useUpdateSheep();
+  const { mutate: deleteSheep } = useDeleteSheep();
+  const { mutate: multipleDelete } = useMultipleDeleteSheep();
   const { t } = useTranslation();
-
-  const allStatus = {
-    available: (
-      <span className="p-2 rounded-md bg-[#e5f5e0] text-green-600 ">
-        Available
-      </span>
-    ),
-    sold: <span className="p-2 rounded-md bg-red-300 text-red-600">Sold</span>,
-    reserved: (
-      <span className="p-2 rounded-md bg-yellow-100 text-yellow-600">
-        Reserved
-      </span>
-    ),
-  };
 
   return (
     <>
@@ -57,20 +50,13 @@ export function SheepList() {
             format: (price) => `${price} Dh`,
           },
           {
-            key: "amount",
-            displayLabel: "Amount",
-            type: "number",
-            visible: true,
-            format: (amount) => `${amount} Dh`,
-          },
-          {
             key: "status",
             displayLabel: "Status",
             type: "string",
             visible: true,
             format: (status) => (
               <span className="px-2 py-1 rounded-full">
-                {allStatus[status.toLowerCase()]}
+                <span className={`${status.toLowerCase()}`}>{status} </span>
               </span>
             ),
           },
@@ -104,17 +90,6 @@ export function SheepList() {
             required: true,
           },
           {
-            name: "amount",
-            label: "Amount",
-            min: 0,
-            type: "number",
-          },
-          {
-            name: "status",
-            required: true,
-            customComponent: <StatusDropDown />,
-          },
-          {
             name: "category",
             required: true,
             customComponent: <CategoriesDropDown />,
@@ -124,12 +99,11 @@ export function SheepList() {
           number: 0,
           price: 0,
           weight: 0,
-          amount: 0,
-          status: null,
           category: null,
         }}
         onAdd={addSheep}
         onUpdate={updateSheep}
+        onDelete={deleteSheep}
         fieldsToSearch={["number", "amount", "price", "status"]}
         downloadOptions={{
           pdfFileName: "Sheep",
@@ -143,7 +117,7 @@ export function SheepList() {
         selectedOptions={{
           deleteOptions: {
             resourceName: "sheep",
-            onConfirm: (ids) => console.log(ids),
+            onConfirm: (ids) => multipleDelete(ids),
           },
         }}
       />
@@ -212,6 +186,7 @@ const StatusDropDown = ({ getValue, setValue }) => {
             size="small"
             type="outline"
             color="tertiary"
+            disabled={true}
           >
             <span className="p-0.5 text-sm font-medium text-text-tertiary w-full text-start">
               {getValue("status") || "Status"}

@@ -1,4 +1,4 @@
-package Gestfarm.Dto.Auth;
+package Gestfarm.Dto.Request;
 
 // RegistrationRequestDto.java
 public record RegistrationRequest(

@@ -36,12 +36,12 @@ public class ShipmentService {
     public Shipment createShipmentWithSheep(ShipmentRequest shipmentRequest) {
         // Step 1: Create and populate the Shipment entity
         Shipment shipment = new Shipment();
-        shipment.setAddress(shipmentRequest.getAddress());
-        shipment.setPhone(shipmentRequest.getPhone());
-        shipment.setEmail(shipmentRequest.getEmail());
-        shipment.setStatus(shipmentRequest.getStatus());
-        shipment.setShippingDate(shipmentRequest.getShippingDate());
-        shipment.setSale(shipmentRequest.getSale());
+        shipment.setAddress(shipmentRequest.address());
+        shipment.setPhone(shipmentRequest.phone());
+        shipment.setEmail(shipmentRequest.email());
+        shipment.setStatus(shipmentRequest.status());
+        shipment.setShippingDate(shipmentRequest.shippingDate());
+        shipment.setSale(shipmentRequest.sale());
 
         // Step 3: Set the Sheep list to the Shipment
 

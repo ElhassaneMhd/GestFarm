@@ -5,6 +5,8 @@ import {
   getSheepByField,
   addSheep,
   updateSheep,
+  deleteSheep,
+  multipleDeleteSheep,
 } from "@/services/SheepAPI";
 import { formatEmbeddedData } from "@/utils/helpers";
 import { useMutate } from "@/hooks/useMutate";
@@ -64,4 +66,20 @@ export const useUpdateSheep = () =>
     mutationFn: updateSheep,
     loadingMessage: "Updating sheep...",
     successMessage: "Sheep updated successfully",
+  });
+
+export const useDeleteSheep = () =>
+  useMutate({
+    queryKey: ["sheep", "delete"],
+    mutationFn: deleteSheep,
+    loadingMessage: "Deleting sheep...",
+    successMessage: "Sheep deleted successfully",
+  });
+
+export const useMultipleDeleteSheep = () =>
+  useMutate({
+    queryKey: ["sheep", "delete"],
+    mutationFn: multipleDeleteSheep,
+    loadingMessage: "Deleting multiple sheep...",
+    successMessage: "multiple sheep deleted successfully",
   });

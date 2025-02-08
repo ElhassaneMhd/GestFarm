@@ -4,11 +4,13 @@ import { useShipments, useAddShipment } from "./useShipments";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import {
+  Boxes,
   ChevronDown,
   Eye,
   Loader,
   Package,
   PackageCheck,
+  PackageMinus,
   PackageX,
 } from "lucide-react";
 import { useAllSheep } from "../sheep/useSheep";
@@ -21,10 +23,12 @@ export function ShipmentsList() {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const allStatus = {
+  const icons = {
     pending: <Package size={16} />,
+    shipped: <Boxes size={16} />,
     delivered: <PackageCheck size={16} />,
     cancelled: <PackageX size={16} />,
+    returned: <PackageMinus size={16} />,
   };
 
   return (
@@ -37,9 +41,9 @@ export function ShipmentsList() {
         resourceName="shipments"
         columns={[
           {
-            key: "name",
-            displayLabel: "Name",
-            type: "string",
+            key: "id",
+            displayLabel: "Id",
+            type: "number",
             visible: true,
           },
           {
@@ -60,10 +64,10 @@ export function ShipmentsList() {
             type: "string",
             visible: true,
             format: (status) => (
-              <span className={`${status.toLowerCase()} justify-between`}>
-                {status}
-                {allStatus[status.toLowerCase()]}
-              </span>
+              <div className={`${status.toLowerCase()} w-fit`}>
+                <span className="me-2 ">{status}</span>
+                {icons[status.toLowerCase()]}
+              </div>
             ),
           },
           {
@@ -71,12 +75,6 @@ export function ShipmentsList() {
             displayLabel: "Shipping Date",
             type: "date",
             visible: true,
-          },
-          {
-            key: "sheep",
-            displayLabel: "Sheep",
-            visible: true,
-            format: (sheep) => sheep.length,
           },
         ]}
         formFields={[

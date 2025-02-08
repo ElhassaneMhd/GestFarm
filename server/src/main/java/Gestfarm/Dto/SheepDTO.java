@@ -1,5 +1,6 @@
 package Gestfarm.Dto;
 
+import Gestfarm.Enum.SaleStatus;
 import Gestfarm.Model.Category;
 import Gestfarm.Model.Sale;
 import lombok.*;
@@ -13,8 +14,7 @@ public class SheepDTO {
     private Integer price;
     private Integer id;
     private Integer weight;
-    private String status;
-    private Integer amount;
+    private SaleStatus status;
     private String categoryName;
     private Category category;
     private Sale sale;

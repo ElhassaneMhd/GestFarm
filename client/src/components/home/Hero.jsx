@@ -68,9 +68,9 @@ function Search({ query }) {
       <div className="flex items-center gap-2 p-3">
         <SearchIcon className=" text-text-tertiary" size={20} />
         <input
-          type="search"
+          type="number"
           className="w-full border-b border-border bg-transparent pb-1.5 text-sm font-medium text-text-primary outline-none placeholder:text-text-tertiary"
-          placeholder="Your keyword..."
+          placeholder="Your Sheep number..."
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
         />

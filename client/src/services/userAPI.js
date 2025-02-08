@@ -1,12 +1,9 @@
 import { axiosFetch } from ".";
 
 // Users
-export const getAllUsers = async () => await axiosFetch("users");
+export const getAllUsers = async () => await axiosFetch("api/users");
 
-export const getUser = async () => {
-  const data = await axiosFetch("user", "GET");
-  return { user: data.user };
-};
+export const getUser = async () => await axiosFetch("user", "GET");
 
 export const getUserById = async (id) => await axiosFetch(`users/${id}`);
 

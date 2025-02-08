@@ -36,6 +36,13 @@ function UsersList() {
             visible: true,
           },
           {
+            key: "role",
+            displayLabel: "Role",
+            type: "string",
+            visible: true,
+            format: (role) => role.name.slice(5),
+          },
+          {
             key: "createdAt",
             displayLabel: "Created At",
             type: "date",

@@ -3,12 +3,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import {
   login,
-  register,
+register,
   logout,
   oauth2Login,
   getUser,
 } from "@/services/userAPI";
 import { useConfirmationModal } from "./useConfModal";
+import { useRef } from "react";
 
 const useRedirect = () => {
   const navigate = useNavigate();
@@ -59,6 +60,7 @@ export function useOAuth2Login() {
 
 export function useRegister() {
   const redirect = useRedirect();
+  const toastId = useRef(null);
 
   const { mutate, isPending, error } = useMutation({
     mutationKey: ["register"],
@@ -101,11 +103,12 @@ export function useLogout() {
 }
 
 export const formatUserData = (data) => {
-  const user = data?.user?.principal;
-  const { username, email } = user;
+  const { username, email, role } = data;
   return {
     username,
     email,
+    role: role?.name.slice(0, 4),
+    permissions: role?.permissions,
   };
 };
 

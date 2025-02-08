@@ -1,6 +1,6 @@
 package Gestfarm.Controller;
 
-import Gestfarm.Dto.Auth.RegistrationRequest;
+import Gestfarm.Dto.Request.RegistrationRequest;
 import Gestfarm.Dto.Response.RegisterResponse;
 import Gestfarm.Dto.UserDTO;
 import Gestfarm.Mapper.UserMapper;
@@ -8,7 +8,7 @@ import Gestfarm.Model.User;
 import Gestfarm.Repository.UserRepository;
 import Gestfarm.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,6 +51,6 @@ public class AuthController {
         if (res.getStatus()){
             return  ResponseEntity.ok(res.getToken());
         }
-        return new ResponseEntity<>(res.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(res.getMessage(), HttpStatusCode.valueOf(404));
     }
 }

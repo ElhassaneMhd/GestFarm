@@ -102,7 +102,7 @@ public class SecurityConfig {
     @Bean
     public RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        String hierarchy = "ROLE_ADMIN > ROLE_FARMER \n ROLE_SHIPPER > ROLE_USER";
+        String hierarchy = "ROLE_ADMIN > ROLE_FARMER > ROLE_SHIPPER > ROLE_USER";
         roleHierarchy.setHierarchy(hierarchy);
         return roleHierarchy;
     }

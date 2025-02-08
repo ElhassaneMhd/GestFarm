@@ -1,14 +1,18 @@
-import { useNavigate } from "react-router-dom";
-import { useAddCategory, useCategories } from "./useCategory";
+import {
+  useAddCategory,
+  useCategories,
+  useUpdateCategory,
+  useDeleteCategory,
+} from "./useCategory";
 import { useTranslation } from "react-i18next";
-import { Eye } from "lucide-react";
 import { Heading } from "@/components/app/Heading";
 import { TableLayout } from "@/layouts/TableLayout";
 
 export function CategoriesList() {
   const { categories, isLoading, error } = useCategories();
   const { mutate: addCategory } = useAddCategory();
-  const navigate = useNavigate();
+  const { mutate: updateCategory } = useUpdateCategory();
+  const { mutate: deleteCategory } = useDeleteCategory();
   const { t } = useTranslation();
   return (
     <>
@@ -54,16 +58,13 @@ export function CategoriesList() {
           pdfFileName: "Categories",
         }}
         onAdd={addCategory}
-        //   onDelete={deleteApplication}
+        onUpdate={updateCategory}
+        onDelete={deleteCategory}
         layoutOptions={{
           displayNewRecord: true,
           displayTableRecord: true,
           actions: (def) => [
-            {
-              text: "Review",
-              icon: <Eye size={16} />,
-              onClick: (sheep) => navigate(`/app/categories/${sheep.id}`),
-            },
+            def.edit,
             def.delete,
           ],
         }}

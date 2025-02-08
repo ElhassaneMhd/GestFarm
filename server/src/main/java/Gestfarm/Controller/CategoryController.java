@@ -1,37 +1,57 @@
 package Gestfarm.Controller;
 
-import Gestfarm.Dto.CategoryDTO;
+import Gestfarm.Dto.Request.CategoryRequest;
 import Gestfarm.Model.Category;
+import Gestfarm.Repository.CategoryRepository;
 import Gestfarm.Service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
 
     @Autowired
-    public CategoryController(CategoryService categoryService) {
+    public CategoryController(CategoryService categoryService, CategoryRepository categoryRepository) {
         this.categoryService = categoryService;
+        this.categoryRepository = categoryRepository;
     }
 
 
     @GetMapping("")
     @PreAuthorize("hasPermission('READ_CATEGORIES')")
-    public ResponseEntity<Object> getAllCategory() {
-        List<Category> categories= (List<Category>) categoryService.findAll();
-        List<CategoryDTO> categoryDTOs = categories.stream()
-                .map(categoryService::mapToCategoryDTO)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(categoryDTOs);
+    public ResponseEntity<Object> findAll() {
+        return ResponseEntity.ok(categoryService.findAll());
     }
+
+    @PostMapping("")
+    @PreAuthorize("hasPermission('CREATE_CATEGORIES')")
+    public ResponseEntity<Object> create(@RequestBody CategoryRequest req){
+        return categoryService.save(req);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasPermission('UPDATE_CATEGORIES')")
+    public ResponseEntity<Object> update(@PathVariable int id , @RequestBody CategoryRequest req){
+       if (categoryRepository.existsById(id)){
+          return ResponseEntity.ok(categoryService.update(id,req))  ;
+       }
+       return new ResponseEntity<>("Cannot update undefined category", HttpStatusCode.valueOf(404));
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasPermission('DELETE_CATEGORIES')")
+    public ResponseEntity<Object> delete(@PathVariable int id){
+        if (categoryRepository.existsById(id)){
+           return  categoryService.delete(id);
+        }
+        return new ResponseEntity<>("Cannot delete undefined category" ,HttpStatusCode.valueOf(404));
+    }
+
 }

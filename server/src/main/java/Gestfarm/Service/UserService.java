@@ -1,6 +1,6 @@
 package Gestfarm.Service;
 
-import Gestfarm.Dto.Auth.RegistrationRequest;
+import Gestfarm.Dto.Request.RegistrationRequest;
 import Gestfarm.Dto.Response.RegisterResponse;
 import Gestfarm.Dto.UserDTO;
 import Gestfarm.Mapper.UserMapper;
@@ -47,7 +47,8 @@ public class UserService {
     }
 
     public List<UserDTO>  findAll() {
-        List<User> usersList = userRepository.findAll();
+        Role role = roleRepository.findByName("ROLE_ADMIN");
+        List<User> usersList = userRepository.findUsersByRoleNot(role);
         return usersList.stream().map(userMapper::mapToDto)
                 .collect(Collectors.toList());
     }
