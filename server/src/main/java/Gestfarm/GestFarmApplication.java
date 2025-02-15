@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
 @SpringBootApplication
-public class Baa3Application {
+public class GestFarmApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Baa3Application.class, args);
+		SpringApplication.run(GestFarmApplication.class, args);
 	}}

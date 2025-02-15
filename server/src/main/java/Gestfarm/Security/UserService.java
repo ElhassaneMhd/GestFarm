@@ -1,10 +1,11 @@
-package Gestfarm.Service;
+package Gestfarm.Security;
 
 import Gestfarm.Dto.Request.RegistrationRequest;
 import Gestfarm.Dto.Response.RegisterResponse;
 import Gestfarm.Dto.UserDTO;
 import Gestfarm.Mapper.UserMapper;
 import Gestfarm.Model.Role;
+import Gestfarm.Model.User;
 import Gestfarm.Model.User;
 import Gestfarm.Repository.RoleRepository;
 import Gestfarm.Repository.UserRepository;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -114,6 +116,20 @@ public class UserService {
         return rep;
     }
 
+    @Transactional
+    public ResponseEntity<Object> delete(int id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()){
+            userRepository.deleteById(id);
+            return ResponseEntity.ok("Deleted successfully");
+        }
+        return new ResponseEntity<>("Cannot delete undefined User" , HttpStatusCode.valueOf(404));
+    }
+
+    @Transactional
+    public void multipleDelete(List<Integer> ids){
+        ids.forEach(this::delete);
+    }
 
 }
 

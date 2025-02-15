@@ -10,10 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
-
     private final CategoryService categoryService;
     private final CategoryRepository categoryRepository;
 
@@ -22,7 +23,6 @@ public class CategoryController {
         this.categoryService = categoryService;
         this.categoryRepository = categoryRepository;
     }
-
 
     @GetMapping("")
     @PreAuthorize("hasPermission('READ_CATEGORIES')")
@@ -52,6 +52,12 @@ public class CategoryController {
            return  categoryService.delete(id);
         }
         return new ResponseEntity<>("Cannot delete undefined category" ,HttpStatusCode.valueOf(404));
+    }
+
+    @PreAuthorize("hasPermission('DELETE_CATEGORIES')")
+    @PostMapping("/delete/multiple")
+    public void multipleDelete(@RequestBody List<Integer> ids){
+        categoryService.multipleDelete(ids);
     }
 
 }

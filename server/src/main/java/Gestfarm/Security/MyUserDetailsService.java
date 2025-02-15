@@ -1,6 +1,5 @@
-package Gestfarm.Service;
+package Gestfarm.Security;
 
-import Gestfarm.Dto.UserDetail;
 import Gestfarm.Model.User;
 import Gestfarm.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

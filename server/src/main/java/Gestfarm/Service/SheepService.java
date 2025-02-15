@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class SheepService {
@@ -35,7 +34,7 @@ public class SheepService {
         List<Sheep> sheepList= sheepRepository.findAll();
         return sheepList.stream()
                 .map(sheepMapper::mapToDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public Sheep find(int id) {
@@ -43,29 +42,25 @@ public class SheepService {
     }
 
     @Transactional
-    public Sheep saveSheep(Sheep sheep) {
+    public Sheep save(Sheep sheep) {
         sheepRepository.save(sheep);
         return sheep;
     }
 
-
-
-
     @Transactional
-    public Sheep updateSheep(int sheepId, SheepRequest sheepRequest) {
+    public Sheep update(int sheepId, SheepRequest sheepRequest) {
         Sheep sheep = sheepRepository.findById(sheepId)
                 .orElseThrow(() -> new RuntimeException("Sheep not found"));
 
-        // Update fields if they are present in the request
         if (sheepRequest.number() != null) sheep.setNumber(sheepRequest.number());
         if (sheepRequest.price() != null) sheep.setPrice(sheepRequest.price());
         if (sheepRequest.weight() != null) sheep.setWeight(sheepRequest.weight());
         if (sheepRequest.status()!= null) sheep.setStatus(sheepRequest.status());
+        if (sheepRequest.age() != null) sheep.setAge(sheepRequest.age());
         if (sheepRequest.category() != null){
             Category category = categoryService.find(sheepRequest.category().getId());
             sheep.setCategory(category);
         }
-        // Repeat for other fields...
         return sheepRepository.save(sheep);
     }
 

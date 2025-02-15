@@ -1,4 +1,4 @@
-package Gestfarm.Dto;
+package Gestfarm.Security;
 
 import Gestfarm.Model.Role;
 import Gestfarm.Model.User;

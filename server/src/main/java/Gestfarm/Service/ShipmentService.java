@@ -1,13 +1,17 @@
 package Gestfarm.Service;
 
 import Gestfarm.Dto.Request.ShipmentRequest;
+import Gestfarm.Model.Sheep;
 import Gestfarm.Model.Shipment;
 import Gestfarm.Repository.ShipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ShipmentService {
@@ -48,4 +52,17 @@ public class ShipmentService {
         // Step 4: Save the Shipment (this will cascade to Sheep)
         return shipmentRepository.save(shipment);
     }
+
+    public ResponseEntity<Object> delete(int id) {
+        Optional<Shipment> shipment = shipmentRepository.findById(id);
+        if (shipment.isPresent()){
+            shipmentRepository.deleteById(id);
+            return ResponseEntity.ok("Deleted successfully");
+        }
+        return new ResponseEntity<>("Cannot delete undefined shipments" , HttpStatusCode.valueOf(404));
+    }
+    public void multipleDelete(List<Integer> ids){
+        ids.forEach(this::delete);
+    }
+
 }

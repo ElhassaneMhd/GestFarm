@@ -6,7 +6,6 @@ import Gestfarm.Model.User;
 import Gestfarm.Repository.PermissionRepository;
 import Gestfarm.Repository.RoleRepository;
 import Gestfarm.Repository.UserRepository;
-import Gestfarm.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;

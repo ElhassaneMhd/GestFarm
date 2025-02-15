@@ -70,8 +70,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/categories/**").hasRole("FARMER" )
                         .requestMatchers("/api/sales/**").hasRole("FARMER")
                         .requestMatchers("/api/shipments/**").hasRole("SHIPPER")
-
-                        .requestMatchers(HttpMethod.DELETE,"/api/**").hasAnyAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE,"/api/**")
+                        .hasAnyAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())

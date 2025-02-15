@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,4 +63,9 @@ public class CategoryService {
         categoryRepository.delete(category);
         return ResponseEntity.ok("Category deleted successfully");
     }
+
+    public void multipleDelete(List<Integer> ids){
+        ids.forEach(this::delete);
+    }
+
 }

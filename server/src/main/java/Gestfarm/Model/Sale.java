@@ -1,16 +1,26 @@
 package Gestfarm.Model;
 
 import Gestfarm.Enum.SaleStatus;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.List;
 
 @Entity
+@Table(name = "sales")
+@EntityListeners(AuditingEntityListener.class)
+@DynamicUpdate
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Data
 public class Sale {
 
@@ -23,8 +33,8 @@ public class Sale {
     private SaleStatus status; // Connects with the SaleStatus enum
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
     private List<Sheep> sheep;
+
 
     @OneToOne(mappedBy = "sale", cascade = CascadeType.ALL) // CascadeType.ALL for convenience
     private Shipment shipment;

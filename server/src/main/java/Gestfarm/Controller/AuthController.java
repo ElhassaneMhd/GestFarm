@@ -6,7 +6,7 @@ import Gestfarm.Dto.UserDTO;
 import Gestfarm.Mapper.UserMapper;
 import Gestfarm.Model.User;
 import Gestfarm.Repository.UserRepository;
-import Gestfarm.Service.UserService;
+import Gestfarm.Security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -30,10 +30,8 @@ public class AuthController {
         this.userMapper = userMapper;
     }
 
-
     @GetMapping("/user")
     public UserDTO user( Principal principal) {
-
         User user = userRepository.findByUsername(principal.getName());
         return userMapper.mapToDto(user);
     }

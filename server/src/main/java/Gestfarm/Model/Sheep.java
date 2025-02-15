@@ -1,5 +1,6 @@
 package Gestfarm.Model;
 
+import Gestfarm.Enum.SheepAge;
 import Gestfarm.Enum.SheepStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,6 +29,7 @@ public class Sheep {
 
     private int price;
     private int weight;
+    private SheepAge age;
     private SheepStatus status;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
