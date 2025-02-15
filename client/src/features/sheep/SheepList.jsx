@@ -19,7 +19,10 @@ export function SheepList() {
   const { mutate: deleteSheep } = useDeleteSheep();
   const { mutate: multipleDelete } = useMultipleDeleteSheep();
   const { t } = useTranslation();
-
+  const list = {
+    ages: ["LAMBS", "YEARLINGS", "Mature", "Old"],
+    status: ["UNLISTED", "AVAILABLE", "SOLD", "RESERVED"],
+  };
   return (
     <>
       <Heading count={sheep?.length}>{t("app.sidebar.sheep")}</Heading>
@@ -76,15 +79,14 @@ export function SheepList() {
             required: true,
           },
           {
-            name: "weight",
-            label: "Weight",
-            type: "number",
-            min: 0,
+            name: "category",
             required: true,
+            customComponent: <CategoriesDropDown />,
           },
+
           {
             name: "price",
-            label: "Price",
+            label: "Price (Dh)",
             min: 0,
             type: "number",
             required: true,
@@ -92,12 +94,21 @@ export function SheepList() {
           {
             name: "status",
             required: true,
-            customComponent: <StatusDropDown />,
+            customComponent: (
+              <CostumDropDown dataName="status" data={list.status} />
+            ),
           },
           {
-            name: "category",
+            name: "weight",
+            label: "Weight (kg)",
+            type: "number",
+            min: 0,
             required: true,
-            customComponent: <CategoriesDropDown />,
+          },
+          {
+            name: "age",
+            required: true,
+            customComponent: <CostumDropDown dataName="age" data={list.ages} />,
           },
         ]}
         formDefaults={{
@@ -114,7 +125,6 @@ export function SheepList() {
         downloadOptions={{
           pdfFileName: "Sheep",
         }}
-        //   onDelete={deleteApplication}
         layoutOptions={{
           displayNewRecord: true,
           displayTableRecord: true,
@@ -156,9 +166,6 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
         }
         togglerClassName=" bg-background-secondary "
       >
-        <DropDown.Title>Categories</DropDown.Title>
-        <DropDown.Divider />
-
         {isLoading && <Loader className=" animate-spin m-auto " />}
         {error && <p>{error}</p>}
 
@@ -178,11 +185,12 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
   );
 };
 
-const StatusDropDown = ({ getValue, setValue }) => {
-  const statuses = ["Unlisted", "Available", "Sold", "Reserved"];
+export const CostumDropDown = ({ data, dataName, getValue, setValue }) => {
   return (
     <div className="flex flex-col space-y-2">
-      <p className="text-sm font-medium text-text-tertiary">Status</p>
+      <p className="text-sm font-medium text-text-tertiary capitalize">
+        {dataName}
+      </p>
       <DropDown
         options={{ className: "w-full" }}
         position="top"
@@ -194,26 +202,23 @@ const StatusDropDown = ({ getValue, setValue }) => {
             color="tertiary"
             disabled={true}
           >
-            <span className="p-0.5 text-sm font-medium text-text-tertiary w-full text-start">
-              {getValue("status") || "Status"}
+            <span className="p-0.5 text-sm font-medium capitalize text-text-tertiary w-full text-start">
+              {getValue(dataName) || dataName}
             </span>
             <ChevronDown className="text-text-tertiary" />
           </Button>
         }
         togglerClassName=" bg-background-secondary "
       >
-        <DropDown.Title>Status</DropDown.Title>
-        <DropDown.Divider />
-
-        {statuses.map((stat) => (
+        {data.map((e) => (
           <DropDown.Option
             onClick={() => {
-              setValue("status", stat.toUpperCase());
+              setValue(dataName, e);
             }}
-            isCurrent={getValue("status") === stat.toUpperCase()}
-            key={stat}
+            isCurrent={getValue(dataName) === e}
+            key={e}
           >
-            {stat}
+            {e}
           </DropDown.Option>
         ))}
       </DropDown>

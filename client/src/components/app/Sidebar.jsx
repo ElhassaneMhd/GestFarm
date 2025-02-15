@@ -56,9 +56,9 @@ export default function Sidebar() {
       name: "categories",
       icon: <ChartNoAxesGantt size={isExpanded ? 18 : 20} />,
     },
+    { name: "sales", icon: <BadgeDollarSign size={isExpanded ? 18 : 20} /> },
     { name: "shipments", icon: <Truck size={isExpanded ? 18 : 20} /> },
     { name: "users", icon: <Users2 size={isExpanded ? 18 : 20} /> },
-    { name: "sales", icon: <BadgeDollarSign size={isExpanded ? 18 : 20} /> },
   ];
 
   return (

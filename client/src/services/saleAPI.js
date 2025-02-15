@@ -3,19 +3,19 @@ import { axiosFetch } from ".";
 export const getSales = async () => await axiosFetch("api/sales");
 
 export const getSale = async (id) =>
-  !id ? null : await axiosFetch(`sales/${id}`);
+  !id ? null : await axiosFetch(`api/sales/${id}`);
 
 export const addSale = async (data) =>
-  await axiosFetch("sales", "POST", { ...data });
+  await axiosFetch("api/sales", "POST", { ...data });
 
 export const updateSale = async (id, data) =>
-  await axiosFetch(`sales/${id}`, "PUT", { ...data });
+  await axiosFetch(`api/sales/${id}`, "PUT", { ...data });
 
 export const deleteSale = async (id) =>
-  await axiosFetch(`sales/${id}`, "DELETE");
+  await axiosFetch(`api/sales/${id}`, "DELETE");
 
-export const deleteAllSale = async (ids) =>
-  await axiosFetch(`multiple/sales/delete`, "POST", { ids });
+export const multipleDeleteSale = async (ids) =>
+  await axiosFetch(`api/sales/delete/multiple`, "POST", [...ids]);
 
 export const getSaleByField = async (field, value) =>
-  await axiosFetch(`sales/search/${field}?${field}=${value}`);
+  await axiosFetch(`api/sales/search/${field}?${field}=${value}`);

@@ -17,7 +17,7 @@ export function Sheep({ size, color = "text-text-tertiary", className = "" }) {
   return (
     <img
       className={cn("filter dark:invert ", op.sizes[size], color, className)}
-      src="https://www.logoai.com/oss/icons/2023/02/22/9de87a33b2be4f696adc79bc2050679a.svg"
+      src="/svg/sheep.svg"
       alt="Sheep SVG"
     />
   );

@@ -3,7 +3,7 @@ import { axiosFetch } from ".";
 export const getAllSheep = async () => await axiosFetch("api/sheep");
 
 export const getSheep = async (id) =>
-  !id ? null : await axiosFetch(`sheep/${id}`);
+  !id ? null : await axiosFetch(`api/sheep/${id}`);
 
 export const addSheep = async (data) =>
   await axiosFetch("api/sheep", "POST", { ...data });
@@ -15,7 +15,7 @@ export const deleteSheep = async (id) =>
   await axiosFetch(`api/sheep/${id}`, "DELETE");
 
 export const multipleDeleteSheep = async (ids) =>
-  await axiosFetch(`api/sheep/delete/multiple`, "POST", [ ...ids ]);
+  await axiosFetch(`api/sheep/delete/multiple`, "POST", [...ids]);
 
 export const getSheepByField = async (field, value) =>
   await axiosFetch(`sheep/search/${field}?${field}=${value}`);

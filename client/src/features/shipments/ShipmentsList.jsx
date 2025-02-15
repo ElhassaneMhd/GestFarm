@@ -13,15 +13,15 @@ import {
   PackageMinus,
   PackageX,
 } from "lucide-react";
-import { useAllSheep } from "../sheep/useSheep";
 import { Button, DropDown } from "@/components/ui";
-import { CheckBox } from "@/components/ui";
+import { CostumDropDown } from "../sheep/SheepList";
 
 export function ShipmentsList() {
   const { shipments, error, isLoading } = useShipments();
   const { mutate: addShipment } = useAddShipment();
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const status = ["Pending", "Delivered", "Cancelled"];
 
   const icons = {
     pending: <Package size={16} />,
@@ -105,13 +105,7 @@ export function ShipmentsList() {
           {
             name: "status",
             required: true,
-            customComponent: <StatusDropDown />,
-          },
-          {
-            name: "sheep",
-            label: "Sheep",
-            required: true,
-            customComponent: <ShipmentsDropDown />,
+            customComponent: <CostumDropDown dataName="status" data={status} />,
           },
         ]}
         defaultValues={{
@@ -151,109 +145,3 @@ export function ShipmentsList() {
   );
 }
 
-const ShipmentsDropDown = ({ setValue, getValue }) => {
-  const { sheep, error, isLoading } = useAllSheep();
-  const availableSheep = sheep?.filter(
-    (sheep) => sheep?.status?.toLowerCase() === "available"
-  );
-
-  const selectedSheep = getValue("sheep") || [];
-  return (
-    <div className="flex flex-col space-y-2">
-      <p className="text-sm font-medium text-text-tertiary">Sheep</p>
-      <DropDown
-        options={{ className: "w-48 ", shouldCloseOnClick: false }}
-        toggler={
-          <Button
-            display="with-icon"
-            size="small"
-            type="outline"
-            color="tertiary"
-          >
-            <span className="text-sm font-medium w-full text-start ">
-              Sheep ({selectedSheep?.length})
-            </span>
-            <ChevronDown className="text-text-tertiary" />
-          </Button>
-        }
-        togglerClassName="text-text-tertiary bg-background-secondary"
-      >
-        <DropDown.Title>
-          <span className=" text-text-tertiary ">Available Sheep</span>{" "}
-        </DropDown.Title>
-        <DropDown.Divider />
-
-        {isLoading && <Loader className=" animate-spin m-auto " />}
-        {error && <p>{error}</p>}
-
-        <div className="overflow-scroll flex gap-1 flex-col">
-          {availableSheep?.map((sheep) => (
-            <div key={sheep.id} className="flex flex-col gap-1">
-              <div className="flex  gap-1 text-text-tertiary p-1">
-                <span className="w-full text-sm text-text-tertiary">
-                  {" "}
-                  {sheep.number} | {sheep?.category?.name}
-                </span>
-                <CheckBox
-                  checked={selectedSheep.some((s) => s.id === sheep.id)}
-                  onChange={() => {
-                    if (selectedSheep.some((s) => s.id === sheep.id)) {
-                      setValue(
-                        "sheep",
-                        selectedSheep.filter((s) => s.id !== sheep.id)
-                      );
-                    } else {
-                      setValue("sheep", [...selectedSheep, { id: sheep.id }]);
-                    }
-                  }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-      </DropDown>
-    </div>
-  );
-};
-
-const StatusDropDown = ({ getValue, setValue }) => {
-  const statuses = ["Pending", "Delivered", "Cancelled"];
-  return (
-    <div className="flex flex-col space-y-2">
-      <p className="text-sm font-medium text-text-tertiary">Status</p>
-      <DropDown
-        options={{ className: "w-full", placement: "top" }}
-        position="top"
-        toggler={
-          <Button
-            display="with-icon"
-            size="small"
-            type="outline"
-            color="tertiary"
-          >
-            <span className="p-0.5 text-sm font-medium text-text-tertiary w-full text-start">
-              {getValue("status") || "Status"}
-            </span>
-            <ChevronDown className="text-text-tertiary" />
-          </Button>
-        }
-        togglerClassName=" bg-background-secondary "
-      >
-        <DropDown.Title>Status</DropDown.Title>
-        <DropDown.Divider />
-
-        {statuses.map((stat) => (
-          <DropDown.Option
-            onClick={() => {
-              setValue("status", stat);
-            }}
-            isCurrent={getValue("status") === stat}
-            key={stat}
-          >
-            {stat}
-          </DropDown.Option>
-        ))}
-      </DropDown>
-    </div>
-  );
-};
