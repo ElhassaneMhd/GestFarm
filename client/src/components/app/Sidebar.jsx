@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import {
   BadgeDollarSign,
   ChartNoAxesGantt,
   Home,
-  icons,
   LogOut,
   PanelRightClose,
   PanelRightOpen,
@@ -13,7 +12,6 @@ import {
   Users2,
 } from "lucide-react";
 import { Button } from "../ui";
-import { capitalize, changeTitle } from "@/utils/helpers";
 import { useLogout } from "@/hooks/useUser";
 import { Logo } from "../ui/Logo";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
@@ -27,8 +25,6 @@ export default function Sidebar() {
   const { t } = useTranslation();
   const [parent] = useAutoAnimate({ duration: 300 });
 
-  const location = useLocation().pathname.split("/");
-
   const spanClass = `transition-transform origin-left duration-500 text-sm text-text-secondary ${
     isExpanded ? "md:scale-100" : "scale-0"
   }`;
@@ -41,10 +37,6 @@ export default function Sidebar() {
 
     return () => window.removeEventListener("resize", onresize);
   }, [isExpanded]);
-
-  useEffect(() => {
-    if (location.length === 3) changeTitle(capitalize(location[2]));
-  }, [location]);
 
   const sideBarElements = [
     { name: "overview", icon: <Home size={isExpanded ? 18 : 20} /> },

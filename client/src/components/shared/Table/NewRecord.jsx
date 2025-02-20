@@ -3,7 +3,7 @@ import { useTable } from "./useTable";
 import { Plus } from "lucide-react";
 
 export function NewRecord({ onAdd, component }) {
-  const { showForm, resourceName, formOptions, formFields, disabled } =
+  const { showForm, resourceName, formOptions, formFields } =
     useTable();
 
   if (component)

@@ -40,7 +40,11 @@ function UsersList() {
             displayLabel: "Role",
             type: "string",
             visible: true,
-            format: (role) => role.name.slice(5),
+            format: (role) => (
+              <span className=" capitalize">
+                {role.name.slice(5).toLowerCase()}
+              </span>
+            ),
           },
           {
             key: "createdAt",

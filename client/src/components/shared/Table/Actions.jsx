@@ -36,11 +36,7 @@ export function Actions({ onUpdate, onDelete, row, actions }) {
       icon: <SquarePen size={16} />,
       onClick: () => {
         showForm({
-          fields: formOptions.fields.map((field) =>
-            field.name.includes("password")
-              ? { ...field, rules: { ...field.rules, required: false } }
-              : field
-          ),
+          fields: formOptions.fields,
           defaultValues: { ...formOptions.defaultValues, ...row },
           onSubmit: (data) => onUpdate({ id: row.profile_id, data }),
           isOpen: true,

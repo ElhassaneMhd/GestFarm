@@ -14,7 +14,7 @@ export const deleteCategory = async (id) =>
   await axiosFetch(`api/categories/${id}`, "DELETE");
 
 export const deleteAllCategory = async (ids) =>
-  await axiosFetch(`api/categories/multiple/delete`, "POST", { ids });
+  await axiosFetch(`api/categories/multiple/delete`, "POST", [...ids]);
 
 export const getCategoryByField = async (field, value) =>
   await axiosFetch(`api/categories/search/${field}?${field}=${value}`);

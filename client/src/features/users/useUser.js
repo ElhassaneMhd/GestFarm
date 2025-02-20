@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAllUsers } from "@/services/UserAPI";
+import { getAllUsers, getShippers } from "@/services/UserAPI";
 import { getUserById } from "@/services/UserApi";
 
 export function useUsers() {
@@ -8,9 +8,8 @@ export function useUsers() {
     queryFn: getAllUsers,
   });
   if (!data) return { users: [], error, isLoading: isPending };
-  const users = data.map((value, index) => ({ id: index + 1, ...value }));
   return {
-    users,
+    users:data,
     error,
     isLoading: isPending,
   };
@@ -22,8 +21,21 @@ export function useUser(id) {
     queryFn: () => getUserById(id),
   });
   return {
-    user: { id: data?._links.self.href.split("/").pop(), ...data },
+    user: data,
     error,
     isLoading: isPending,
   };
+}
+
+export function useShippers() {
+    const { data, error, isPending } = useQuery({
+      queryKey: ["shippers"],
+      queryFn: getShippers,
+    });
+    if (!data) return { shippers: [], error, isLoading: isPending };
+    return {
+      shippers: data,
+      error,
+      isLoading: isPending,
+    };
 }

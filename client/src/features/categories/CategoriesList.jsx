@@ -16,9 +16,9 @@ export function CategoriesList() {
   const { t } = useTranslation();
   return (
     <>
-      <Heading count={categories?.length}>
+      {/* <Heading count={categories?.length}>
         {t("app.sidebar.categories")}
-      </Heading>
+      </Heading> */}
       <TableLayout
         data={categories || []}
         isLoading={isLoading}
@@ -63,10 +63,7 @@ export function CategoriesList() {
         layoutOptions={{
           displayNewRecord: true,
           displayTableRecord: true,
-          actions: (def) => [
-            def.edit,
-            def.delete,
-          ],
+          actions: (def) => [def.edit, def.delete],
         }}
         selectedOptions={{
           deleteOptions: {

@@ -2,16 +2,17 @@ import { axiosFetch } from ".";
 
 // Users
 export const getAllUsers = async () => await axiosFetch("api/users");
+export const getShippers = async () => await axiosFetch("api/users/shippers");
 
 export const getUser = async () => await axiosFetch("user", "GET");
 
 export const getUserById = async (id) => await axiosFetch(`users/${id}`);
 
 export const deleteUser = async (id) =>
-  await axiosFetch(`profiles/${id}`, "DELETE");
+  await axiosFetch(`api/users/${id}`, "DELETE");
 
 export const deleteUsers = async (ids) =>
-  await axiosFetch(`multiple/users/delete`, "POST", { ids });
+  await axiosFetch(`api/users/delete/multiple`, "POST", { ids });
 
 // Auth
 export const login = async (username, password) => {

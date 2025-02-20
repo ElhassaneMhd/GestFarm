@@ -3,12 +3,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoadingScreen } from "./ui/LoadingScreen";
 import { ErrorScreen } from "./ui/ErrorScreen";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   const { isLoading, user, error } = useUser("detect");
-
-  // return children;
+  const [parent] = useAutoAnimate({ duration: 300 });
 
   useEffect(() => {
     if (!user && !isLoading) {
@@ -19,5 +19,10 @@ export function ProtectedRoute({ children }) {
 
   if (isLoading) return <LoadingScreen />;
   if (error) return <ErrorScreen error={error} />;
-  if (user) return children;
+  if (user)
+    return (
+      <div className="w-full h-full" ref={parent}>
+        {children}
+      </div>
+    );
 }

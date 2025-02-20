@@ -8,8 +8,6 @@ import {
 import { useCategories } from "@/features/categories/useCategory";
 import { TableLayout } from "@/layouts/TableLayout";
 import { ChevronDown, Loader } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import { Heading } from "@/components/app/Heading";
 import { DropDown, Button } from "@/components/ui";
 
 export function SheepList() {
@@ -18,14 +16,17 @@ export function SheepList() {
   const { mutate: updateSheep } = useUpdateSheep();
   const { mutate: deleteSheep } = useDeleteSheep();
   const { mutate: multipleDelete } = useMultipleDeleteSheep();
-  const { t } = useTranslation();
-  const list = {
-    ages: ["LAMBS", "YEARLINGS", "Mature", "Old"],
-    status: ["UNLISTED", "AVAILABLE", "SOLD", "RESERVED"],
+  const status = ["UNLISTED", "AVAILABLE", "SOLD", "RESERVED"];
+  const ages = {
+    LAMBS: "0-1 year",
+    YEARLINGS: "1-2 year",
+    MATURE: "2-5 year",
+    OLD: "5+ year",
   };
+
   return (
     <>
-      <Heading count={sheep?.length}>{t("app.sidebar.sheep")}</Heading>
+      {/* <Heading count={sheep?.length}>{t("app.sidebar.sheep")}</Heading> */}
       <TableLayout
         data={sheep}
         isLoading={isLoading}
@@ -46,6 +47,17 @@ export function SheepList() {
             format: (weight) => `${weight} kg`,
           },
           {
+            key: "age",
+            displayLabel: "Age",
+            type: "string",
+            visible: true,
+            format: (age) => (
+              <span className="px-2 py-1 rounded-full">
+                <span className={`${age?.toLowerCase()}`}>{ages[age]} </span>
+              </span>
+            ),
+          },
+          {
             key: "price",
             displayLabel: "Price",
             type: "number",
@@ -59,7 +71,9 @@ export function SheepList() {
             visible: true,
             format: (status) => (
               <span className="px-2 py-1 rounded-full">
-                <span className={`${status?.toLowerCase()}`}>{status} </span>
+                <span className={`${status?.toLowerCase()} capitalize `}>
+                  {status.toLowerCase()}{" "}
+                </span>
               </span>
             ),
           },
@@ -68,6 +82,7 @@ export function SheepList() {
             displayLabel: "Category",
             type: "string",
             visible: true,
+            format: (category) => (category ? category : "Any category"),
           },
         ]}
         formFields={[
@@ -94,9 +109,7 @@ export function SheepList() {
           {
             name: "status",
             required: true,
-            customComponent: (
-              <CostumDropDown dataName="status" data={list.status} />
-            ),
+            customComponent: <CostumDropDown dataName="status" data={status} />,
           },
           {
             name: "weight",
@@ -108,7 +121,9 @@ export function SheepList() {
           {
             name: "age",
             required: true,
-            customComponent: <CostumDropDown dataName="age" data={list.ages} />,
+            customComponent: (
+              <CostumDropDown dataName="age" data={Object.keys(ages)} />
+            ),
           },
         ]}
         formDefaults={{
@@ -144,7 +159,7 @@ export function SheepList() {
 const CategoriesDropDown = ({ getValue, setValue }) => {
   const { categories, error, isLoading } = useCategories();
   const categoryName = categories?.map((c) =>
-    getValue("category")?.id === c.id ? c.name : null
+    getValue("category") === c.id ? c.name : null
   );
   return (
     <div className="flex flex-col space-y-2">
@@ -159,7 +174,7 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
             color="tertiary"
           >
             <span className="p-0.5 text-sm font-medium text-text-tertiary w-full text-start">
-              {getValue("category")?.id ? categoryName : "Category"}
+              {categoryName ? categoryName : "Category"}
             </span>
             <ChevronDown className="text-text-tertiary" />
           </Button>
@@ -172,9 +187,9 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
         {categories?.map((category) => (
           <DropDown.Option
             onClick={() => {
-              setValue("category", { id: category.id });
+              setValue("category", category.id);
             }}
-            isCurrent={getValue("category")?.id === category.id}
+            isCurrent={getValue("category") === category.id}
             key={category.id}
           >
             {category.name}
@@ -202,8 +217,8 @@ export const CostumDropDown = ({ data, dataName, getValue, setValue }) => {
             color="tertiary"
             disabled={true}
           >
-            <span className="p-0.5 text-sm font-medium capitalize text-text-tertiary w-full text-start">
-              {getValue(dataName) || dataName}
+            <span className=" p-0.5 text-sm font-medium capitalize text-text-tertiary w-full text-start">
+              {getValue(dataName)?.toLowerCase() || dataName}
             </span>
             <ChevronDown className="text-text-tertiary" />
           </Button>
@@ -212,13 +227,16 @@ export const CostumDropDown = ({ data, dataName, getValue, setValue }) => {
       >
         {data.map((e) => (
           <DropDown.Option
-            onClick={() => {
-              setValue(dataName, e);
-            }}
+            onClick={() =>
+              getValue(dataName) === e
+                ? setValue(dataName, null)
+                : setValue(dataName, e)
+            }
             isCurrent={getValue(dataName) === e}
             key={e}
+            className=" capitalize"
           >
-            {e}
+            {e.toLowerCase()}
           </DropDown.Option>
         ))}
       </DropDown>

@@ -47,13 +47,13 @@ export function Selected() {
   return (
     <Modal
       isOpen={isOpen}
-      className={`fixed left-1/2 z-30 h-fit w-[95%] -translate-x-1/2 flex-row items-center justify-between rounded-lg border px-3 py-3 shadow-lg transition-[bottom] duration-300 mobile:w-[500px] mobile:px-5 ${
-        isOpen ? "bottom-11" : "-bottom-[100px]"
+      className={`fixed left-1/2 z-30 h-fit w-[40%] -translate-x-1/2 -bottom-[50px] flex-row items-center justify-between rounded-lg border px-3 py-3 shadow-2xl transition-[bottom] duration-300 mobile:w-[500px] mobile:px-5 ${
+        isOpen && "bottom-11"
       }`}
       hideOverlay={true}
     >
       <h2 className="text-nowrap text-xs font-semibold text-text-secondary mobile:text-sm ">
-        <span className="mr-2 rounded-md bg-secondary px-2 py-1 text-white">
+        <span className="mr-2 rounded-md bg-primary  px-2 py-1 text-white">
           {selected.length}
         </span>
         Row(s) Selected.

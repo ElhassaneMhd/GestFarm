@@ -1,6 +1,4 @@
-import { useTranslation } from "react-i18next";
 import { ChevronDown, Loader } from "lucide-react";
-import { Heading } from "@/components/app/Heading";
 import { TableLayout } from "@/layouts/TableLayout";
 import {
   useAddSale,
@@ -10,16 +8,17 @@ import {
 } from "./useSale";
 import { Button, CheckBox, DropDown } from "@/components/ui";
 import { useAllSheep } from "../sheep/useSheep";
+import { CostumDropDown } from "../sheep/SheepList";
 
 export function SalesList() {
   const { sales, isLoading, error } = useSales();
   const { mutate: addSale } = useAddSale();
   const { mutate: deleteSale } = useDeleteSale();
   const { mutate: multipleDelete } = useMultipleDeleteSale();
-  const { t } = useTranslation();
+  const status = ["PARTIALLY", "PAID", "DELIVERED", "CANCELLED"];
   return (
     <>
-      <Heading count={sales?.length}>{t("app.sidebar.sales")}</Heading>
+      {/* <Heading count={sales?.length}>{t("app.sidebar.sales")}</Heading> */}
       <TableLayout
         data={sales || []}
         isLoading={isLoading}
@@ -49,7 +48,9 @@ export function SalesList() {
             key: "status",
             displayLabel: "Status",
             visible: true,
-            format: (status) => status,
+            format: (status) => (
+              <span className=" capitalize">{status.toLowerCase()}</span>
+            ),
           },
         ]}
         formFields={[
@@ -67,9 +68,7 @@ export function SalesList() {
           },
           {
             name: "status",
-            label: "Status",
-            type: "text",
-            required: true,
+            customComponent: <CostumDropDown dataName="status" data={status} />,
           },
           {
             name: "sheep",

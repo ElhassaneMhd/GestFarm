@@ -128,7 +128,7 @@ export function Table({
 
 function Column({ column, hide }) {
   return (
-    <th scope="col" className="p-2 ">
+    <th scope="col" className="p-2 ps-4 ">
       {hide ? (
         <span className="sr-only ">Actions</span>
       ) : (
