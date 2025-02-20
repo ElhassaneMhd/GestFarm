@@ -24,13 +24,13 @@ public class CategoryController {
         this.categoryRepository = categoryRepository;
     }
 
-    @GetMapping("")
+    @GetMapping()
     @PreAuthorize("hasPermission('READ_CATEGORIES')")
     public ResponseEntity<Object> findAll() {
         return ResponseEntity.ok(categoryService.findAll());
     }
 
-    @PostMapping("")
+    @PostMapping()
     @PreAuthorize("hasPermission('CREATE_CATEGORIES')")
     public ResponseEntity<Object> create(@RequestBody CategoryRequest req){
         return categoryService.save(req);
@@ -38,7 +38,7 @@ public class CategoryController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasPermission('UPDATE_CATEGORIES')")
-    public ResponseEntity<Object> update(@PathVariable int id , @RequestBody CategoryRequest req){
+    public ResponseEntity<Object> update(@PathVariable Integer id , @RequestBody CategoryRequest req){
        if (categoryRepository.existsById(id)){
           return ResponseEntity.ok(categoryService.update(id,req))  ;
        }
@@ -47,7 +47,7 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasPermission('DELETE_CATEGORIES')")
-    public ResponseEntity<Object> delete(@PathVariable int id){
+    public ResponseEntity<Object> delete(@PathVariable Integer id){
         if (categoryRepository.existsById(id)){
            return  categoryService.delete(id);
         }

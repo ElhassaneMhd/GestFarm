@@ -1,9 +1,14 @@
 package Gestfarm.Model;
 
 import Gestfarm.Enum.ShipmentStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -22,21 +27,26 @@ import java.time.Instant;
 public class Shipment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String address;
     private String phone;
-    private String email;
-
-    @Enumerated(EnumType.STRING)
     private ShipmentStatus status;
 
 
     @Column(name = "shipping_date", nullable = false)
     private Date shippingDate;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JsonIgnore
+    private User shipper;
+
     @OneToOne
-    @JoinColumn(name = "sale_id", unique = true) // Foreign key and uniqueness constraint
+    @JoinColumn(name = "sale_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JsonIgnore
     private Sale sale;
 
     @Column(name = "created_at", nullable = false, updatable = false)

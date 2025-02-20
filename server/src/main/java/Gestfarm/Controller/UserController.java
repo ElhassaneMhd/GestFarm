@@ -17,15 +17,21 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("")
+    @GetMapping()
     @PreAuthorize("hasPermission('READ_USERS')")
     public ResponseEntity<Object> getAll() {
         return ResponseEntity.ok(userService.findAll());
     }
 
+    @GetMapping("/shippers")
+    @PreAuthorize("hasPermission('READ_USERS')")
+    public ResponseEntity<Object> getShippers() {
+        return ResponseEntity.ok(userService.findAllShippers());
+    }
+
     @PreAuthorize("hasPermission('DELETE_USERS')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete( @PathVariable int id){
+    public ResponseEntity<Object> delete( @PathVariable Integer id){
         return  userService.delete(id);
     }
 

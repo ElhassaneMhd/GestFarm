@@ -21,27 +21,27 @@ public class ShipmentController {
         this.shipmentService = shipmentService;
     }
 
-    @GetMapping("")
+    @GetMapping()
     @PreAuthorize("hasPermission('READ_SHIPPMENT')")
-    public Iterable<Shipment> getAll() {
-        return shipmentService.findAll();
+    public ResponseEntity<Object> getAll() {
+        return ResponseEntity.ok(shipmentService.findAll());
     }
 
-    @PostMapping("")
+    @PostMapping()
     @PreAuthorize("hasPermission('CREATE_SHIPPMENT')")
     public Shipment create(@RequestBody ShipmentRequest shipment) {
-       return shipmentService.createShipmentWithSheep(shipment);
+       return shipmentService.save(shipment);
     }
 
+    @PutMapping()
     @PreAuthorize("hasPermission('UPDATE_SHIPPMENT')")
-    @PutMapping("")
     public Shipment update(@RequestBody ShipmentRequest shipment) {
         return null;
     }
 
     @PreAuthorize("hasPermission('DELETE_SHIPPMENT')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable int id){
+    public ResponseEntity<Object> delete(@PathVariable Integer id){
         return  shipmentService.delete(id);
     }
 

@@ -2,32 +2,29 @@ package Gestfarm.Service;
 
 import Gestfarm.Dto.CategoryDTO;
 import Gestfarm.Dto.Request.CategoryRequest;
-import Gestfarm.Dto.SheepDTO;
 import Gestfarm.Mapper.CategoryMapper;
 import Gestfarm.Model.Category;
-import Gestfarm.Model.Sheep;
 import Gestfarm.Repository.CategoryRepository;
+import Gestfarm.Repository.SheepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
+    private final SheepRepository sheepRepository;
 
     @Autowired
-    public CategoryService(CategoryRepository categoryRepository, CategoryMapper categoryMapper) {
+    public CategoryService(CategoryRepository categoryRepository, CategoryMapper categoryMapper, SheepRepository sheepRepository) {
         this.categoryRepository = categoryRepository;
         this.categoryMapper = categoryMapper;
+        this.sheepRepository = sheepRepository;
     }
-
 
     public List<CategoryDTO> findAll() {
         List<Category> categories= (List<Category>) categoryRepository.findAll();
@@ -35,6 +32,7 @@ public class CategoryService {
                 .map(categoryMapper::mapToDTO)
                 .toList();
     }
+
     public Category find(int id){
         return categoryRepository.findById(id);
     }
@@ -60,6 +58,7 @@ public class CategoryService {
 
     public ResponseEntity<Object> delete(int id) {
         Category category= categoryRepository.findById(id);
+        sheepRepository.setCategoryToNull(id);
         categoryRepository.delete(category);
         return ResponseEntity.ok("Category deleted successfully");
     }

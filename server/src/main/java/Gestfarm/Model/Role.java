@@ -34,6 +34,7 @@ public class Role {
                     name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "permission_id", referencedColumnName = "id"))
+    @JsonIgnore
     private List<Permission> permissions;
 
     public Role(String name){

@@ -7,7 +7,7 @@ import java.sql.Date;
 
 
 public record ShipmentRequest(String name, String address,String phone,
-                              String email, ShipmentStatus status,
-                              Date shippingDate,Sale sale
+                               ShipmentStatus status, Integer shipper,
+                              Date shippingDate,Integer sale
 ) {
 }

@@ -1,6 +1,8 @@
 package Gestfarm.Model;
 
 import Gestfarm.Enum.SaleStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,19 +26,18 @@ import java.util.List;
 @Data
 public class Sale {
 
-    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) int id;
+    private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Integer id;
     private String name;
-    private int amount;
-    private int price;
+    private Integer amount;
+    private Integer price;
+    private SaleStatus status;
 
-    @Enumerated(EnumType.STRING)
-    private SaleStatus status; // Connects with the SaleStatus enum
-
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.PERSIST)
     private List<Sheep> sheep;
 
 
-    @OneToOne(mappedBy = "sale", cascade = CascadeType.ALL) // CascadeType.ALL for convenience
+    @OneToOne(mappedBy = "sale", cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private Shipment shipment;
 
     @Column(name = "created_at", nullable = false, updatable = false)

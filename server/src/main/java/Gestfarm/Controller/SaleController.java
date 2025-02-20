@@ -43,7 +43,7 @@ public class SaleController {
 
     @PreAuthorize("hasPermission('DELETE_SALES')")
     @DeleteMapping("/{id}")
-    public  ResponseEntity<Object> delete(@PathVariable int id){
+    public  ResponseEntity<Object> delete(@PathVariable Integer id){
         return saleService.delete(id);
     }
 

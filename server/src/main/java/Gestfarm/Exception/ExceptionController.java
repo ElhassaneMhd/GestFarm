@@ -1,7 +1,6 @@
-package Gestfarm.Controller;
+package Gestfarm.Exception;
 
 import Gestfarm.Dto.Response.ErrorResponse;
-import Gestfarm.Exception.NotFound;
 import io.micrometer.core.instrument.config.validate.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

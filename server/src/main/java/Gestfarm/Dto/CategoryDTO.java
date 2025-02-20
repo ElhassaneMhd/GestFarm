@@ -1,5 +1,6 @@
 package Gestfarm.Dto;
 
+import Gestfarm.Model.Sheep;
 import lombok.*;
 
 import java.util.List;
@@ -8,8 +9,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryDTO {
-    private int id;
+    private Integer id;
     private String name;
-    private List<SheepDTO> sheep;
+    private List<Sheep> sheep;
 
 }

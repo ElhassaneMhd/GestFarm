@@ -1,14 +1,19 @@
 package Gestfarm.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
+import java.util.List;
 
 
 @Entity
@@ -23,19 +28,10 @@ import java.time.Instant;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private int id;
-
-    @Column(name = "username", nullable = false, length = 50)
+    private Integer id;
     private String username;
-
-    @Column(name = "email", nullable = false, length = 50)
     private String email;
-
-    @Column(name = "password", nullable = false, length = 68)
     private String password;
-
-    @Column(name = "phone", nullable = false)
     private String phone;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -47,8 +43,12 @@ public class User {
     private Instant updatedAt;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "role_id", nullable = false)
-    @JsonBackReference
+    @JoinColumn(name = "role_id", nullable = true)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JsonIgnore
     private Role role;
 
+    @OneToMany(mappedBy = "shipper", cascade = CascadeType.PERSIST)
+    @JsonIgnore
+    private List<Shipment> shipments;
 }

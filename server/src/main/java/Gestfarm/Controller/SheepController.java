@@ -26,25 +26,20 @@ public class SheepController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("")
+    @GetMapping()
     @PreAuthorize("hasPermission('READ_SHEEP')")
     public ResponseEntity<Object> getAll() {
         return ResponseEntity.ok(sheepService.findAll());
     }
 
-    @PostMapping("")
+    @PostMapping()
     @PreAuthorize("hasPermission('CREATE_SHEEP')")
-    public Sheep create(@RequestBody Sheep sheep) {
-        Category category = categoryService.find(sheep.getCategory().getId());
-        if (category != null) {
-            sheep.setCategory(category);
-        }
-        sheep.setSale(null);
-        return  sheepService.save(sheep);
+    public Sheep create(@RequestBody SheepRequest sheepRequest) {
+        return  sheepService.save(sheepRequest);
     }
     @PreAuthorize("hasPermission('UPDATE_SHEEP')")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<Object> update(@PathVariable int id, @RequestBody SheepRequest sheep) {
+    public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody SheepRequest sheep) {
             System.out.println(sheep);
         Sheep updatedSheep = sheepService.update(id, sheep);
         if (updatedSheep == null) {
@@ -55,7 +50,7 @@ public class SheepController {
 
     @PreAuthorize("hasPermission('DELETE_SHEEP')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete( @PathVariable int id){
+    public ResponseEntity<Object> delete( @PathVariable Integer id){
         return  sheepService.delete(id);
     }
 

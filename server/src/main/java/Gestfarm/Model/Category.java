@@ -1,5 +1,6 @@
 package Gestfarm.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,12 +22,11 @@ import java.time.Instant;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
+    private Integer id;
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private List<Sheep> sheep;
 
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -36,5 +36,4 @@ public class Category {
     @Column(name = "updated_at")
     @LastModifiedDate
     private Instant updatedAt;
-
 }

@@ -29,7 +29,6 @@ public class SheepService {
         this.categoryService = categoryService;
     }
 
-
     public List<SheepDTO> findAll() {
         List<Sheep> sheepList= sheepRepository.findAll();
         return sheepList.stream()
@@ -37,34 +36,39 @@ public class SheepService {
                 .toList();
     }
 
-    public Sheep find(int id) {
+    public Sheep find(Integer id) {
         return sheepRepository.findById(id).orElse(null);
     }
 
     @Transactional
-    public Sheep save(Sheep sheep) {
-        sheepRepository.save(sheep);
-        return sheep;
+    public Sheep save(SheepRequest sheepRequest) {
+        Category category = categoryService.find(sheepRequest.category());
+        Sheep sheep = new Sheep();
+        sheep.setNumber(sheepRequest.number());
+        sheep.setAge(sheepRequest.age());
+        sheep.setStatus(sheepRequest.status());
+        sheep.setWeight(sheepRequest.weight());
+        sheep.setPrice(sheepRequest.price());
+        sheep.setSale(null);
+        sheep.setCategory(category);
+        return sheepRepository.save(sheep);
     }
 
     @Transactional
-    public Sheep update(int sheepId, SheepRequest sheepRequest) {
+    public Sheep update(Integer sheepId, SheepRequest sheepRequest) {
         Sheep sheep = sheepRepository.findById(sheepId)
                 .orElseThrow(() -> new RuntimeException("Sheep not found"));
-
+        Category category = categoryService.find(sheepRequest.category());
         if (sheepRequest.number() != null) sheep.setNumber(sheepRequest.number());
         if (sheepRequest.price() != null) sheep.setPrice(sheepRequest.price());
         if (sheepRequest.weight() != null) sheep.setWeight(sheepRequest.weight());
         if (sheepRequest.status()!= null) sheep.setStatus(sheepRequest.status());
         if (sheepRequest.age() != null) sheep.setAge(sheepRequest.age());
-        if (sheepRequest.category() != null){
-            Category category = categoryService.find(sheepRequest.category().getId());
-            sheep.setCategory(category);
-        }
+        if (category!= null) sheep.setCategory(category);
         return sheepRepository.save(sheep);
     }
 
-    public ResponseEntity<Object> delete(int id) {
+    public ResponseEntity<Object> delete(Integer id) {
         Optional<Sheep> sheep = sheepRepository.findById(id);
         if (sheep.isPresent()){
             sheepRepository.deleteById(id);

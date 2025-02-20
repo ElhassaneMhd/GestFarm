@@ -55,6 +55,14 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public User findById(Integer id){
+        return userRepository.findById(id).orElse(null);
+    }
+
+    public Object findAllShippers() {
+        return userRepository.findUsersByRole_Name("ROLE_SHIPPER");
+    }
+
     public Boolean checkIfExists(User user){
         return userRepository.existsByPhone(user.getPhone()) ||
                 userRepository.existsByUsername(user.getUsername()) ||
@@ -117,7 +125,7 @@ public class UserService {
     }
 
     @Transactional
-    public ResponseEntity<Object> delete(int id) {
+    public ResponseEntity<Object> delete(Integer id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()){
             userRepository.deleteById(id);
@@ -130,6 +138,7 @@ public class UserService {
     public void multipleDelete(List<Integer> ids){
         ids.forEach(this::delete);
     }
+
 
 }
 

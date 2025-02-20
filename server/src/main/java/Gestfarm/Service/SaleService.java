@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +37,17 @@ public class SaleService {
     }
 
     public List<Sale> findAll(){
-        List<Sale> sheepList= saleRepository.findAll();
-        return sheepList;
+        return saleRepository.findAll();
     }
 
-    public Optional<Sale> findById(int id){
-        return saleRepository.findById(id);
+    public Sale findById(Integer id){
+        return saleRepository.findById(id).orElse(null);
     }
+
 
     public ResponseEntity<Sale> save(SaleRequest saleRequest){
         ArrayList<Sheep> sheepList = new ArrayList<>();
-        int price=0;
+        Integer price=0;
         Sale sale = new Sale();
         sale.setName(saleRequest.name());
         sale.setAmount(saleRequest.amount());
@@ -63,15 +64,18 @@ public class SaleService {
         return ResponseEntity.ok(sale);
     }
 
-    public ResponseEntity<Object> delete(int id) {
-        Optional<Sale> sale = saleRepository.findById(id);
-        if (sale.isPresent()){
+    @Transactional
+    public ResponseEntity<Object> delete(Integer id) {
+        Sale sale = saleRepository.findById(id).orElse(null);
+        sheepRepository.setSaleToNull(id);
+        if (sale != null){
             saleRepository.deleteById(id);
             return ResponseEntity.ok("Deleted successfully");
         }
         return new ResponseEntity<>("Cannot delete undefined Sale" , HttpStatusCode.valueOf(404));
     }
 
+    @Transactional
     public void multipleDelete(List<Integer> ids){
         ids.forEach(this::delete);
     }

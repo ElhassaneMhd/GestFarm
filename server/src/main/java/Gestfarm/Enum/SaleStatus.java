@@ -1,7 +1,5 @@
 package Gestfarm.Enum;
 
 public enum SaleStatus {
-    ONGOING ,
-    COMPLETED,
-    CANCELLED
+    PARTIALLY, PAID, DELIVERED, CANCELLED
 }
