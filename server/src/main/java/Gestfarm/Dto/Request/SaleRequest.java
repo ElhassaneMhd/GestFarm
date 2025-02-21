@@ -6,7 +6,7 @@ import lombok.Data;
 
 import java.util.List;
 
-public record SaleRequest(String name ,
+public record SaleRequest(Integer id,String name ,
                           Integer amount ,
                           SaleStatus status,
                           List<Integer> sheep)  {

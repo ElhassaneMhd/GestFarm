@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface SheepRepository extends JpaRepository<Sheep, Integer> {
-    void deleteById(Integer id);
-    Sheep findSheepByCategory_Name(String S);
 
     @Transactional
     @Modifying

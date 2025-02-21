@@ -3,6 +3,7 @@ package Gestfarm.Controller;
 import Gestfarm.Dto.Request.SaleRequest;
 import Gestfarm.Dto.SaleDTO;
 import Gestfarm.Model.Sale;
+import Gestfarm.Repository.SaleRepository;
 import Gestfarm.Service.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,13 @@ public class SaleController {
         return ResponseEntity.ok(saleService.findAll()) ;
     }
 
+    @GetMapping("/{id}")
+    @PreAuthorize("hasPermission('READ_SALES')")
+    public ResponseEntity<SaleDTO> find(@PathVariable Integer id){
+        return ResponseEntity.ok(saleService.findById(id)) ;
+    }
+
+
     @PreAuthorize("hasPermission('CREATE_SALES')")
     @PostMapping()
     public ResponseEntity<Sale> create(@RequestBody SaleRequest request){
@@ -36,9 +44,9 @@ public class SaleController {
     }
 
     @PreAuthorize("hasPermission('UPDATE_SALES')")
-    @PutMapping()
-    public ResponseEntity<Sale> update(@RequestBody SaleRequest request){
-     return null;
+    @PutMapping("/{id}")
+    public ResponseEntity<Sale> update(@PathVariable Integer id,@RequestBody SaleRequest saleRequest){
+     return saleService.update(id,saleRequest);
     }
 
     @PreAuthorize("hasPermission('DELETE_SALES')")

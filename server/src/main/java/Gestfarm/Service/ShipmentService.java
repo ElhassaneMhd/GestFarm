@@ -47,7 +47,7 @@ public class ShipmentService {
 
     @Transactional
     public Shipment save(ShipmentRequest shipmentRequest) {
-        Sale sale = saleService.findById(shipmentRequest.sale());
+        Sale sale = saleRepository.findById(shipmentRequest.sale()).orElse(null);
         User shipper = userService.findById(shipmentRequest.shipper());
         Shipment shipment = new Shipment();
         shipment.setAddress(shipmentRequest.address());

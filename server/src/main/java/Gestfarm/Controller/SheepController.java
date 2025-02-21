@@ -18,12 +18,10 @@ import java.util.List;
 @RequestMapping("/api/sheep")
 public class SheepController {
     private final SheepService sheepService;
-    private final CategoryService categoryService;
 
     @Autowired
-    public SheepController(SheepService sheepService, CategoryService categoryService, UserService userService) {
+    public SheepController(SheepService sheepService) {
         this.sheepService = sheepService;
-        this.categoryService = categoryService;
     }
 
     @GetMapping()
@@ -40,7 +38,6 @@ public class SheepController {
     @PreAuthorize("hasPermission('UPDATE_SHEEP')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody SheepRequest sheep) {
-            System.out.println(sheep);
         Sheep updatedSheep = sheepService.update(id, sheep);
         if (updatedSheep == null) {
             return ResponseEntity.notFound().build();

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -25,23 +26,24 @@ public class SaleService {
 
     private final SaleRepository saleRepository;
     private final SheepService sheepService;
-    private final SaleMapper saleMapper;
     private final SheepRepository sheepRepository;
+    private final SaleMapper saleMapper;
 
     @Autowired
-    public SaleService(SaleRepository saleRepository, SheepService sheepService, SaleMapper saleMapper, SheepRepository sheepRepository) {
+    public SaleService(SaleRepository saleRepository, SheepService sheepService, SheepRepository sheepRepository, SaleMapper saleMapper) {
         this.saleRepository = saleRepository;
         this.sheepService = sheepService;
-        this.saleMapper = saleMapper;
         this.sheepRepository = sheepRepository;
+        this.saleMapper = saleMapper;
     }
 
     public List<Sale> findAll(){
         return saleRepository.findAll();
     }
 
-    public Sale findById(Integer id){
-        return saleRepository.findById(id).orElse(null);
+    public SaleDTO findById(Integer id){
+        Sale sale= saleRepository.findById(id).orElse(null);
+        return saleMapper.mapToDto(sale);
     }
 
 
@@ -79,4 +81,36 @@ public class SaleService {
     public void multipleDelete(List<Integer> ids){
         ids.forEach(this::delete);
     }
+
+    @Transactional
+    public ResponseEntity<Sale> update(Integer id ,SaleRequest request) {
+        Sale sale = saleRepository.findById(id).orElse(null);
+        if (sale != null ){
+//            modify old sheep
+            if (request.sheep()!= null){
+                List<Sheep> sheepList= sale.getSheep();
+                sheepList.forEach(sp -> sp.setSale(null));
+                request.sheep().forEach(sheepId -> {
+                    Sheep sheep = sheepService.find(sheepId);
+                    sheep.setSale(sale);
+                    sheep.setStatus(SheepStatus.SOLD);
+                    sheepList.add(sheep);
+                });
+            }
+            if (request.amount() != null) sale.setAmount(request.amount());
+            if (request.name()!= null) sale.setName(request.name());
+            if (request.status()!= null) sale.setStatus(request.status());
+        }
+        return ResponseEntity.ok(sale);
+    }
+
+    public boolean existsInSaleSheepList(Sale sale, Integer sheepId) {
+        for (Sheep sheep : sale.getSheep()) {
+            if (Objects.equals(sheep.getId(), sheepId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
