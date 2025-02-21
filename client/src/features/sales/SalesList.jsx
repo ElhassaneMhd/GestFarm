@@ -5,6 +5,8 @@ import {
   useMultipleDeleteSale,
   useDeleteSale,
   useSales,
+  useUpdateSale,
+  useSale,
 } from "./useSale";
 import { Button, CheckBox, DropDown } from "@/components/ui";
 import { useAllSheep } from "../sheep/useSheep";
@@ -13,6 +15,7 @@ import { CostumDropDown } from "../sheep/SheepList";
 export function SalesList() {
   const { sales, isLoading, error } = useSales();
   const { mutate: addSale } = useAddSale();
+  const { mutate: updateSale } = useUpdateSale();
   const { mutate: deleteSale } = useDeleteSale();
   const { mutate: multipleDelete } = useMultipleDeleteSale();
   const status = ["PARTIALLY", "PAID", "DELIVERED", "CANCELLED"];
@@ -82,6 +85,7 @@ export function SalesList() {
           pdfFileName: "Sales",
         }}
         onAdd={addSale}
+        onUpdate={updateSale}
         onDelete={deleteSale}
         layoutOptions={{
           displayNewRecord: true,
@@ -100,12 +104,14 @@ export function SalesList() {
 }
 
 export const SheepDropDown = ({ setValue, getValue }) => {
+  const { sale } = useSale(getValue("id"));
   const { sheep, error, isLoading } = useAllSheep();
   const availableSheep = sheep?.filter(
-    (sheep) => sheep?.status?.toLowerCase() === "available"
+    (sp) =>
+      sp?.status?.toLowerCase() === "available" ||
+      sp?.sale?.id === getValue("id")
   );
 
-  const selectedSheep = getValue("sheep") || [];
   return (
     <div className="flex flex-col space-y-2">
       <p className="text-sm font-medium text-text-tertiary">Sheep</p>
@@ -124,7 +130,7 @@ export const SheepDropDown = ({ setValue, getValue }) => {
             disabled={true}
           >
             <span className="text-sm font-medium w-full text-start ">
-              Sheep ({selectedSheep?.length})
+              Sheep ({getValue("sheep")?.length})
             </span>
             <ChevronDown className="text-text-tertiary" />
           </Button>
@@ -148,15 +154,15 @@ export const SheepDropDown = ({ setValue, getValue }) => {
                   {sheep.number} | {sheep?.category?.name}
                 </span>
                 <CheckBox
-                  checked={selectedSheep.includes(sheep.id)}
+                  checked={getValue("sheep")?.includes(sheep.id)}
                   onChange={() => {
-                    if (selectedSheep.includes(sheep.id)) {
+                    if (getValue("sheep")?.includes(sheep.id)) {
                       setValue(
                         "sheep",
-                        selectedSheep.filter((s) => s !== sheep.id)
+                        getValue("sheep")?.filter((s) => s !== sheep.id)
                       );
                     } else {
-                      setValue("sheep", [...selectedSheep, sheep.id]);
+                      setValue("sheep", [...getValue("sheep"), sheep.id]);
                     }
                   }}
                 />
@@ -167,4 +173,5 @@ export const SheepDropDown = ({ setValue, getValue }) => {
       </DropDown>
     </div>
   );
+
 };

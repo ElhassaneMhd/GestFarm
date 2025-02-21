@@ -8,8 +8,8 @@ export const getSale = async (id) =>
 export const addSale = async (data) =>
   await axiosFetch("api/sales", "POST", { ...data });
 
-export const updateSale = async (id, data) =>
-  await axiosFetch(`api/sales/${id}`, "PUT", { ...data });
+export const updateSale = async (data) =>
+  await axiosFetch(`api/sales/${data.data.id}`, "PUT", { ...data.data });
 
 export const deleteSale = async (id) =>
   await axiosFetch(`api/sales/${id}`, "DELETE");
