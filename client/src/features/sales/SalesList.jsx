@@ -1,4 +1,4 @@
-import { ChevronDown, Loader } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { TableLayout } from "@/layouts/TableLayout";
 import {
   useAddSale,
@@ -6,7 +6,6 @@ import {
   useDeleteSale,
   useSales,
   useUpdateSale,
-  useSale,
 } from "./useSale";
 import { Button, CheckBox, DropDown } from "@/components/ui";
 import { useAllSheep } from "../sheep/useSheep";
@@ -21,7 +20,6 @@ export function SalesList() {
   const status = ["PARTIALLY", "PAID", "DELIVERED", "CANCELLED"];
   return (
     <>
-      {/* <Heading count={sales?.length}>{t("app.sidebar.sales")}</Heading> */}
       <TableLayout
         data={sales || []}
         isLoading={isLoading}
@@ -104,14 +102,13 @@ export function SalesList() {
 }
 
 export const SheepDropDown = ({ setValue, getValue }) => {
-  const { sale } = useSale(getValue("id"));
-  const { sheep, error, isLoading } = useAllSheep();
-  const availableSheep = sheep?.filter(
+  const { sheep } = useAllSheep();
+  let availableSheep = sheep?.filter(
     (sp) =>
       sp?.status?.toLowerCase() === "available" ||
       sp?.sale?.id === getValue("id")
   );
-
+  const oldSheep = getValue("sheep") || [];
   return (
     <div className="flex flex-col space-y-2">
       <p className="text-sm font-medium text-text-tertiary">Sheep</p>
@@ -130,48 +127,36 @@ export const SheepDropDown = ({ setValue, getValue }) => {
             disabled={true}
           >
             <span className="text-sm font-medium w-full text-start ">
-              Sheep ({getValue("sheep")?.length})
+              Sheep ({oldSheep?.length})
             </span>
             <ChevronDown className="text-text-tertiary" />
           </Button>
         }
         togglerClassName="text-text-tertiary bg-background-secondary"
       >
-        <DropDown.Title>
-          <span className=" text-text-tertiary ">Available Sheep</span>{" "}
-        </DropDown.Title>
-        <DropDown.Divider />
-
-        {isLoading && <Loader className=" animate-spin m-auto " />}
-        {error && <p>{error}</p>}
-
-        <div className="overflow-scroll flex gap-1 flex-col">
-          {availableSheep?.map((sheep) => (
-            <div key={sheep.id} className="flex flex-col gap-1">
-              <div className="flex  gap-1 text-text-tertiary p-1">
-                <span className="w-full text-sm text-text-tertiary">
-                  {" "}
-                  {sheep.number} | {sheep?.category?.name}
-                </span>
-                <CheckBox
-                  checked={getValue("sheep")?.includes(sheep.id)}
-                  onChange={() => {
-                    if (getValue("sheep")?.includes(sheep.id)) {
-                      setValue(
-                        "sheep",
-                        getValue("sheep")?.filter((s) => s !== sheep.id)
-                      );
-                    } else {
-                      setValue("sheep", [...getValue("sheep"), sheep.id]);
-                    }
-                  }}
-                />
-              </div>
+        {availableSheep?.map((sheep) => (
+          <div key={sheep.id} className="flex flex-col gap-1">
+            <div className="flex  gap-1 text-text-tertiary p-1">
+              <span className="w-full text-sm text-text-tertiary">
+                {sheep?.number} | {sheep?.category?.name}
+              </span>
+              <CheckBox
+                checked={oldSheep?.map((e) => e.id)?.includes(sheep.id)}
+                onChange={() => {
+                  if (oldSheep?.map((e) => e.id)?.includes(sheep.id)) {
+                    setValue(
+                      "sheep",
+                      oldSheep?.filter((s) => s.id !== sheep.id)
+                    );
+                  } else {
+                    setValue("sheep", [...oldSheep, sheep]);
+                  }
+                }}
+              />
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </DropDown>
     </div>
   );
-
 };

@@ -29,13 +29,13 @@ export function MobileHeader({ isOpen, onClose }) {
           <div className="ml-auto flex gap-2">
             {user && (
               <Button onClick={() => logout()} shape="icon">
-                <LogOut />
+                <LogOut size={18} />
               </Button>
             )}
             <ThemeSwitcher size="small" layout="long" />
 
             <Button onClick={onClose} shape="icon">
-              <X />
+              <X  size={18}/>
             </Button>
           </div>
         </div>
