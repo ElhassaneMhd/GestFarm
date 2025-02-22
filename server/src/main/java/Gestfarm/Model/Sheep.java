@@ -26,20 +26,20 @@ public class Sheep {
 
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Integer id;
 
-    @Column(name = "number", nullable = false , unique = true)
+    @Column(unique = true)
     private Integer number;
     private Integer price;
     private Integer weight;
     private SheepAge age;
     private SheepStatus status;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id", nullable = true)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private Category category;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sale_id", nullable = true)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore

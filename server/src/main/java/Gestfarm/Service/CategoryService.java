@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
@@ -48,6 +50,7 @@ public class CategoryService {
         return new ResponseEntity<>("Cannot create category without name " , HttpStatusCode.valueOf(404));
     }
 
+    @Transactional
     public Category update(int id,CategoryRequest req) {
         Category category = categoryRepository.findById(id);
         if (req.name()!=null){
@@ -56,6 +59,7 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
+    @Transactional
     public ResponseEntity<Object> delete(int id) {
         Category category= categoryRepository.findById(id);
         sheepRepository.setCategoryToNull(id);

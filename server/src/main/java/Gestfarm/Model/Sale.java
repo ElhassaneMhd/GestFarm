@@ -9,10 +9,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import java.time.Instant;
 import java.util.List;
 
@@ -32,11 +33,12 @@ public class Sale {
     private Integer price;
     private SaleStatus status;
 
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private List<Sheep> sheep;
 
-
-    @OneToOne(mappedBy = "sale", cascade = CascadeType.PERSIST)
+    @JoinColumn(nullable = true)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @OneToOne(mappedBy = "sale", cascade = CascadeType.ALL)
     @JsonIgnore
     private Shipment shipment;
 

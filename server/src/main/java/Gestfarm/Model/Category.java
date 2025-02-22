@@ -25,7 +25,7 @@ public class Category {
     private Integer id;
     private String name;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Sheep> sheep;
 

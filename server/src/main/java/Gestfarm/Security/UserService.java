@@ -51,8 +51,7 @@ public class UserService {
     public List<UserDTO>  findAll() {
         Role role = roleRepository.findByName("ROLE_ADMIN");
         List<User> usersList = userRepository.findUsersByRoleNot(role);
-        return usersList.stream().map(userMapper::mapToDto)
-                .collect(Collectors.toList());
+        return usersList.stream().map(userMapper::mapToDto).toList();
     }
 
     public User findById(Integer id){
@@ -60,7 +59,8 @@ public class UserService {
     }
 
     public Object findAllShippers() {
-        return userRepository.findUsersByRole_Name("ROLE_SHIPPER");
+        List<User> shippersList = userRepository.findUsersByRole_Name("ROLE_SHIPPER");
+        return shippersList.stream().map(userMapper::mapToShipper).toList();
     }
 
     public Boolean checkIfExists(User user){

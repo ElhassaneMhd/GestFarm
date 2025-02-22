@@ -68,6 +68,7 @@ public class SheepService {
         return sheepRepository.save(sheep);
     }
 
+    @Transactional
     public ResponseEntity<Object> delete(Integer id) {
         Optional<Sheep> sheep = sheepRepository.findById(id);
         if (sheep.isPresent()){

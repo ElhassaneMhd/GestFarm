@@ -43,7 +43,7 @@ public class Shipment {
     @JsonIgnore
     private User shipper;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sale_id", nullable = true)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
@@ -56,7 +56,5 @@ public class Shipment {
     @Column(name = "updated_at")
     @LastModifiedDate
     private Instant updatedAt;
-
-
 
 }

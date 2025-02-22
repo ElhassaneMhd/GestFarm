@@ -23,15 +23,13 @@ public class ShipmentService {
 
 
     private final ShipmentRepository shipmentRepository;
-    private final SaleService saleService;
     private final UserService userService;
     private final ShipmentMapper shipmentMapper;
     private final SaleRepository saleRepository;
 
     @Autowired
-    public ShipmentService(ShipmentRepository shipmentRepository, SaleRepository saleRepository, SaleService saleService, UserService userService, ShipmentMapper shipmentMapper) {
+    public ShipmentService(ShipmentRepository shipmentRepository, SaleRepository saleRepository, UserService userService, ShipmentMapper shipmentMapper) {
         this.shipmentRepository = shipmentRepository;
-        this.saleService = saleService;
         this.userService = userService;
         this.shipmentMapper = shipmentMapper;
         this.saleRepository = saleRepository;
@@ -45,7 +43,6 @@ public class ShipmentService {
         return shipmentRepository.findById(id).orElse(null);
     }
 
-    @Transactional
     public Shipment save(ShipmentRequest shipmentRequest) {
         Sale sale = saleRepository.findById(shipmentRequest.sale()).orElse(null);
         User shipper = userService.findById(shipmentRequest.shipper());
@@ -62,15 +59,14 @@ public class ShipmentService {
     @Transactional
     public ResponseEntity<Object> delete(Integer id) {
         Optional<Shipment> shipment = shipmentRepository.findById(id);
-        saleRepository.setShipmentToNull(id);
         if (shipment.isPresent()){
+//            saleRepository.setShipmentToNull(id);
             shipmentRepository.deleteById(id);
             return ResponseEntity.ok("Deleted successfully");
         }
         return new ResponseEntity<>("Cannot delete undefined shipments" , HttpStatusCode.valueOf(404));
     }
 
-    @Transactional
     public void multipleDelete(List<Integer> ids){
         ids.forEach(this::delete);
     }

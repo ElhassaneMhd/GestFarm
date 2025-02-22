@@ -54,8 +54,8 @@ public class SaleService {
         sale.setName(saleRequest.name());
         sale.setAmount(saleRequest.amount());
         sale.setStatus(saleRequest.status());
-        saleRequest.sheep().forEach(id -> {
-            Sheep sheep = sheepService.find(id);
+        saleRequest.sheep().forEach(sp -> {
+            Sheep sheep = sheepService.find(sp.getId());
             sheep.setSale(sale);
             sheep.setStatus(SheepStatus.SOLD);
             sheepList.add(sheep);
@@ -65,33 +65,18 @@ public class SaleService {
         saleRepository.save(sale);
         return ResponseEntity.ok(sale);
     }
-
-    @Transactional
-    public ResponseEntity<Object> delete(Integer id) {
-        Sale sale = saleRepository.findById(id).orElse(null);
-        sheepRepository.setSaleToNull(id);
-        if (sale != null){
-            saleRepository.deleteById(id);
-            return ResponseEntity.ok("Deleted successfully");
-        }
-        return new ResponseEntity<>("Cannot delete undefined Sale" , HttpStatusCode.valueOf(404));
-    }
-
-    @Transactional
-    public void multipleDelete(List<Integer> ids){
-        ids.forEach(this::delete);
-    }
-
     @Transactional
     public ResponseEntity<Sale> update(Integer id ,SaleRequest request) {
         Sale sale = saleRepository.findById(id).orElse(null);
         if (sale != null ){
-//            modify old sheep
             if (request.sheep()!= null){
                 List<Sheep> sheepList= sale.getSheep();
-                sheepList.forEach(sp -> sp.setSale(null));
-                request.sheep().forEach(sheepId -> {
-                    Sheep sheep = sheepService.find(sheepId);
+                sheepList.forEach(sp -> {
+                    sp.setSale(null);
+                    sp.setStatus(SheepStatus.AVAILABLE);
+                });
+                request.sheep().forEach(sp -> {
+                    Sheep sheep = sheepService.find(sp.getId());
                     sheep.setSale(sale);
                     sheep.setStatus(SheepStatus.SOLD);
                     sheepList.add(sheep);
@@ -104,13 +89,21 @@ public class SaleService {
         return ResponseEntity.ok(sale);
     }
 
-    public boolean existsInSaleSheepList(Sale sale, Integer sheepId) {
-        for (Sheep sheep : sale.getSheep()) {
-            if (Objects.equals(sheep.getId(), sheepId)) {
-                return true;
-            }
+
+    @Transactional
+    public ResponseEntity<Object> delete(Integer id) {
+        Sale sale = saleRepository.findById(id).orElse(null);
+        sheepRepository.setSaleToNull(id);
+        if (sale != null){
+            saleRepository.deleteById(id);
+            return ResponseEntity.ok("Deleted successfully");
         }
-        return false;
+        return new ResponseEntity<>("Cannot delete undefined Sale" , HttpStatusCode.valueOf(404));
     }
+
+    public void multipleDelete(List<Integer> ids){
+        ids.forEach(this::delete);
+    }
+
 
 }
