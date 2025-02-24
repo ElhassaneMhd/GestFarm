@@ -50,12 +50,10 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
-
             <Route element={<AuthLayout />}>
               <Route path="login" index element={<Login />} />
               <Route path="register" element={<Register />} />
             </Route>
-
             <Route
               path="app"
               element={

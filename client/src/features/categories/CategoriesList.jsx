@@ -1,24 +1,25 @@
+import { useSearchParams } from "react-router-dom";
 import {
   useAddCategory,
   useCategories,
   useUpdateCategory,
   useDeleteCategory,
+  useMultipleDeleteCategory,
 } from "./useCategory";
-import { useTranslation } from "react-i18next";
-import { Heading } from "@/components/app/Heading";
 import { TableLayout } from "@/layouts/TableLayout";
 
 export function CategoriesList() {
+  const [searchParams] = useSearchParams();
+  const limit = searchParams.get("limit") || 10;
+  console.log(limit);
+
   const { categories, isLoading, error } = useCategories();
   const { mutate: addCategory } = useAddCategory();
   const { mutate: updateCategory } = useUpdateCategory();
   const { mutate: deleteCategory } = useDeleteCategory();
-  const { t } = useTranslation();
+  const { mutate: multipleDelete } = useMultipleDeleteCategory();
   return (
     <>
-      {/* <Heading count={categories?.length}>
-        {t("app.sidebar.categories")}
-      </Heading> */}
       <TableLayout
         data={categories || []}
         isLoading={isLoading}
@@ -68,7 +69,7 @@ export function CategoriesList() {
         selectedOptions={{
           deleteOptions: {
             resourceName: "Categories",
-            onConfirm: (ids) => console.log(ids),
+            onConfirm: (ids) => multipleDelete(ids),
           },
         }}
       />

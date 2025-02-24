@@ -5,6 +5,7 @@ import {
   getCategory,
   updateCategory,
   deleteCategory,
+  multipleDeleteCategory,
 } from "@/services/categoryAPI";
 import { useMutate } from "@/hooks/useMutate";
 
@@ -26,7 +27,7 @@ export function useCategory(id) {
     queryFn: () => getCategory(id),
   });
   return {
-    category: { id: data?._links.self.href.split("/").pop(), ...data },
+    category: data,
     error,
     isLoading: isPending,
   };
@@ -51,6 +52,14 @@ export const useDeleteCategory = () =>
   useMutate({
     queryKey: ["categories", "delete"],
     mutationFn: deleteCategory,
+    loadingMessage: "Deleting category...",
+    successMessage: "Category deleted successfully",
+  });
+
+export const useMultipleDeleteCategory = () =>
+  useMutate({
+    queryKey: ["categories", "delete"],
+    mutationFn: multipleDeleteCategory,
     loadingMessage: "Deleting category...",
     successMessage: "Category deleted successfully",
   });

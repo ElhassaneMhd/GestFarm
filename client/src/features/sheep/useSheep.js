@@ -31,7 +31,7 @@ export function useSheep(id) {
     queryFn: () => getSheep(id),
   });
   return {
-    sheep: { id: data?._links.self.href.split("/").pop(), ...data },
+    sheep: data ,
     error,
     isLoading: isPending,
   };

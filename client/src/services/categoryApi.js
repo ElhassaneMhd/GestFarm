@@ -8,13 +8,14 @@ export const getCategory = async (id) =>
 export const addCategory = async (data) =>
   await axiosFetch("api/categories", "POST", { ...data });
 
-export const updateCategory = async (data) =>console.log(data)
+export const updateCategory = async (data) =>
+  await axiosFetch(`api/categories/${data.data.id}`, "PUT", { ...data.data });
 
 export const deleteCategory = async (id) =>
   await axiosFetch(`api/categories/${id}`, "DELETE");
 
-export const deleteAllCategory = async (ids) =>
-  await axiosFetch(`api/categories/multiple/delete`, "POST", [...ids]);
+export const multipleDeleteCategory = async (ids) =>
+  await axiosFetch(`api/categories/delete/multiple`, "POST", [...ids]);
 
 export const getCategoryByField = async (field, value) =>
   await axiosFetch(`api/categories/search/${field}?${field}=${value}`);
