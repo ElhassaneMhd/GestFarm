@@ -26,8 +26,14 @@ public class CategoryController {
 
     @GetMapping()
     @PreAuthorize("hasPermission('READ_CATEGORIES')")
-    public ResponseEntity<Object> findAll() {
+    public ResponseEntity<Object> findAll(  ) {
         return ResponseEntity.ok(categoryService.findAll());
+    }
+
+    @GetMapping("/paginate")
+    @PreAuthorize("hasPermission('READ_CATEGORIES')")
+    public ResponseEntity<Object> paginate(@RequestParam int page ,@RequestParam int limit  ) {
+        return ResponseEntity.ok(categoryService.paginate(page,limit));
     }
 
     @PostMapping()
