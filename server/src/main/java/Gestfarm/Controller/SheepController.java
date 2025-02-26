@@ -1,11 +1,8 @@
 package Gestfarm.Controller;
 
 import Gestfarm.Dto.Request.SheepRequest;
-import Gestfarm.Model.Category;
 import Gestfarm.Model.Sheep;
-import Gestfarm.Service.CategoryService;
 import Gestfarm.Service.SheepService;
-import Gestfarm.Security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/sheep")
 public class SheepController {
+
     private final SheepService sheepService;
 
     @Autowired
@@ -24,10 +22,17 @@ public class SheepController {
         this.sheepService = sheepService;
     }
 
+
     @GetMapping()
     @PreAuthorize("hasPermission('READ_SHEEP')")
-    public ResponseEntity<Object> getAll() {
-        return ResponseEntity.ok(sheepService.findAll());
+    public ResponseEntity<Object> findAll( ) {
+        return ResponseEntity.ok(sheepService.getAll());
+    }
+
+    @GetMapping("/paginate")
+    @PreAuthorize("hasPermission('READ_SHEEP')")
+    public ResponseEntity<Object> paginate(@RequestParam int page ,@RequestParam int limit  ) {
+        return ResponseEntity.ok(sheepService.paginate(page,limit));
     }
 
     @PostMapping()
@@ -35,6 +40,7 @@ public class SheepController {
     public Sheep create(@RequestBody SheepRequest sheepRequest) {
         return  sheepService.save(sheepRequest);
     }
+
     @PreAuthorize("hasPermission('UPDATE_SHEEP')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody SheepRequest sheep) {

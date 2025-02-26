@@ -1,5 +1,7 @@
 package Gestfarm.Service;
 
+import Gestfarm.Dto.CategoryDTO;
+import Gestfarm.Dto.PaginateDTO;
 import Gestfarm.Dto.Request.SheepRequest;
 import Gestfarm.Dto.SheepDTO;
 import Gestfarm.Mapper.SheepMapper;
@@ -7,6 +9,9 @@ import Gestfarm.Model.Category;
 import Gestfarm.Model.Sheep;
 import Gestfarm.Repository.SheepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,12 +33,21 @@ public class SheepService {
         this.sheepMapper = sheepMapper;
         this.categoryService = categoryService;
     }
-
-    public List<SheepDTO> findAll() {
+    public List<SheepDTO> getAll(){
         List<Sheep> sheepList= sheepRepository.findAll();
         return sheepList.stream()
                 .map(sheepMapper::mapToDTO)
                 .toList();
+    }
+
+    public PaginateDTO<SheepDTO> paginate(int page, int limit) {
+        int total = (int) sheepRepository.count();
+        Pageable pageable = PageRequest.of(page-1, limit);
+        Page<Sheep> sheep= sheepRepository.findAll(pageable);
+        List<SheepDTO> sheepDTOS= sheep.stream()
+                    .map(sheepMapper::mapToDTO)
+                    .toList();
+        return new PaginateDTO<SheepDTO>(page,limit,total,sheepDTOS);
     }
 
     public Sheep find(Integer id) {
