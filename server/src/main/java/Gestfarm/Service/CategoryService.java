@@ -40,22 +40,27 @@ public class CategoryService {
     }
 
 
-    public ResponseEntity<Object> save(CategoryRequest req) {
-        Category newCategory = new Category();
-        newCategory.setName(req.name());
-        Category category = categoryRepository.save(newCategory);
-        if (!category.getName().isEmpty()){
+    public ResponseEntity<Object> save(CategoryRequest categoryRequest) {
+        Category category = new Category();
+        category.setName(categoryRequest.name());
+        category.setDescription(categoryRequest.description());
+        category.setPrice(categoryRequest.price());
+        category.setImage(categoryRequest.image());
+        Category savedCategory =categoryRepository.save(category);
+
+        if (!savedCategory.getName().isEmpty()){
             return ResponseEntity.ok(category);
         }
         return new ResponseEntity<>("Cannot create category without name " , HttpStatusCode.valueOf(404));
     }
 
     @Transactional
-    public Category update(int id,CategoryRequest req) {
+    public Category update(int id,CategoryRequest categoryRequest) {
         Category category = categoryRepository.findById(id);
-        if (req.name()!=null){
-            category.setName(req.name());
-        }
+        if (categoryRequest.name()!=null)category.setName(categoryRequest.name());
+        if (categoryRequest.description()!=null)category.setDescription(categoryRequest.description());
+        if (categoryRequest.price()!=null)category.setPrice(categoryRequest.price());
+        if (categoryRequest.image()!=null)category.setImage(categoryRequest.image());
         return categoryRepository.save(category);
     }
 

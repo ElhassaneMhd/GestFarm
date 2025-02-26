@@ -6,7 +6,6 @@ import Gestfarm.Dto.UserDTO;
 import Gestfarm.Mapper.UserMapper;
 import Gestfarm.Model.Role;
 import Gestfarm.Model.User;
-import Gestfarm.Model.User;
 import Gestfarm.Repository.RoleRepository;
 import Gestfarm.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {

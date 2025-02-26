@@ -1,13 +1,8 @@
 package Gestfarm.Mapper;
 
 import Gestfarm.Dto.CategoryDTO;
-import Gestfarm.Dto.SheepDTO;
 import Gestfarm.Model.Category;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class CategoryMapper {
@@ -16,6 +11,9 @@ public class CategoryMapper {
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setId(category.getId());
         categoryDTO.setName(category.getName());
+        categoryDTO.setDescription(category.getDescription());
+        categoryDTO.setPrice(category.getPrice());
+        categoryDTO.setImage(category.getImage());
         categoryDTO.setSheep(category.getSheep());
         return categoryDTO;
     }

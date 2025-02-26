@@ -1,7 +1,6 @@
 package Gestfarm.Model;
 
 import Gestfarm.Enum.SaleStatus;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -36,7 +35,6 @@ public class Sale {
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private List<Sheep> sheep;
 
-    @JoinColumn(nullable = true)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @OneToOne(mappedBy = "sale", cascade = CascadeType.ALL)
     @JsonIgnore

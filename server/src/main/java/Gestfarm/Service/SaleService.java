@@ -16,13 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class SaleService {
-
 
     private final SaleRepository saleRepository;
     private final SheepService sheepService;
@@ -43,13 +39,13 @@ public class SaleService {
 
     public SaleDTO findById(Integer id){
         Sale sale= saleRepository.findById(id).orElse(null);
-        return saleMapper.mapToDto(sale);
+        if (sale != null) return saleMapper.mapToDto(sale);
+        return null;
     }
 
 
     public ResponseEntity<Sale> save(SaleRequest saleRequest){
         ArrayList<Sheep> sheepList = new ArrayList<>();
-        Integer price=0;
         Sale sale = new Sale();
         sale.setName(saleRequest.name());
         sale.setAmount(saleRequest.amount());
@@ -65,6 +61,7 @@ public class SaleService {
         saleRepository.save(sale);
         return ResponseEntity.ok(sale);
     }
+
     @Transactional
     public ResponseEntity<Sale> update(Integer id ,SaleRequest request) {
         Sale sale = saleRepository.findById(id).orElse(null);

@@ -2,7 +2,6 @@ package Gestfarm.Model;
 
 import Gestfarm.Enum.SheepAge;
 import Gestfarm.Enum.SheepStatus;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,19 +27,18 @@ public class Sheep {
 
     @Column(unique = true)
     private Integer number;
-    private Integer price;
     private Integer weight;
     private SheepAge age;
     private SheepStatus status;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id", nullable = true)
+    @JoinColumn(name = "category_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private Category category;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sale_id", nullable = true)
+    @JoinColumn(name = "sale_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private Sale sale;

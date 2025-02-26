@@ -1,9 +1,7 @@
 package Gestfarm.Model;
 
 import Gestfarm.Enum.ShipmentStatus;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -38,13 +36,13 @@ public class Shipment {
     private Date shippingDate;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id", nullable = true)
+    @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private User shipper;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sale_id", nullable = true)
+    @JoinColumn(name = "sale_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private Sale sale;

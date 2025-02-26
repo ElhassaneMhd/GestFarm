@@ -1,8 +1,6 @@
 package Gestfarm.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
@@ -43,7 +41,7 @@ public class User {
     private Instant updatedAt;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "role_id", nullable = true)
+    @JoinColumn(name = "role_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private Role role;

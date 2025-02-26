@@ -27,7 +27,7 @@ public class Role {
     @JsonIgnore
     private List<User> user;
 
-    @ManyToMany(fetch = FetchType.EAGER) // Load permissions immediately with the role
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "roles_permissions",
             joinColumns = @JoinColumn(

@@ -11,6 +11,9 @@ import java.util.List;
 public class CategoryDTO {
     private Integer id;
     private String name;
+    private String description;
+    private Integer price ;
+    private String image ;
     private List<Sheep> sheep;
 
 }
