@@ -7,8 +7,9 @@ import {
 } from "./useSheep";
 import { useCategories } from "@/features/categories/useCategory";
 import { TableLayout } from "@/layouts/TableLayout";
-import { ChevronDown, Loader } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { DropDown, Button } from "@/components/ui";
+import { useNavigate } from "react-router-dom";
 
 export function SheepList() {
   const { sheep, error, isLoading } = useAllSheep();
@@ -98,14 +99,6 @@ export function SheepList() {
             required: true,
             customComponent: <CategoriesDropDown />,
           },
-
-          {
-            name: "price",
-            label: "Price (Dh)",
-            min: 0,
-            type: "number",
-            required: true,
-          },
           {
             name: "status",
             required: true,
@@ -128,7 +121,6 @@ export function SheepList() {
         ]}
         formDefaults={{
           number: 0,
-          price: 0,
           weight: 0,
           status: "UNLISTED",
           category: null,
@@ -157,7 +149,8 @@ export function SheepList() {
 }
 
 const CategoriesDropDown = ({ getValue, setValue }) => {
-  const { categories, error, isLoading } = useCategories();
+  const { categories } = useCategories();
+  const navigate = useNavigate();
   const categoryName = categories?.map((c) =>
     getValue("category") === c.id ? c.name : null
   );
@@ -181,20 +174,23 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
         }
         togglerClassName=" bg-background-secondary "
       >
-        {isLoading && <Loader className=" animate-spin m-auto " />}
-        {error && <p>{error}</p>}
-
-        {categories?.map((category) => (
-          <DropDown.Option
-            onClick={() => {
-              setValue("category", category.id);
-            }}
-            isCurrent={getValue("category") === category.id}
-            key={category.id}
-          >
-            {category.name}
+        {categories?.length == 0 && (
+          <DropDown.Option onClick={() => navigate("/app/categories")}>
+            any category available
           </DropDown.Option>
-        ))}
+        )}
+        {categories?.length > 0 &&
+          categories?.map((category) => (
+            <DropDown.Option
+              onClick={() => {
+                setValue("category", category.id);
+              }}
+              isCurrent={getValue("category") === category.id}
+              key={category.id}
+            >
+              {category.name}
+            </DropDown.Option>
+          ))}
       </DropDown>
     </div>
   );

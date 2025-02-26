@@ -28,9 +28,22 @@ export function CategoriesList() {
         columns={[
           {
             key: "name",
-            displayLabel: "Owner",
+            displayLabel: "Name",
             type: "string",
             visible: true,
+          },
+          {
+            key: "price",
+            displayLabel: "Price (Dh/kg)",
+            type: "number",
+            visible: true,
+          },
+          {
+            key: "description",
+            displayLabel: "Description",
+            type: "text",
+            visible: true,
+            format: (d) => (d?.length > 15 ? d.slice(0, 15) + "..." : d),
           },
           {
             key: "sheep",
@@ -50,6 +63,25 @@ export function CategoriesList() {
           {
             name: "name",
             label: "Name",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "description",
+            label: "Description",
+            type: "text",
+            required: true,
+          },
+          {
+            name: "price",
+            label: "Price (Dh/Kg)",
+            type: "number",
+            required: true,
+            min: 0,
+          },
+          {
+            name: "image",
+            label: "Image",
             type: "text",
             required: true,
           },
