@@ -7,6 +7,7 @@ import {
   updateSheep,
   deleteSheep,
   multipleDeleteSheep,
+  getPaginateSheep,
 } from "@/services/SheepAPI";
 import { formatEmbeddedData } from "@/utils/helpers";
 import { useMutate } from "@/hooks/useMutate";
@@ -18,8 +19,18 @@ export function useAllSheep() {
   });
   return {
     sheep: data,
-    links: data?._links,
-    page: data?.page,
+    error,
+    isLoading: isPending,
+  };
+}
+
+export function usePaginateSheep(page, limit) {
+  const { data, error, isPending } = useQuery({
+    queryKey: ["sheep",page,limit],
+    queryFn: () => getPaginateSheep(page, limit),
+  });
+  return {
+    sheep: data,
     error,
     isLoading: isPending,
   };
@@ -31,7 +42,7 @@ export function useSheep(id) {
     queryFn: () => getSheep(id),
   });
   return {
-    sheep: data ,
+    sheep: data,
     error,
     isLoading: isPending,
   };

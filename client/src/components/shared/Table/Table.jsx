@@ -51,7 +51,7 @@ export function Table({
           <p className="text-sm text-text-secondary">
             {data?.length === 0
               ? "There are currently no records to display in this table."
-              : "The page you&apos;re trying to access doesn&apos;t exist."}
+              : "The page you're trying to access doesn't exist."}
           </p>
         </div>
         {data?.length === 0 && newRecord && (

@@ -1,23 +1,25 @@
 import { useSearchParams } from "react-router-dom";
 import {
   useAddCategory,
-  useCategories,
   useUpdateCategory,
   useDeleteCategory,
   useMultipleDeleteCategory,
+  usePaginateCategories,
 } from "./useCategory";
 import { TableLayout } from "@/layouts/TableLayout";
 
 export function CategoriesList() {
   const [searchParams] = useSearchParams();
-  const limit = searchParams.get("limit") || 10;
-  console.log(limit);
+  const page = searchParams.get("page") || 1;
+  const limit = searchParams.get("limit") || 5;
 
-  const { categories, isLoading, error } = useCategories();
+  const { categories, isLoading, error } = usePaginateCategories(page, limit);
+
   const { mutate: addCategory } = useAddCategory();
   const { mutate: updateCategory } = useUpdateCategory();
   const { mutate: deleteCategory } = useDeleteCategory();
   const { mutate: multipleDelete } = useMultipleDeleteCategory();
+
   return (
     <>
       <TableLayout

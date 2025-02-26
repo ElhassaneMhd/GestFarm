@@ -58,7 +58,7 @@ export function Pagination({
               </DropDown.Option>
             }
           >
-            {[1,5, 10, 15, 20, 30].map((el) => (
+            {[1, 5, 10, 15, 20, 30].map((el) => (
               <DropDown.Option
                 key={el}
                 size="small"

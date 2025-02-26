@@ -1,18 +1,22 @@
 import {
   useAddSheep,
-  useAllSheep,
   useUpdateSheep,
   useDeleteSheep,
   useMultipleDeleteSheep,
+  usePaginateSheep,
 } from "./useSheep";
 import { useCategories } from "@/features/categories/useCategory";
 import { TableLayout } from "@/layouts/TableLayout";
 import { ChevronDown } from "lucide-react";
 import { DropDown, Button } from "@/components/ui";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export function SheepList() {
-  const { sheep, error, isLoading } = useAllSheep();
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page") || 1;
+  const limit = searchParams.get("limit") || 10;
+
+  const { sheep, error, isLoading } = usePaginateSheep(page, limit);
   const { mutate: addSheep } = useAddSheep();
   const { mutate: updateSheep } = useUpdateSheep();
   const { mutate: deleteSheep } = useDeleteSheep();
@@ -179,18 +183,20 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
             any category available
           </DropDown.Option>
         )}
-        {categories?.length > 0 &&
-          categories?.map((category) => (
-            <DropDown.Option
-              onClick={() => {
-                setValue("category", category.id);
-              }}
-              isCurrent={getValue("category") === category.id}
-              key={category.id}
-            >
-              {category.name}
-            </DropDown.Option>
-          ))}
+        <div className="h-min overflow-scroll">
+          {categories?.length > 0 &&
+            categories?.map((category) => (
+              <DropDown.Option
+                onClick={() => {
+                  setValue("category", category.id);
+                }}
+                isCurrent={getValue("category") === category.id}
+                key={category.id}
+              >
+                {category.name}
+              </DropDown.Option>
+            ))}
+        </div>
       </DropDown>
     </div>
   );

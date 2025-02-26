@@ -26,7 +26,6 @@ export function TableProvider({
   defaultSortBy = "id",
   defaultDirection = "desc",
   downloadOptions,
-  displayAllData,
 }) {
   const [hiddenColumns, setHiddenColumns] = useState(
     columns.filter((c) => !c.visible).map((c) => c.displayLabel)
@@ -68,12 +67,12 @@ export function TableProvider({
   });
 
   // Variables
-  const rows = data
+  const rows = data?.data
     ?.search(query, fieldsToSearch)
     .customFilter(filters, "AND")
     .customSort(sortBy, direction, columns);
 
-  const totalItems = data?.length;
+  const totalItems = data?.total;
   const totalPages = Math.ceil(totalItems / limit);
 
   const excludedFields = columns
@@ -148,24 +147,23 @@ export function TableProvider({
       return selected;
     });
   };
-
   // Context value
   const context = {
     // data
-    data,
+    data: data?.data,
     resourceName,
     isLoading,
     error,
     // table
     // tableColumns,
     columns,
-    rows: displayAllData ? rows : rows?.paginate(page, limit),
+    rows,
     hiddenColumns,
     disabled:
       isLoading ||
       error ||
-      data?.length === 0 ||
-      (page > totalPages && !query && !appliedFiltersNumber("all")),
+      data?.data?.length === 0 ||
+      (data?.page > totalPages && !query && !appliedFiltersNumber("all")),
     // Selection
     selected,
     isSelecting: selected.length > 0,

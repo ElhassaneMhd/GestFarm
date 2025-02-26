@@ -6,6 +6,7 @@ import {
   updateCategory,
   deleteCategory,
   multipleDeleteCategory,
+  getPaginateCategories,
 } from "@/services/categoryAPI";
 import { useMutate } from "@/hooks/useMutate";
 
@@ -13,6 +14,18 @@ export function useCategories() {
   const { data, error, isPending } = useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
+  });
+  return {
+    categories: data,
+    error,
+    isLoading: isPending,
+  };
+}
+
+export function usePaginateCategories(page, limit) {
+  const { data, error, isPending } = useQuery({
+    queryKey: ["categories", page, limit],
+    queryFn: () => getPaginateCategories(page, limit),
   });
   return {
     categories: data,

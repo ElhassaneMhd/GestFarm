@@ -1,6 +1,9 @@
 import { axiosFetch } from ".";
 
-export const getCategories = async () => await axiosFetch("api/categories");
+export const getCategories = async () => await axiosFetch(`api/categories`);
+
+export const getPaginateCategories = async (page, limit) =>
+  await axiosFetch(`api/categories/paginate?page=${page}&limit=${limit}`);
 
 export const getCategory = async (id) =>
   !id ? null : await axiosFetch(`api/categories/${id}`);

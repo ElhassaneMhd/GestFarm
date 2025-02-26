@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react";
 
 const defaultOptions = {
   theme: "light",
-  className: "max-h-[200px]",
+  className: "max-h-[200px] overflow-scroll",
   placement: "bottom-end",
   trigger: "click",
   shouldCloseOnClick: true,

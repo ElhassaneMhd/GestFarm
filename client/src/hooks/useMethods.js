@@ -64,23 +64,6 @@ Array.prototype.paginate = function (page, limit) {
   return this.slice(start, end);
 };
 
-// const constructFilterString = (filters) => {
-//   let filterString = "";
-
-//   Object.keys(filters).forEach((key) => {
-//     const checkedFilters = filters[key]
-//       .filter(({ checked }) => checked)
-//       .map(({ value }) => value)
-//       .join(",");
-
-//     if (checkedFilters)
-//       filterString = `${
-//         filterString ? filterString + "&" : ""
-//       }${key}=${checkedFilters}`;
-//   });
-
-//   return filterString;
-// };
 
 export const useMethods = ({
   defaultSortBy = 'id',
