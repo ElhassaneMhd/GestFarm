@@ -1,14 +1,20 @@
 package Gestfarm.Service;
 
+import Gestfarm.Dto.PaginateDTO;
 import Gestfarm.Dto.Request.SaleRequest;
 import Gestfarm.Dto.SaleDTO;
+import Gestfarm.Dto.ShipmentDTO;
 import Gestfarm.Enum.SheepStatus;
 import Gestfarm.Mapper.SaleMapper;
 import Gestfarm.Model.Sale;
 import Gestfarm.Model.Sheep;
+import Gestfarm.Model.Shipment;
 import Gestfarm.Repository.SaleRepository;
 import Gestfarm.Repository.SheepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,6 +43,15 @@ public class SaleService {
         return saleRepository.findAll();
     }
 
+    public PaginateDTO<SaleDTO> paginate(int page, int limit) {
+        int total = (int) saleRepository.count();
+        Pageable pageable = PageRequest.of(page-1, limit);
+        Page<Sale> sheep= saleRepository.findAll(pageable);
+        List<SaleDTO> SaleDTOS= sheep.stream()
+                .map(saleMapper::mapToDto)
+                .toList();
+        return new PaginateDTO<SaleDTO>(page,limit,total,SaleDTOS);
+    }
     public SaleDTO findById(Integer id){
         Sale sale= saleRepository.findById(id).orElse(null);
         if (sale != null) return saleMapper.mapToDto(sale);

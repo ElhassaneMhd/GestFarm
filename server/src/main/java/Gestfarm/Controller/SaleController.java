@@ -30,6 +30,12 @@ public class SaleController {
         return ResponseEntity.ok(saleService.findAll()) ;
     }
 
+    @GetMapping("/paginate")
+    @PreAuthorize("hasPermission('READ_SALES')")
+    public ResponseEntity<Object> paginate(@RequestParam int page ,@RequestParam int limit  ) {
+        return ResponseEntity.ok(saleService.paginate(page,limit));
+    }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasPermission('READ_SALES')")
     public ResponseEntity<SaleDTO> find(@PathVariable Integer id){

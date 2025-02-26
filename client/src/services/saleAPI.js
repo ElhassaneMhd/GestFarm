@@ -2,6 +2,9 @@ import { axiosFetch } from ".";
 
 export const getSales = async () => await axiosFetch("api/sales");
 
+export const getPaginateSales = async (page, limit) =>
+  await axiosFetch(`api/sales/paginate?page=${page}&limit=${limit}`);
+
 export const getSale = async (id) =>
   !id ? null : await axiosFetch(`api/sales/${id}`);
 

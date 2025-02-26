@@ -4,15 +4,20 @@ import {
   useAddSale,
   useMultipleDeleteSale,
   useDeleteSale,
-  useSales,
   useUpdateSale,
+  usePaginateSales,
 } from "./useSale";
 import { Button, CheckBox, DropDown } from "@/components/ui";
 import { useAllSheep } from "../sheep/useSheep";
 import { CostumDropDown } from "../sheep/SheepList";
+import { useSearchParams } from "react-router-dom";
 
 export function SalesList() {
-  const { sales, isLoading, error } = useSales();
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page") || 1;
+  const limit = searchParams.get("limit") || 10;
+
+  const { sales, isLoading, error } = usePaginateSales(page, limit);
   const { mutate: addSale } = useAddSale();
   const { mutate: updateSale } = useUpdateSale();
   const { mutate: deleteSale } = useDeleteSale();
@@ -50,7 +55,7 @@ export function SalesList() {
             displayLabel: "Status",
             visible: true,
             format: (status) => (
-              <span className=" capitalize">{status.toLowerCase()}</span>
+              <span className=" capitalize">{status?.toLowerCase()}</span>
             ),
           },
         ]}
