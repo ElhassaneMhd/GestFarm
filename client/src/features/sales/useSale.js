@@ -7,12 +7,24 @@ import {
   multipleDeleteSale,
   deleteSale,
   updateSale,
+  getPaginateSales,
 } from "../../services/saleAPI";
 
 export function useSales() {
   const { data, error, isPending } = useQuery({
     queryKey: ["sales"],
     queryFn: getSales,
+  });
+  return {
+    sales: data,
+    error,
+    isLoading: isPending,
+  };
+}
+export function usePaginateSales(page, limit) {
+  const { data, error, isPending } = useQuery({
+    queryKey: ["sales",page,limit],
+    queryFn: () => getPaginateSales(page, limit),
   });
   return {
     sales: data,

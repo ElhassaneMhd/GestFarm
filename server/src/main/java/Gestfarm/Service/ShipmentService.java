@@ -1,15 +1,21 @@
 package Gestfarm.Service;
 
+import Gestfarm.Dto.PaginateDTO;
 import Gestfarm.Dto.Request.ShipmentRequest;
+import Gestfarm.Dto.SheepDTO;
 import Gestfarm.Dto.ShipmentDTO;
 import Gestfarm.Mapper.ShipmentMapper;
 import Gestfarm.Model.Sale;
+import Gestfarm.Model.Sheep;
 import Gestfarm.Model.Shipment;
 import Gestfarm.Model.User;
 import Gestfarm.Repository.SaleRepository;
 import Gestfarm.Repository.ShipmentRepository;
 import Gestfarm.Security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -39,6 +45,17 @@ public class ShipmentService {
         List<Shipment> shipmentsList = shipmentRepository.findAll();
         return  shipmentsList.stream().map(shipmentMapper::mapToDto).toList();
     }
+
+    public PaginateDTO<ShipmentDTO> paginate(int page, int limit) {
+        int total = (int) shipmentRepository.count();
+        Pageable pageable = PageRequest.of(page-1, limit);
+        Page<Shipment> sheep= shipmentRepository.findAll(pageable);
+        List<ShipmentDTO> ShipmentDTOS= sheep.stream()
+                .map(shipmentMapper::mapToDto)
+                .toList();
+        return new PaginateDTO<ShipmentDTO>(page,limit,total,ShipmentDTOS);
+    }
+
     public Shipment find(Integer id) {
         return shipmentRepository.findById(id).orElse(null);
     }

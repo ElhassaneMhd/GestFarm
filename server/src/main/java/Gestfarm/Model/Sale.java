@@ -35,8 +35,8 @@ public class Sale {
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
     private List<Sheep> sheep;
 
-    @OnDelete(action = OnDeleteAction.SET_NULL)
     @OneToOne(mappedBy = "sale", cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private Shipment shipment;
 

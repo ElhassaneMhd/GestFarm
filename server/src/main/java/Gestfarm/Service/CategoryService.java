@@ -9,7 +9,6 @@ import Gestfarm.Repository.CategoryRepository;
 import Gestfarm.Repository.SheepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +49,8 @@ public class CategoryService {
     }
 
     public Category find(int id){
-        return categoryRepository.findById(id);
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
     }
 
 
@@ -61,26 +61,25 @@ public class CategoryService {
         category.setPrice(categoryRequest.price());
         category.setImage(categoryRequest.image());
         Category savedCategory =categoryRepository.save(category);
-
-        if (!savedCategory.getName().isEmpty()){
-            return ResponseEntity.ok(category);
-        }
-        return new ResponseEntity<>("Cannot create category without name " , HttpStatusCode.valueOf(404));
+        return ResponseEntity.ok(savedCategory);
     }
 
     @Transactional
-    public Category update(int id,CategoryRequest categoryRequest) {
-        Category category = categoryRepository.findById(id);
+    public ResponseEntity<Object> update(int id,CategoryRequest categoryRequest) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
         if (categoryRequest.name()!=null)category.setName(categoryRequest.name());
         if (categoryRequest.description()!=null)category.setDescription(categoryRequest.description());
         if (categoryRequest.price()!=null)category.setPrice(categoryRequest.price());
         if (categoryRequest.image()!=null)category.setImage(categoryRequest.image());
-        return categoryRepository.save(category);
+        categoryRepository.save(category);
+        return ResponseEntity.ok(category);
     }
 
     @Transactional
     public ResponseEntity<Object> delete(int id) {
-        Category category= categoryRepository.findById(id);
+        Category category= categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found"));
         sheepRepository.setCategoryToNull(id);
         categoryRepository.delete(category);
         return ResponseEntity.ok("Category deleted successfully");

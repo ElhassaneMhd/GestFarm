@@ -4,6 +4,7 @@ import Gestfarm.Dto.CategoryDTO;
 import Gestfarm.Dto.PaginateDTO;
 import Gestfarm.Dto.Request.SheepRequest;
 import Gestfarm.Dto.SheepDTO;
+import Gestfarm.Enum.SheepStatus;
 import Gestfarm.Mapper.SheepMapper;
 import Gestfarm.Model.Category;
 import Gestfarm.Model.Sheep;
@@ -71,12 +72,18 @@ public class SheepService {
     public Sheep update(Integer sheepId, SheepRequest sheepRequest) {
         Sheep sheep = sheepRepository.findById(sheepId)
                 .orElseThrow(() -> new RuntimeException("Sheep not found"));
-        Category category = categoryService.find(sheepRequest.category());
         if (sheepRequest.number() != null) sheep.setNumber(sheepRequest.number());
         if (sheepRequest.weight() != null) sheep.setWeight(sheepRequest.weight());
-        if (sheepRequest.status()!= null) sheep.setStatus(sheepRequest.status());
         if (sheepRequest.age() != null) sheep.setAge(sheepRequest.age());
-        if (category!= null) sheep.setCategory(category);
+        if (sheepRequest.status()!= null){
+            sheep.setStatus(sheepRequest.status());
+            sheep.setSale(null);
+        }
+        if (sheepRequest.category()!= null){
+            Category category = categoryService.find(sheepRequest.category());
+            sheep.setCategory(category);
+        }
+
         return sheepRepository.save(sheep);
     }
 
@@ -84,10 +91,15 @@ public class SheepService {
     public ResponseEntity<Object> delete(Integer id) {
         Optional<Sheep> sheep = sheepRepository.findById(id);
         if (sheep.isPresent()){
-            sheepRepository.deleteById(id);
-            return ResponseEntity.ok("Deleted successfully");
+            if (sheep.get().getStatus() == SheepStatus.SOLD){
+                return new ResponseEntity<>("Cannot delete sheep: This sheep has already been sold " , HttpStatusCode.valueOf(401));
+            }else{
+                sheep.get().setCategory(null);
+                sheepRepository.deleteById(id);
+                return ResponseEntity.ok("Deleted successfully");
+            }
         }
-        return new ResponseEntity<>("Cannot delete undefined Sheep" , HttpStatusCode.valueOf(404));
+        return new ResponseEntity<>("Cannot delete sheep: Undefined Sheep" , HttpStatusCode.valueOf(404));
     }
 
     public void multipleDelete(List<Integer> ids){

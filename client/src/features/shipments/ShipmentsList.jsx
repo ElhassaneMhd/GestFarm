@@ -1,8 +1,10 @@
 import { TableLayout } from "@/layouts/TableLayout";
 import {
-  useShipments,
   useAddShipment,
   useDeleteShipment,
+  usePaginateShipments,
+  useUpdateShipment,
+  useMultipleDeleteShipments,
 } from "./useShipments";
 import {
   Boxes,
@@ -17,24 +19,22 @@ import { Button, DropDown } from "@/components/ui";
 import { CostumDropDown } from "../sheep/SheepList";
 import { useSales } from "../sales/useSale";
 import { useShippers } from "../users/useUser";
+import { useSearchParams } from "react-router-dom";
 
 export function ShipmentsList() {
-  const { shipments, error, isLoading } = useShipments();
-  const { mutate: addShipment } = useAddShipment();
-  const { mutate: deleteShipment } = useDeleteShipment();
-  const status = ["PENDING", "DELIVERED", "CANCELLED"];
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page") || 1;
+  const limit = searchParams.get("limit") || 10;
 
-  const icons = {
-    pending: <Package size={16} />,
-    shipped: <Boxes size={16} />,
-    delivered: <PackageCheck size={16} />,
-    cancelled: <PackageX size={16} />,
-    returned: <PackageMinus size={16} />,
-  };
+  const { shipments, error, isLoading } = usePaginateShipments(page, limit);
+  const { mutate: addShipment } = useAddShipment();
+  const { mutate: updateShipment } = useUpdateShipment();
+  const { mutate: deleteShipment } = useDeleteShipment();
+  const { mutate: deleteMultipleShipment } = useMultipleDeleteShipments();
+  const status = ["PENDING", "DELIVERED", "CANCELLED"];
 
   return (
     <>
-      {/* <Heading count={shipments?.length}>{t("app.sidebar.shipments")}</Heading> */}
       <TableLayout
         data={shipments || []}
         isLoading={isLoading}
@@ -64,12 +64,7 @@ export function ShipmentsList() {
             displayLabel: "Status",
             type: "string",
             visible: true,
-            format: (status) => (
-              <div className={`${status.toLowerCase()} w-fit`}>
-                <span className="me-2 ">{status}</span>
-                {icons[status.toLowerCase()]}
-              </div>
-            ),
+            format: (status) => <StatusBar status={status} />,
           },
           {
             key: "shippingDate",
@@ -126,6 +121,7 @@ export function ShipmentsList() {
           pdfFileName: "Shipments",
         }}
         onAdd={addShipment}
+        onUpdate={updateShipment}
         onDelete={deleteShipment}
         layoutOptions={{
           displayNewRecord: true,
@@ -135,7 +131,7 @@ export function ShipmentsList() {
         selectedOptions={{
           deleteOptions: {
             resourceName: "shipment",
-            onConfirm: (ids) => console.log(ids),
+            onConfirm: (ids) => deleteMultipleShipment(ids),
           },
         }}
       />
@@ -239,3 +235,19 @@ export const ShippersDropDown = ({ setValue, getValue }) => {
     </div>
   );
 };
+
+function StatusBar({ status }) {
+  const icons = {
+    pending: <Package size={16} />,
+    shipped: <Boxes size={16} />,
+    delivered: <PackageCheck size={16} />,
+    cancelled: <PackageX size={16} />,
+    returned: <PackageMinus size={16} />,
+  };
+  return (
+    <div className={`${status.toLowerCase()} w-fit`}>
+      <span className="me-2 ">{status}</span>
+      {icons[status.toLowerCase()]}
+    </div>
+  );
+}

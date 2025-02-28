@@ -155,9 +155,9 @@ export function SheepList() {
 const CategoriesDropDown = ({ getValue, setValue }) => {
   const { categories } = useCategories();
   const navigate = useNavigate();
-  const categoryName = categories?.map((c) =>
-    getValue("category") === c.id ? c.name : null
-  );
+  const categoryName = categories?.map(
+    (c) => (getValue("category")?.id || getValue("category")) === c.id && c.name
+  )[0];
   return (
     <div className="flex flex-col space-y-2">
       <p className="text-sm font-medium text-text-tertiary">Category</p>
@@ -171,7 +171,7 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
             color="tertiary"
           >
             <span className="p-0.5 text-sm font-medium text-text-tertiary w-full text-start">
-              {categoryName ? categoryName : "Category"}
+              {typeof categoryName == "string" ? categoryName : "Category"}
             </span>
             <ChevronDown className="text-text-tertiary" />
           </Button>
@@ -190,7 +190,7 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
                 onClick={() => {
                   setValue("category", category.id);
                 }}
-                isCurrent={getValue("category") === category.id}
+                isCurrent={getValue("category")?.id === category.id}
                 key={category.id}
               >
                 {category.name}

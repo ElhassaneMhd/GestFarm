@@ -59,6 +59,7 @@ public class SaleService {
     }
 
 
+    @Transactional
     public ResponseEntity<Sale> save(SaleRequest saleRequest){
         ArrayList<Sheep> sheepList = new ArrayList<>();
         Sale sale = new Sale();

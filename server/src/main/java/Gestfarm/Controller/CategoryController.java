@@ -38,8 +38,8 @@ public class CategoryController {
 
     @PostMapping()
     @PreAuthorize("hasPermission('CREATE_CATEGORIES')")
-    public ResponseEntity<Object> create(@RequestBody CategoryRequest req){
-        return categoryService.save(req);
+    public ResponseEntity<Object> create(@RequestBody CategoryRequest categoryRequest){
+        return categoryService.save(categoryRequest);
     }
 
     @PutMapping("/{id}")

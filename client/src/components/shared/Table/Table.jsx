@@ -74,7 +74,6 @@ export function Table({
         cellPadding={3}
         className="w-full overflow-x-auto whitespace-nowrap text-left"
       >
-        <Skeleton table={table} />
         <thead className="sticky top-0 z-10 bg-background-secondary">
           <tr ref={parent}>
             {/* All Checkbox  visibility*/}
@@ -218,34 +217,3 @@ function Select({ id, checked, onChange }) {
   );
 }
 
-function Skeleton({ table }) {
-  const { columns, isLoading } = useTable();
-
-  if (!isLoading) return null;
-
-  const tableHeight = table.current?.getBoundingClientRect().height;
-  const skeletonHeight = 40;
-  const theadHeight = table.current
-    ?.querySelector("thead")
-    ?.getBoundingClientRect().height;
-
-  const length = Math.floor((tableHeight - theadHeight) / skeletonHeight);
-  return (
-    <tbody>
-      {Array.from({ length }).map((_, i) => (
-        <tr className="group animate-pulse" key={i}>
-          {columns
-            .filter((c) => c.visible)
-            .map(({ displayLabel }) => (
-              <td key={displayLabel}>
-                <div className="rounded-md bg-background-secondary px-6 py-4 group-first:first:mt-0.5"></div>
-              </td>
-            ))}
-          <td>
-            <div className="rounded-md bg-background-secondary px-6 py-4"></div>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  );
-}

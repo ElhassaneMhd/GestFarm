@@ -73,6 +73,6 @@ export const useMultipleDeleteCategory = () =>
   useMutate({
     queryKey: ["categories", "delete"],
     mutationFn: multipleDeleteCategory,
-    loadingMessage: "Deleting category...",
-    successMessage: "Category deleted successfully",
+    loadingMessage: "Deleting multiple categories...",
+    successMessage: "Multiple Categories deleted successfully",
   });

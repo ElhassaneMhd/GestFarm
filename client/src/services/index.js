@@ -8,7 +8,7 @@ axiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
     config.headers["Authorization"] = `Bearer ${token}`;
-}
+  }
   return config;
 });
 
@@ -26,9 +26,17 @@ export const axiosFetch = async (resource, method, data, headers) => {
     });
     return response.data;
   } catch (e) {
-    throw Error(
-      e.response?.status === 404 ? "Not found" : getAxiosErrorMessage(e.code)
-    );
+    console.log(e);
+    console.log(typeof e.response.data);
+    if (typeof e?.response?.data == "string") {
+      throw Error(e?.response?.data);
+    } else if (typeof e.response?.data?.message == "string") {
+      throw Error(e.response?.data?.message);
+    } else {
+      throw Error(
+        e.response?.status === 404 ? "Not found" : getAxiosErrorMessage(e?.code)
+      );
+    }
   }
 };
 

@@ -56,7 +56,7 @@ export function CategoriesList() {
           },
           {
             key: "sheep",
-            displayLabel: "Status",
+            displayLabel: "Sheep",
             visible: true,
             format: (sheep) => <CategorySheepStatus sheep={sheep} />,
           },

@@ -27,6 +27,12 @@ public class ShipmentController {
         return ResponseEntity.ok(shipmentService.findAll());
     }
 
+    @GetMapping("/paginate")
+    @PreAuthorize("hasPermission('READ_SHIPPMENT')")
+    public ResponseEntity<Object> paginate(@RequestParam int page ,@RequestParam int limit  ) {
+        return ResponseEntity.ok(shipmentService.paginate(page,limit));
+    }
+
     @PostMapping()
     @PreAuthorize("hasPermission('CREATE_SHIPPMENT')")
     public Shipment create(@RequestBody ShipmentRequest shipment) {

@@ -38,19 +38,20 @@ export default function Sidebar() {
     return () => window.removeEventListener("resize", onresize);
   }, [isExpanded]);
 
+  const size = isExpanded ? 18 : 20;
   const sideBarElements = [
-    { name: "overview", icon: <Home size={isExpanded ? 18 : 20} /> },
+    { name: "overview", icon: <Home size={size} /> },
     {
       name: "sheep",
       icon: <Sheep size={`${isExpanded ? "xs" : "xs"}`} />,
     },
     {
       name: "categories",
-      icon: <ChartNoAxesGantt size={isExpanded ? 18 : 20} />,
+      icon: <ChartNoAxesGantt size={size} />,
     },
-    { name: "sales", icon: <BadgeDollarSign size={isExpanded ? 18 : 20} /> },
-    { name: "shipments", icon: <Truck size={isExpanded ? 18 : 20} /> },
-    { name: "users", icon: <Users2 size={isExpanded ? 18 : 20} /> },
+    { name: "sales", icon: <BadgeDollarSign size={size} /> },
+    { name: "shipments", icon: <Truck size={size} /> },
+    { name: "users", icon: <Users2 size={size} /> },
   ];
 
   return (

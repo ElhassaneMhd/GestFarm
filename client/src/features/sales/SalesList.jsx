@@ -10,7 +10,7 @@ import {
 import { Button, CheckBox, DropDown } from "@/components/ui";
 import { useAllSheep } from "../sheep/useSheep";
 import { CostumDropDown } from "../sheep/SheepList";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 export function SalesList() {
   const [searchParams] = useSearchParams();
@@ -39,7 +39,7 @@ export function SalesList() {
           },
           {
             key: "amount",
-            displayLabel: "Amount",
+            displayLabel: "Amount (Dh)",
             type: "number",
             visible: true,
             format: (amount) => `${amount} Dh`,
@@ -62,7 +62,7 @@ export function SalesList() {
         formFields={[
           {
             name: "name",
-            label: "Name",
+            label: "Client",
             type: "text",
             required: true,
           },
@@ -83,7 +83,7 @@ export function SalesList() {
             customComponent: <SheepDropDown />,
           },
         ]}
-        fieldsToSearch={["name"]}
+        fieldsToSearch={["client"]}
         downloadOptions={{
           pdfFileName: "Sales",
         }}
@@ -108,6 +108,7 @@ export function SalesList() {
 
 export const SheepDropDown = ({ setValue, getValue }) => {
   const { sheep } = useAllSheep();
+  const navigate = useNavigate();
   let availableSheep = sheep?.filter(
     (sp) =>
       sp?.status?.toLowerCase() === "available" ||
@@ -139,11 +140,16 @@ export const SheepDropDown = ({ setValue, getValue }) => {
         }
         togglerClassName="text-text-tertiary bg-background-secondary"
       >
+        {availableSheep?.length == 0 && (
+          <DropDown.Option onClick={() => navigate("/app/sheep")}>
+            0 available sheep !!!
+          </DropDown.Option>
+        )}
         {availableSheep?.map((sheep) => (
           <div key={sheep.id} className="flex flex-col gap-1">
             <div className="flex  gap-1 text-text-tertiary p-1">
               <span className="w-full text-sm text-text-tertiary">
-                {sheep?.number} | {sheep?.category?.name}
+                {sheep?.category?.name}| {sheep?.number}
               </span>
               <CheckBox
                 checked={oldSheep?.map((e) => e.id)?.includes(sheep.id)}
