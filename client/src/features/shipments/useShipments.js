@@ -49,16 +49,16 @@ export const useAddShipment = () =>
   useMutate({
     queryKey: ["shipments", "add"],
     mutationFn: addShipment,
-    loadingMessage: "Adding shipments...",
-    successMessage: "shipments added successfully",
+    loadingMessage: "Adding shipment...",
+    successMessage: "shipment added successfully",
   });
 
 export const useUpdateShipment = () =>
   useMutate({
     queryKey: ["shipments", "update"],
     mutationFn: updateShipment,
-    loadingMessage: "Updating shipments...",
-    successMessage: "shipments updated successfully",
+    loadingMessage: "Updating shipment...",
+    successMessage: "shipment updated successfully",
   });
 
 export const useDeleteShipment = () =>
@@ -66,7 +66,7 @@ export const useDeleteShipment = () =>
     queryKey: ["shipments", "delete"],
     mutationFn: deleteShipment,
     loadingMessage: "Deleting Shipment...",
-    successMessage: "Shipments deleted successfully",
+    successMessage: "Shipment deleted successfully",
   });
 
 export const useMultipleDeleteShipments = () =>

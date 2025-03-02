@@ -14,8 +14,8 @@ export const addShipment = async (data) =>
 export const updateShipment = async (data) =>
   await axiosFetch(`api/shipments/${data.data.id}`, "PUT", { ...data.data });
 
-export const deleteShipment = async (data) =>
-  await axiosFetch(`api/shipments/${data.data.id}`, "DELETE");
+export const deleteShipment = async (id) =>
+  await axiosFetch(`api/shipments/${id}`, "DELETE");
 
 export const multipleDeleteShipment = async (ids) =>
   await axiosFetch(`api/shipments/delete/multiple`, "POST", [...ids]);
