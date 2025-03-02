@@ -64,7 +64,10 @@ export function Pagination({
                 size="small"
                 className="justify-center"
                 isCurrent={el === limit}
-                onClick={() => onChangeLimit(el)}
+                onClick={() => {
+                  onPaginate(1);
+                  onChangeLimit(el);
+                }}
               >
                 {el}
               </DropDown.Option>

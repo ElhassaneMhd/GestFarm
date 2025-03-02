@@ -1,4 +1,9 @@
-import { ChevronDown } from "lucide-react";
+import {
+  BadgeCheck,
+  BadgeInfo,
+  BadgeX,
+  ChevronDown,
+} from "lucide-react";
 import { TableLayout } from "@/layouts/TableLayout";
 import {
   useAddSale,
@@ -54,9 +59,7 @@ export function SalesList() {
             key: "status",
             displayLabel: "Status",
             visible: true,
-            format: (status) => (
-              <span className=" capitalize">{status?.toLowerCase()}</span>
-            ),
+            format: (status) => <StatusBar status={status} />,
           },
         ]}
         formFields={[
@@ -171,3 +174,17 @@ export const SheepDropDown = ({ setValue, getValue }) => {
     </div>
   );
 };
+
+function StatusBar({ status }) {
+  const icons = {
+    partially: <BadgeInfo size={16} />,
+    paid: <BadgeCheck size={16} />,
+    cancelled: <BadgeX size={16} />,
+  };
+  return (
+    <div className={`${status.toLowerCase()} w-fit`}>
+      <span className="me-2 ">{status}</span>
+      {icons[status.toLowerCase()]}
+    </div>
+  );
+}

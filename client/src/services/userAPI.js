@@ -4,15 +4,27 @@ import { axiosFetch } from ".";
 export const getAllUsers = async () => await axiosFetch("api/users");
 export const getShippers = async () => await axiosFetch("api/users/shippers");
 
+export const getPaginateUsers = async (page, limit) =>
+  await axiosFetch(`api/users/paginate?page=${page}&limit=${limit}`);
+
 export const getUser = async () => await axiosFetch("user", "GET");
 
 export const getUserById = async (id) => await axiosFetch(`users/${id}`);
 
+export const addUser = async (data) =>
+  await axiosFetch("api/users", "POST", { ...data });
+
+export const updateUser = async (data) =>
+  await axiosFetch(`api/users/${data.data.id}`, "PUT", { ...data.data });
+
 export const deleteUser = async (id) =>
   await axiosFetch(`api/users/${id}`, "DELETE");
 
-export const deleteUsers = async (ids) =>
-  await axiosFetch(`api/users/delete/multiple`, "POST", { ids });
+
+export const multipleDeleteUsers = async (ids) =>
+  await axiosFetch(`api/users/delete/multiple`, "POST", [...ids]);
+
+
 
 // Auth
 export const login = async (username, password) => {

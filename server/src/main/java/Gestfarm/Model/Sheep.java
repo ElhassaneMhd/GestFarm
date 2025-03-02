@@ -31,13 +31,13 @@ public class Sheep {
     private SheepAge age;
     private SheepStatus status;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "category_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private Category category;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "sale_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore

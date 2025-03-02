@@ -22,36 +22,36 @@ public class ShipmentController {
     }
 
     @GetMapping()
-    @PreAuthorize("hasPermission('READ_SHIPPMENT')")
+    @PreAuthorize("hasPermission('READ_SHIPMENTS')")
     public ResponseEntity<Object> getAll() {
         return ResponseEntity.ok(shipmentService.findAll());
     }
 
     @GetMapping("/paginate")
-    @PreAuthorize("hasPermission('READ_SHIPPMENT')")
+    @PreAuthorize("hasPermission('READ_SHIPMENTS')")
     public ResponseEntity<Object> paginate(@RequestParam int page ,@RequestParam int limit  ) {
         return ResponseEntity.ok(shipmentService.paginate(page,limit));
     }
 
     @PostMapping()
-    @PreAuthorize("hasPermission('CREATE_SHIPPMENT')")
+    @PreAuthorize("hasPermission('CREATE_SHIPMENTS')")
     public Shipment create(@RequestBody ShipmentRequest shipment) {
        return shipmentService.save(shipment);
     }
 
     @PutMapping()
-    @PreAuthorize("hasPermission('UPDATE_SHIPPMENT')")
+    @PreAuthorize("hasPermission('UPDATE_SHIPMENTS')")
     public Shipment update(@RequestBody ShipmentRequest shipment) {
         return null;
     }
 
-    @PreAuthorize("hasPermission('DELETE_SHIPPMENT')")
+    @PreAuthorize("hasPermission('DELETE_SHIPMENTS')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Integer id){
         return  shipmentService.delete(id);
     }
 
-    @PreAuthorize("hasPermission('DELETE_SHIPPMENT')")
+    @PreAuthorize("hasPermission('DELETE_SHIPMENTS')")
     @PostMapping("/delete/multiple")
     public void multipleDelete(@RequestBody List<Integer> ids) {
         shipmentService.multipleDelete(ids);

@@ -90,7 +90,7 @@ export function Actions({ onUpdate, onDelete, row, actions }) {
       })()}
     >
       {getActions()
-        .filter((action) => !action.hidden?.(row))
+        .filter((action) => !action?.hidden?.(row))
         .map((action) => (
           <DropDown.Option
             key={action.text}

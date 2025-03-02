@@ -159,11 +159,11 @@
     text-orientation:mixed;
 }
 
-.pending {
+.pending, .partially {
     @apply bg-yellow-100 text-yellow-600 p-2 rounded-lg text-sm flex gap-1 items-center;
 }
 
-.delivered {
+.delivered, .paid {
     @apply bg-[#e5f5e0] text-green-600 p-2 rounded-lg text-sm flex gap-1 items-center;
 }
 

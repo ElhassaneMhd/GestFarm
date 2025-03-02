@@ -75,10 +75,11 @@ public class ShipmentService {
 
     @Transactional
     public ResponseEntity<Object> delete(Integer id) {
-        Optional<Shipment> shipment = shipmentRepository.findById(id);
-        if (shipment.isPresent()){
-//            saleRepository.setShipmentToNull(id);
-            shipmentRepository.deleteById(id);
+        Shipment shipment = shipmentRepository.findById(id).orElse(null);
+        if (shipment != null){
+            shipment.setSale(null);
+            shipment.setShipper(null);
+            shipmentRepository.delete(shipment);
             return ResponseEntity.ok("Deleted successfully");
         }
         return new ResponseEntity<>("Cannot delete undefined shipments" , HttpStatusCode.valueOf(404));

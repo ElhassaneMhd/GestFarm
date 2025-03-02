@@ -40,13 +40,15 @@ public class User {
     @LastModifiedDate
     private Instant updatedAt;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "role_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private Role role;
 
     @OneToMany(mappedBy = "shipper", cascade = CascadeType.PERSIST)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private List<Shipment> shipments;
+
 }

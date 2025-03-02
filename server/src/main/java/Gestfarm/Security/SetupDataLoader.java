@@ -24,7 +24,6 @@ public class SetupDataLoader implements
     boolean alreadySetup = false;
 
     private final UserRepository userRepository;
-    private final UserService userService;
     private final RoleRepository roleRepository;
     private final PermissionRepository permissionRepository;
     private final PasswordEncoder passwordEncoder;
@@ -32,13 +31,11 @@ public class SetupDataLoader implements
     @Autowired
     public SetupDataLoader(
             UserRepository userRepository,
-            UserService userService,
             RoleRepository roleRepository,
             PermissionRepository permissionRepository,
             PasswordEncoder passwordEncoder
     ) {
         this.userRepository = userRepository;
-        this.userService = userService;
         this.roleRepository = roleRepository;
         this.permissionRepository = permissionRepository;
         this.passwordEncoder = passwordEncoder;
@@ -83,12 +80,12 @@ public class SetupDataLoader implements
 
             User user = new User();
             user.setUsername(username);
-            user.setPassword(passwordEncoder.encode("password123")); // Default password
-            user.setEmail(username + "@gmail.com"); // Auto-generate email
-            user.setPhone("06665555"+role.getId()); // Default phone
+            user.setPassword(passwordEncoder.encode("password123"));
+            user.setEmail(username + "@gmail.com");
+            user.setPhone("06665555"+role.getId());
             user.setRole(role);
 
-            if (!userService.checkIfExists(user)) {
+            if (!userRepository.existsByUsernameOrEmailOrPhone(user.getUsername(),user.getEmail(),user.getPhone())) {
                 userRepository.save(user);
             }
         });

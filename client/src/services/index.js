@@ -27,8 +27,9 @@ export const axiosFetch = async (resource, method, data, headers) => {
     return response.data;
   } catch (e) {
     console.log(e);
-    console.log(typeof e.response.data);
-    if (typeof e?.response?.data == "string") {
+    if (e.response === null) {
+      throw Error(e?.message);
+    } else if (typeof e?.response?.data == "string") {
       throw Error(e?.response?.data);
     } else if (typeof e.response?.data?.message == "string") {
       throw Error(e.response?.data?.message);

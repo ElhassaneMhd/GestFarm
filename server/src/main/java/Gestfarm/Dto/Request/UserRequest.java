@@ -1,13 +1,14 @@
 package Gestfarm.Dto.Request;
 
-// RegistrationRequestDto.java
-public record RegistrationRequest(
+import Gestfarm.Enum.RoleType;
+
+public record UserRequest(
         String username,
         String email,
         String password,
         String phone,
         String passwordConfirmation,
-        String role
+        RoleType role
 ) {
 
 }

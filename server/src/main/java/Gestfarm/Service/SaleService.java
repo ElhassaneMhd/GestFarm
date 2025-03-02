@@ -3,12 +3,10 @@ package Gestfarm.Service;
 import Gestfarm.Dto.PaginateDTO;
 import Gestfarm.Dto.Request.SaleRequest;
 import Gestfarm.Dto.SaleDTO;
-import Gestfarm.Dto.ShipmentDTO;
 import Gestfarm.Enum.SheepStatus;
 import Gestfarm.Mapper.SaleMapper;
 import Gestfarm.Model.Sale;
 import Gestfarm.Model.Sheep;
-import Gestfarm.Model.Shipment;
 import Gestfarm.Repository.SaleRepository;
 import Gestfarm.Repository.SheepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,9 +104,9 @@ public class SaleService {
     @Transactional
     public ResponseEntity<Object> delete(Integer id) {
         Sale sale = saleRepository.findById(id).orElse(null);
-        sheepRepository.setSaleToNull(id);
         if (sale != null){
-            saleRepository.deleteById(id);
+            sheepRepository.setSaleToNull(id);
+            saleRepository.delete(sale);
             return ResponseEntity.ok("Deleted successfully");
         }
         return new ResponseEntity<>("Cannot delete undefined Sale" , HttpStatusCode.valueOf(404));

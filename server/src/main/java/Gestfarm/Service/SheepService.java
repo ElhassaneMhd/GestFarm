@@ -1,6 +1,5 @@
 package Gestfarm.Service;
 
-import Gestfarm.Dto.CategoryDTO;
 import Gestfarm.Dto.PaginateDTO;
 import Gestfarm.Dto.Request.SheepRequest;
 import Gestfarm.Dto.SheepDTO;
@@ -83,7 +82,6 @@ public class SheepService {
             Category category = categoryService.find(sheepRequest.category());
             sheep.setCategory(category);
         }
-
         return sheepRepository.save(sheep);
     }
 
@@ -94,7 +92,6 @@ public class SheepService {
             if (sheep.get().getStatus() == SheepStatus.SOLD){
                 return new ResponseEntity<>("Cannot delete sheep: This sheep has already been sold " , HttpStatusCode.valueOf(401));
             }else{
-                sheep.get().setCategory(null);
                 sheepRepository.deleteById(id);
                 return ResponseEntity.ok("Deleted successfully");
             }

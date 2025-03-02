@@ -1,6 +1,6 @@
 package Gestfarm.Controller;
 
-import Gestfarm.Dto.Request.RegistrationRequest;
+import Gestfarm.Dto.Request.UserRequest;
 import Gestfarm.Dto.Response.RegisterResponse;
 import Gestfarm.Dto.UserDTO;
 import Gestfarm.Mapper.UserMapper;
@@ -43,8 +43,8 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(
-            @RequestBody RegistrationRequest registrationDTO) {
-        RegisterResponse res = userService.register(registrationDTO);
+            @RequestBody UserRequest userRequest) {
+        RegisterResponse res = userService.register(userRequest);
         if (res.getStatus()){
             return  ResponseEntity.ok(res.getToken());
         }

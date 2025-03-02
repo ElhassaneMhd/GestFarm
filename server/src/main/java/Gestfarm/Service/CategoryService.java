@@ -80,7 +80,7 @@ public class CategoryService {
     public ResponseEntity<Object> delete(int id) {
         Category category= categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found"));
-        sheepRepository.setCategoryToNull(id);
+//        sheepRepository.setCategoryToNull(id);
         categoryRepository.delete(category);
         return ResponseEntity.ok("Category deleted successfully");
     }

@@ -64,9 +64,9 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login","/register","/error").permitAll()
-                        .requestMatchers("/users/**").hasRole("ADMIN")
-                        .requestMatchers("api/sheep/**").hasRole("FARMER")
+                        .requestMatchers("/login","/register","/error","/api/public/**").permitAll()
+                        .requestMatchers("/api/users/**").hasRole("ADMIN")
+                        .requestMatchers("/api/sheep/**").hasRole("FARMER")
                         .requestMatchers("/api/categories/**").hasRole("FARMER" )
                         .requestMatchers("/api/sales/**").hasRole("FARMER")
                         .requestMatchers("/api/shipments/**").hasRole("SHIPPER")

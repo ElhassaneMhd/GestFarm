@@ -1,14 +1,19 @@
 package Gestfarm.Security;
 
-import Gestfarm.Dto.Request.RegistrationRequest;
+import Gestfarm.Dto.PaginateDTO;
+import Gestfarm.Dto.Request.UserRequest;
 import Gestfarm.Dto.Response.RegisterResponse;
 import Gestfarm.Dto.UserDTO;
 import Gestfarm.Mapper.UserMapper;
 import Gestfarm.Model.Role;
+import Gestfarm.Model.Shipment;
 import Gestfarm.Model.User;
 import Gestfarm.Repository.RoleRepository;
 import Gestfarm.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -46,10 +51,17 @@ public class UserService {
         this.userRepository=userRepository;
     }
 
-    public List<UserDTO>  findAll() {
+    public List<UserDTO> findAll(){
         Role role = roleRepository.findByName("ROLE_ADMIN");
-        List<User> usersList = userRepository.findUsersByRoleNot(role);
-        return usersList.stream().map(userMapper::mapToDto).toList();
+        List<User> userList= userRepository.findUsersByRoleNot(role);
+        return  userList.stream().map(userMapper::mapToDto).toList();
+    }
+    public PaginateDTO<UserDTO> paginate(int page,int limit) {
+        Pageable pageable = PageRequest.of(page-1, limit);
+        Page<User> usersList= userRepository.findNonAdminUsers(pageable);
+        int total =(int) usersList.getTotalElements();
+        List<UserDTO> users = usersList.stream().map(userMapper::mapToDto).toList();
+        return new PaginateDTO<>(page,limit,total,users);
     }
 
     public User findById(Integer id){
@@ -61,11 +73,29 @@ public class UserService {
         return shippersList.stream().map(userMapper::mapToShipper).toList();
     }
 
-    public Boolean checkIfExists(User user){
-        return userRepository.existsByPhone(user.getPhone()) ||
-                userRepository.existsByUsername(user.getUsername()) ||
-                userRepository.existsByEmail(user.getEmail());
+    public ResponseEntity<Object> save(UserRequest request) {
+        System.out.println(request);
+        if (userRepository.existsByUsername(request.username())) {
+            return new ResponseEntity<>("Username is already taken", HttpStatusCode.valueOf(401));
+        } else if (userRepository.existsByEmail(request.email())) {
+            return new ResponseEntity<>("Email is already taken", HttpStatusCode.valueOf(401));
+        } else if (!request.password().equals(request.passwordConfirmation())) {
+            return new ResponseEntity<>("Passwords doesn't not match", HttpStatusCode.valueOf(401));
+        } else if (userRepository.existsByPhone(request.phone())) {
+            return new ResponseEntity<>("Phone number is already in use", HttpStatusCode.valueOf(401));
+        }else {
+            User user = new User();
+            Role role = roleRepository.findByName("ROLE_"+request.role());
+            user.setRole(role);
+            user.setUsername(request.username());
+            user.setEmail(request.email());
+            user.setPhone(request.phone());
+            user.setPassword(passwordEncoder.encode(request.password()));
+            User savedUser = userRepository.save(user);
+            return ResponseEntity.ok(savedUser);
+        }
     }
+
 
     public ResponseEntity<String> verify(User user) {
 
@@ -80,7 +110,7 @@ public class UserService {
     }
 
     @Transactional
-    public RegisterResponse  register(RegistrationRequest request)  {
+    public RegisterResponse  register(UserRequest request)  {
         RegisterResponse rep = new RegisterResponse();
         rep.setStatus(false);
         Role role = roleRepository.findByName("ROLE_USER");
@@ -95,17 +125,16 @@ public class UserService {
         }
 
         if (!request.password().equals(request.passwordConfirmation())) {
-            rep.setMessage("Passwords do not match");
+            rep.setMessage("Passwords doesn't not match");
             return rep;
         }
-
         if (userRepository.existsByPhone(request.phone())) {
             rep.setMessage("Phone number is already in use");
             return rep;
         }
 
-        if (roleRepository.existsByName("ROLE_"+request.role())){
-             role = roleRepository.findByName("ROLE_"+request.role());
+        if (roleRepository.existsByName(String.valueOf(request.role()))){
+            role = roleRepository.findByName("ROLE_"+request.role());
         }
         User user = new User();
         user.setUsername(request.username());
@@ -114,6 +143,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.password()));
         user.setRole(role);
         User savedUser = userRepository.save(user);
+
 
         String token = jwtService.generateToken(savedUser);
         rep.setStatus(true);
@@ -126,6 +156,8 @@ public class UserService {
     public ResponseEntity<Object> delete(Integer id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()){
+            List<Shipment> shipments= user.get().getShipments();
+            shipments.forEach(shipment -> shipment.setShipper(null));
             userRepository.deleteById(id);
             return ResponseEntity.ok("Deleted successfully");
         }

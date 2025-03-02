@@ -22,7 +22,9 @@ public class ShipmentMapper {
         shipmentDTO.setStatus(shipment.getStatus());
         shipmentDTO.setShippingDate(shipment.getShippingDate());
         shipmentDTO.setSale(shipment.getSale());
-        shipmentDTO.setShipper(userMapper.mapToShipper(shipment.getShipper()));
+        if (shipment.getShipper() != null){
+            shipmentDTO.setShipper(userMapper.mapToShipper(shipment.getShipper()));
+        }
         return shipmentDTO;
     }
 }

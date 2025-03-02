@@ -35,8 +35,8 @@ public class Shipment {
     @Column(name = "shipping_date", nullable = false)
     private Date shippingDate;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",nullable = true)
+    @ManyToOne(cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private User shipper;
