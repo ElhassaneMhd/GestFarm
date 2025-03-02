@@ -71,7 +71,7 @@ export const useDeleteShipment = () =>
 
 export const useMultipleDeleteShipments = () =>
   useMutate({
-    queryKey: ["shipments", "delete"],
+    queryKey: ["shipments", "multiple", "delete"],
     mutationFn: multipleDeleteShipment,
     loadingMessage: "Deleting multiple shipments...",
     successMessage: "multiple shipments deleted successfully",

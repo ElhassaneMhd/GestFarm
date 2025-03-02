@@ -140,7 +140,6 @@ export function ShipmentsList() {
 }
 export const SalesDropDown = ({ setValue, getValue }) => {
   const { sales } = useSales();
-  console.log(sales);
   const pendingSales = sales?.filter(
     (sale) =>
       !["DELIVERED", "CANCELLED"].includes(sale?.status?.toLowerCase()) &&

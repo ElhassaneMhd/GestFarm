@@ -1,13 +1,10 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
-import { Button, DropDown } from "../../ui";
+import { Button } from "../../ui";
 import { useTable } from "./useTable";
-import { useIsMutating } from "@tanstack/react-query";
-import { ArrowDownToLine, ChevronRight, File, FileCheck2, FileDown, Files } from "lucide-react";
+import { ArrowDownToLine } from "lucide-react";
 
-
-
-const exportAsPdf = ({ data, config, headers, page }) => {
+const exportAsPdf = ({ data, config, headers }) => {
   const { filename, tableHeaders } = config;
   const tableData = data.map((row) => Object.values(row));
   const doc = new jsPDF(headers.length > 4 ? "landscape" : "portrait");
@@ -19,8 +16,7 @@ const exportAsPdf = ({ data, config, headers, page }) => {
     headStyles: { fillColor: "#f0f0f0", textColor: "#000000" },
     styles: { cellPadding: 3 },
   });
-  const name = page ? `${filename}-page-${page}.pdf` : filename;
-  doc.save(name);
+  doc.save(filename);
   // doc.output('dataurlnewwindow');
 };
 
@@ -55,42 +51,11 @@ const cleanData = (data, columns) => {
 
 //* Download
 export function Download() {
-  const { resourceName, rows, isLoading } = useTable();
-  const disabled =
-    useIsMutating({ mutationKey: [`${resourceName.toLocaleLowerCase()}s`] }) ||
-    rows?.length === 0 ||
-    isLoading;
-
-  return (
-    <DropDown
-      toggler={
-        <Button display="with-icon" type="outline" color="tertiary">
-          <ArrowDownToLine size={18} /> Download
-        </Button>
-      }
-      togglerDisabled={disabled}
-      options={{ className: "w-40" }}
-    >
-      <DownloadOption type="pdf" icon={<FileDown size={18} />} />
-    </DropDown>
-  );
-}
-
-function DownloadOption({ type, icon }) {
-  const {
-    data,
-    rows,
-    pdfConfig,
-    columns,
-    hiddenColumns,
-    page,
-    selected,
-  } = useTable();
+  const { rows, pdfConfig, columns, hiddenColumns, page } = useTable();
 
   const download = (
     downloadType,
     dataSubset,
-    currentPage = null,
     selectedRows = null
   ) => {
     const filteredData = selectedRows
@@ -101,34 +66,19 @@ function DownloadOption({ type, icon }) {
     );
     const data = cleanData(filteredData, headers);
 
-    const options = { data, headers, page: currentPage };
+    const options = { data, headers };
 
     if (downloadType === "pdf") exportAsPdf({ ...options, config: pdfConfig });
   };
 
   return (
-    <DropDown.NestedMenu
-      toggler={
-        <DropDown.Option className="justify-between">
-          {icon}
-          <span className="text-start">{type.toUpperCase()}</span>
-          <ChevronRight />
-        </DropDown.Option>
-      }
-      options={{ placement: "right-start" }}
+    <Button
+      onClick={() => download("pdf", rows, page)}
+      display="with-icon"
+      type="outline"
+      color="tertiary"
     >
-      <DropDown.Option onClick={() => download(type, data)}>
-        <Files size={18} /> All Pages
-      </DropDown.Option>
-      <DropDown.Option onClick={() => download(type, rows, page)}>
-        <File size={18} /> This Page
-      </DropDown.Option>
-      {selected.length > 0 && (
-        <DropDown.Option onClick={() => download(type, rows, null, selected)}>
-          <FileCheck2 />
-          Selected
-        </DropDown.Option>
-      )}
-    </DropDown.NestedMenu>
+      <ArrowDownToLine size={18} /> Download
+    </Button>
   );
 }

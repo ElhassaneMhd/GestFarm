@@ -109,8 +109,11 @@ public class ShipmentService {
     public ResponseEntity<Object> delete(Integer id) {
         Shipment shipment = shipmentRepository.findById(id).orElse(null);
         if (shipment != null){
-            shipment.setSale(null);
-            shipment.setShipper(null);
+            shipment.getSale().setShipment(null);
+            User shipper = shipment.getShipper();
+            List<Shipment> shipments = shipper.getShipments()
+                    .stream().filter( sp -> !sp.getId().equals(id) ).toList();
+            shipper.setShipments(shipments);
             shipmentRepository.delete(shipment);
             return ResponseEntity.ok("Deleted successfully");
         }
