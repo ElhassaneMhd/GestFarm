@@ -39,7 +39,7 @@ export function ShipmentsList() {
         data={shipments || []}
         isLoading={isLoading}
         error={error}
-        resourceName="shipments"
+        resourceName="shipment"
         columns={[
           {
             key: "id",
@@ -140,14 +140,17 @@ export function ShipmentsList() {
 }
 export const SalesDropDown = ({ setValue, getValue }) => {
   const { sales } = useSales();
+  console.log(sales);
   const pendingSales = sales?.filter(
-    (sale) => !["DELIVERED", "CANCELLED"].includes(sale?.status?.toLowerCase())
+    (sale) =>
+      !["DELIVERED", "CANCELLED"].includes(sale?.status?.toLowerCase()) &&
+      sale?.shipment === null
   );
 
   const selectedSale = getValue("sale") || null;
   return (
     <div className="flex flex-col space-y-2">
-      <p className="text-sm font-medium text-text-tertiary">Sheep</p>
+      <p className="text-sm font-medium text-text-tertiary">Sale</p>
       <DropDown
         options={{
           className: "w-48 ",
@@ -173,11 +176,11 @@ export const SalesDropDown = ({ setValue, getValue }) => {
         {pendingSales?.map((e) => (
           <DropDown.Option
             onClick={() =>
-              getValue("sale") === e.id
+              getValue("sale")?.id === e.id
                 ? setValue("sale", null)
-                : setValue("sale", e.id)
+                : setValue("sale", e)
             }
-            isCurrent={getValue("sale") === e.id}
+            isCurrent={getValue("sale")?.id === e.id}
             key={e.id}
           >
             {e?.id} | {e?.name} | {e?.sheep.length} sheep
@@ -192,7 +195,7 @@ export const ShippersDropDown = ({ setValue, getValue }) => {
   const { shippers, isLoading, error } = useShippers();
   return (
     <div className="flex flex-col space-y-2">
-      <p className="text-sm font-medium text-text-tertiary">Sheep</p>
+      <p className="text-sm font-medium text-text-tertiary">Shipper</p>
       <DropDown
         options={{
           className: "w-48 ",
@@ -221,11 +224,11 @@ export const ShippersDropDown = ({ setValue, getValue }) => {
         {shippers?.map((e) => (
           <DropDown.Option
             onClick={() =>
-              getValue("shipper") === e.id
+              getValue("shipper")?.id === e.id
                 ? setValue("shipper", null)
-                : setValue("shipper", e.id)
+                : setValue("shipper", e)
             }
-            isCurrent={getValue("shipper") === e.id}
+            isCurrent={getValue("shipper")?.id === e.id}
             key={e.id}
           >
             {e?.username}

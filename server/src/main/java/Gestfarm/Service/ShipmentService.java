@@ -4,6 +4,7 @@ import Gestfarm.Dto.PaginateDTO;
 import Gestfarm.Dto.Request.ShipmentRequest;
 import Gestfarm.Dto.SheepDTO;
 import Gestfarm.Dto.ShipmentDTO;
+import Gestfarm.Enum.SheepStatus;
 import Gestfarm.Mapper.ShipmentMapper;
 import Gestfarm.Model.Sale;
 import Gestfarm.Model.Sheep;
@@ -11,6 +12,7 @@ import Gestfarm.Model.Shipment;
 import Gestfarm.Model.User;
 import Gestfarm.Repository.SaleRepository;
 import Gestfarm.Repository.ShipmentRepository;
+import Gestfarm.Repository.UserRepository;
 import Gestfarm.Security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,13 +34,15 @@ public class ShipmentService {
     private final UserService userService;
     private final ShipmentMapper shipmentMapper;
     private final SaleRepository saleRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public ShipmentService(ShipmentRepository shipmentRepository, SaleRepository saleRepository, UserService userService, ShipmentMapper shipmentMapper) {
+    public ShipmentService(ShipmentRepository shipmentRepository, SaleRepository saleRepository, UserService userService, ShipmentMapper shipmentMapper, UserRepository userRepository) {
         this.shipmentRepository = shipmentRepository;
         this.userService = userService;
         this.shipmentMapper = shipmentMapper;
         this.saleRepository = saleRepository;
+        this.userRepository = userRepository;
     }
 
     public List<ShipmentDTO> findAll() {
@@ -61,8 +65,8 @@ public class ShipmentService {
     }
 
     public Shipment save(ShipmentRequest shipmentRequest) {
-        Sale sale = saleRepository.findById(shipmentRequest.sale()).orElse(null);
-        User shipper = userService.findById(shipmentRequest.shipper());
+        Sale sale = saleRepository.findById(shipmentRequest.sale().getId()).orElse(null);
+        User shipper = userService.findById(shipmentRequest.shipper().getId());
         Shipment shipment = new Shipment();
         shipment.setAddress(shipmentRequest.address());
         shipment.setPhone(shipmentRequest.phone());
@@ -71,6 +75,34 @@ public class ShipmentService {
         shipment.setSale(sale);
         shipment.setShipper(shipper);
         return shipmentRepository.save(shipment);
+    }
+
+    @Transactional
+    public ResponseEntity<Object> update(int id , ShipmentRequest shipmentRequest) {
+        Shipment shipment = shipmentRepository.findById(id).orElse(null);
+        if (shipment != null ){
+            if (shipmentRequest.address() != null) shipment.setAddress(shipmentRequest.address());
+            if (shipmentRequest.phone()!= null) shipment.setPhone(shipmentRequest.phone());
+            if (shipmentRequest.status()!= null) shipment.setStatus(shipmentRequest.status());
+            if (shipmentRequest.shippingDate()!= null) shipment.setShippingDate(shipmentRequest.shippingDate());
+            if (shipmentRequest.shipper()!= null){
+                User newShipper = userService.findById(shipmentRequest.shipper().getId());
+                User shipper = shipment.getShipper();
+                List<Shipment> shipments = shipper.getShipments()
+                        .stream().filter( sp -> !sp.getId().equals(id) ).toList();
+                shipper.setShipments(shipments);
+                shipment.setShipper(newShipper);
+            }
+            if (shipmentRequest.sale()!= null) {
+                Sale newSale = saleRepository.findById(shipmentRequest.sale().getId()).orElse(null);
+                Sale sale = shipment.getSale();
+                sale.setShipment(null);
+                shipment.setSale(newSale);
+            }
+            return ResponseEntity.ok(shipment);
+        }else {
+            return ResponseEntity.badRequest().body("Undefined Shipment , check shipment Id");
+        }
     }
 
     @Transactional
@@ -88,5 +120,4 @@ public class ShipmentService {
     public void multipleDelete(List<Integer> ids){
         ids.forEach(this::delete);
     }
-
 }

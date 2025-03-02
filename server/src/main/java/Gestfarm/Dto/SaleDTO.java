@@ -2,6 +2,7 @@ package Gestfarm.Dto;
 
 import Gestfarm.Enum.SaleStatus;
 import Gestfarm.Model.Sheep;
+import Gestfarm.Model.Shipment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,5 +19,5 @@ public class SaleDTO {
     private SaleStatus status;
     private Integer price;
     private List<Sheep> sheep;
-
+    private Shipment shipment;
 }

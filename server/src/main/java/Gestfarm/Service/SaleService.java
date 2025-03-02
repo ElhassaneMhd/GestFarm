@@ -37,8 +37,9 @@ public class SaleService {
         this.saleMapper = saleMapper;
     }
 
-    public List<Sale> findAll(){
-        return saleRepository.findAll();
+    public List<SaleDTO> findAll(){
+        List<Sale> saleList= saleRepository.findAll();
+        return  saleList.stream().map(saleMapper::mapToDto).toList();
     }
 
     public PaginateDTO<SaleDTO> paginate(int page, int limit) {

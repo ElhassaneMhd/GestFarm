@@ -39,10 +39,10 @@ public class ShipmentController {
        return shipmentService.save(shipment);
     }
 
-    @PutMapping()
+    @PutMapping("/{id}")
     @PreAuthorize("hasPermission('UPDATE_SHIPMENTS')")
-    public Shipment update(@RequestBody ShipmentRequest shipment) {
-        return null;
+    public ResponseEntity<Object> update(@PathVariable Integer id,@RequestBody ShipmentRequest shipmentRequest) {
+        return ResponseEntity.ok(shipmentService.update(id,shipmentRequest));
     }
 
     @PreAuthorize("hasPermission('DELETE_SHIPMENTS')")

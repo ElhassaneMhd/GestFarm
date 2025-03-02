@@ -14,6 +14,7 @@ public class SaleMapper {
         saleDto.setSheep(sale.getSheep());
         saleDto.setStatus(sale.getStatus());
         saleDto.setPrice(sale.getPrice());
+        saleDto.setShipment(sale.getShipment());
         return saleDto;
     }
 }

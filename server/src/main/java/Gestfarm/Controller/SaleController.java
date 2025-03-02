@@ -26,7 +26,7 @@ public class SaleController {
 
     @GetMapping()
     @PreAuthorize("hasPermission('READ_SALES')")
-    public ResponseEntity<List<Sale>> getAll(){
+    public ResponseEntity<Object> getAll(){
         return ResponseEntity.ok(saleService.findAll()) ;
     }
 
