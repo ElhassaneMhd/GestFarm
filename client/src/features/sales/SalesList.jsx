@@ -1,9 +1,4 @@
-import {
-  BadgeCheck,
-  BadgeInfo,
-  BadgeX,
-  ChevronDown,
-} from "lucide-react";
+import { BadgeCheck, BadgeInfo, BadgeX, ChevronDown } from "lucide-react";
 import { TableLayout } from "@/layouts/TableLayout";
 import {
   useAddSale,
@@ -86,7 +81,7 @@ export function SalesList() {
             customComponent: <SheepDropDown />,
           },
         ]}
-        fieldsToSearch={["client"]}
+        fieldsToSearch={["name", "amount", "status"]}
         downloadOptions={{
           pdfFileName: "Sales",
         }}

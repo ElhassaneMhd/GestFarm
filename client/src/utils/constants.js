@@ -6,6 +6,13 @@ export const HOMEPAGE_ROUTES = [
   { label: "about", path: "/about" },
 ];
 
+export const APP_ROUTES = {
+  ADMIN: ["overview", "sheep", "users", "shipments", "categories", "sales"],
+  FARMER: ["overview", "sheep", "categories", "sales"],
+  SHIPPER: ["overview", "shipments"],
+  USER: ["overview", "sheep"],
+};
+
 export const PAGE_LIMIT = 10;
 
 //date and time
@@ -163,5 +170,4 @@ export const RULES = {
     validate: (value, getValue) =>
       value === getValue("password") || "Passwords do not match",
   },
-
 };

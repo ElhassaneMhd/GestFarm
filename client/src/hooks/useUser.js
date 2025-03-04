@@ -101,12 +101,12 @@ export function useLogout() {
 }
 
 export const formatUserData = (data) => {
-  const { username, email, role } = data;
+  const { username, email, role, permissions } = data;
   return {
     username,
     email,
-    role: role?.slice(0, 4),
-    permissions: role?.permissions,
+    role: role?.slice(5),
+    permissions,
   };
 };
 

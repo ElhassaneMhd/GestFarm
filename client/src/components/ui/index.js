@@ -9,3 +9,4 @@ export { Status } from "./Status";
 export { ToolTip } from "./ToolTip";
 export { Logo } from "./Logo";
 export { LoadingScreen } from "./LoadingScreen";
+export {File } from "./File"

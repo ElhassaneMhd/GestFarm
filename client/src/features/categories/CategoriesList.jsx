@@ -7,12 +7,12 @@ import {
   usePaginateCategories,
 } from "./useCategory";
 import { TableLayout } from "@/layouts/TableLayout";
+import { FileUploader } from "@/components/ui/File";
 
 export function CategoriesList() {
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page") || 1;
   const limit = searchParams.get("limit") || 5;
-
   const { categories, isLoading, error } = usePaginateCategories(page, limit);
 
   const { mutate: addCategory } = useAddCategory();
@@ -50,9 +50,19 @@ export function CategoriesList() {
           {
             key: "sheep",
             displayLabel: "Total",
-            type: "array",
+            type: "text",
             visible: true,
             format: (sheep) => sheep.length,
+          },
+          {
+            key: "image",
+            displayLabel: "Image",
+            visible: true,
+            format: (image) => (
+              <div className=" w-10">
+                <img src={image} alt={"category image"} />
+              </div>
+            ),
           },
           {
             key: "sheep",
@@ -69,12 +79,6 @@ export function CategoriesList() {
             required: true,
           },
           {
-            name: "description",
-            label: "Description",
-            type: "text",
-            required: true,
-          },
-          {
             name: "price",
             label: "Price (Dh/Kg)",
             type: "number",
@@ -82,10 +86,20 @@ export function CategoriesList() {
             min: 0,
           },
           {
+            name: "description",
+            type: "textarea",
+            label: "Description",
+            required: true,
+            placeholder: "Enter category description ...",
+            rows: "5",
+          },
+
+          {
             name: "image",
             label: "Image",
-            type: "text",
+            type: "image",
             required: true,
+            customComponent: <FileUploader resource={"Category image"} />,
           },
         ]}
         fieldsToSearch={["name"]}

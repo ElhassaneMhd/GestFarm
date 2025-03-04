@@ -16,6 +16,8 @@ import { useLogout } from "@/hooks/useUser";
 import { Logo } from "../ui/Logo";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Sheep } from "../ui/Sheep";
+import { useUser } from "../../hooks/useUser";
+import { APP_ROUTES } from "../../utils/constants";
 
 export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(
@@ -23,6 +25,7 @@ export default function Sidebar() {
   );
   const { logout, isLoggingOut } = useLogout();
   const { t } = useTranslation();
+  const { user } = useUser();
   const [parent] = useAutoAnimate({ duration: 300 });
 
   const spanClass = `transition-transform origin-left duration-500 text-sm text-text-secondary ${
@@ -53,6 +56,9 @@ export default function Sidebar() {
     { name: "shipments", icon: <Truck size={size} /> },
     { name: "users", icon: <Users2 size={size} /> },
   ];
+  const routeSideBar = sideBarElements.filter((s) =>
+    APP_ROUTES[user?.role].includes(s?.name)
+  );
 
   return (
     <aside
@@ -84,7 +90,7 @@ export default function Sidebar() {
         }`}
         ref={parent}
       >
-        {sideBarElements.map(({ name, icon }) => (
+        {routeSideBar.map(({ name, icon }) => (
           <li key={name}>
             <NavLink
               to={`/app/${name}`}

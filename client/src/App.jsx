@@ -20,30 +20,23 @@ import {
 } from "./pages";
 import SheepDetails from "./features/sheep/SheepDetails";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
+import { APP_ROUTES } from "./utils/constants";
+import { useUser } from "@/hooks/useUser";
 
 function App() {
   const { theme } = useTheme();
+  const { user } = useUser();
   const [parent] = useAutoAnimate({ duration: 300 });
-  const routes = [
-    "overview",
-    "sheep",
-    "sheep/new",
-    "sheep/:id",
-    "users",
-    "categories",
-    "shipments",
-    "sales",
-  ];
   const routesElements = {
     overview: <Overview />,
     sheep: <Sheep />,
-    "sheep/new": <Sheep />,
-    "sheep/:id": <SheepDetails />,
     users: <Users />,
     categories: <Categories />,
     shipments: <Shipments />,
     sales: <Sales />,
   };
+  const routes = APP_ROUTES[user?.role];
+
   return (
     <>
       <div className="h-dvh w-full" ref={parent}>

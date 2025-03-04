@@ -2,6 +2,7 @@ package Gestfarm.Mapper;
 
 import Gestfarm.Dto.ShipperDTO;
 import Gestfarm.Dto.UserDTO;
+import Gestfarm.Model.Permission;
 import Gestfarm.Model.Shipment;
 import Gestfarm.Model.User;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ public class UserMapper {
         userDto.setUsername(user.getUsername());
         userDto.setEmail(user.getEmail());
         userDto.setRole(user.getRole().getName());
+        userDto.setPermissions(user.getRole().getPermissions().stream().map(Permission::getName).toList());
         userDto.setPhone(user.getPhone());
         userDto.setCreatedAt(user.getCreatedAt());
         return userDto;
