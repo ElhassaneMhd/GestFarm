@@ -64,6 +64,7 @@ public class SaleService {
         Sale sale = new Sale();
         sale.setName(saleRequest.name());
         sale.setAmount(saleRequest.amount());
+        sale.setPrice(saleRequest.price());
         sale.setStatus(saleRequest.status());
         saleRequest.sheep().forEach(sp -> {
             Sheep sheep = sheepService.find(sp.getId());
@@ -71,7 +72,6 @@ public class SaleService {
             sheep.setStatus(SheepStatus.SOLD);
             sheepList.add(sheep);
         });
-        sale.setPrice(10000);
         sale.setSheep(sheepList);
         saleRepository.save(sale);
         return ResponseEntity.ok(sale);

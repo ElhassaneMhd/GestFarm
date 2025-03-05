@@ -15,6 +15,8 @@ public class SaleMapper {
         saleDto.setStatus(sale.getStatus());
         saleDto.setPrice(sale.getPrice());
         saleDto.setShipment(sale.getShipment());
+        saleDto.setCreatedAt(sale.getCreatedAt());
+        saleDto.setUpdatedAt(sale.getUpdatedAt());
         return saleDto;
     }
 }

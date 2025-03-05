@@ -33,6 +33,7 @@ public class Sale {
     private SaleStatus status;
 
     @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Sheep> sheep;
 
     @OneToOne(mappedBy = "sale", cascade = CascadeType.ALL)

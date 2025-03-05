@@ -38,6 +38,13 @@ export function SalesList() {
             visible: true,
           },
           {
+            key: "price",
+            displayLabel: "Price (Dh)",
+            type: "price",
+            visible: true,
+            format: (amount) => `${amount} Dh`,
+          },
+          {
             key: "amount",
             displayLabel: "Amount (Dh)",
             type: "number",
@@ -65,11 +72,18 @@ export function SalesList() {
             required: true,
           },
           {
+            name: "price",
+            label: "Price",
+            type: "number",
+            required: true,
+          },
+          {
             name: "amount",
             label: "Amount",
             type: "number",
             required: true,
           },
+
           {
             name: "status",
             customComponent: <CostumDropDown dataName="status" data={status} />,
