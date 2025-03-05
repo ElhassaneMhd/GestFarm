@@ -24,8 +24,8 @@ export default function Hero() {
 
   return (
     <Operations>
-      <div className="flex w-full   justify-center p-5 md:p-10 ">
-        <div className=" relative overflow-hidden flex flex-col items-center justify-center bg-background-tertiary h-[60vh] w-full rounded-xl p-5 space-y-9">
+      <div className="flex w-full   justify-center ">
+        <div className=" relative overflow-hidden flex flex-col items-center justify-center bg-background-tertiary h-[60vh] w-full  p-5 space-y-9">
           <div className=" text-xl text-center font-bold text-text-primary md:text-3xl z-20">
             Where Every
             <span className=" font-extrabold text-primary skew-y-12">

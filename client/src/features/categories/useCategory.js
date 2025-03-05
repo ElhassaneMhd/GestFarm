@@ -9,11 +9,24 @@ import {
   getPaginateCategories,
 } from "@/services/categoryAPI";
 import { useMutate } from "@/hooks/useMutate";
+import { getPublicCategories } from "../../services/categoryAPI";
 
 export function useCategories() {
   const { data, error, isPending } = useQuery({
     queryKey: ["categories"],
     queryFn: getCategories,
+  });
+  return {
+    categories: data,
+    error,
+    isLoading: isPending,
+  };
+}
+
+export function usePublicCategories() {
+  const { data, error, isPending } = useQuery({
+    queryKey: ["categories", "public"],
+    queryFn: getPublicCategories,
   });
   return {
     categories: data,

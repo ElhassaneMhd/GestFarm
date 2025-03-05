@@ -1,4 +1,4 @@
-export { HomePage } from "./homePage";
+export { HomePage } from "./HomePage";
 export { NotFound } from "./NotFound";
 export { Overview } from "./Overview";
 export { Sheep } from "./Sheep";

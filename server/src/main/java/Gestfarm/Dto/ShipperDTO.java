@@ -18,6 +18,5 @@ public class ShipperDTO {
         private String username;
         private String email;
         private String phone;
-        private Instant createdAt;
         private List<Shipment> shipments;
 }

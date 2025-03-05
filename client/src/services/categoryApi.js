@@ -2,6 +2,9 @@ import { axiosFetch } from ".";
 
 export const getCategories = async () => await axiosFetch(`api/categories`);
 
+export const getPublicCategories = async () =>
+  await axiosFetch(`api/public/categories`);
+
 export const getPaginateCategories = async (page, limit) =>
   await axiosFetch(`api/categories/paginate?page=${page}&limit=${limit}`);
 

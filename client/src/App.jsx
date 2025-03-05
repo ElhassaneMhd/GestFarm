@@ -18,7 +18,6 @@ import {
   Shipments,
   Sales,
 } from "./pages";
-import SheepDetails from "./features/sheep/SheepDetails";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { APP_ROUTES } from "./utils/constants";
 import { useUser } from "@/hooks/useUser";
