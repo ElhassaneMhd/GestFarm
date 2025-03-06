@@ -25,7 +25,7 @@ export function useAllSheep() {
 
 export function usePaginateSheep(page, limit) {
   const { data, error, isPending } = useQuery({
-    queryKey: ["sheep",page,limit],
+    queryKey: ["sheep", page, limit],
     queryFn: () => getPaginateSheep(page, limit),
   });
   return {
@@ -35,17 +35,19 @@ export function usePaginateSheep(page, limit) {
   };
 }
 
-
-export function useAvailableSheep() {
-   const { data, error, isPending } = useQuery({
-     queryKey: ["sheep","available"],
-     queryFn: getAvailableSheep,
-   });
-   return {
-     sheep: data,
-     error,
-     isLoading: isPending,
-   };
+export function useAvailableSheep(page, limit) {
+  const { data, error, isPending } = useQuery({
+    queryKey: ["sheep", "available", page, limit],
+    queryFn: () => getAvailableSheep(page, limit),
+  });
+  return {
+    sheep: data?.data,
+    page: data?.page,
+    total: data?.total,
+    limit: data?.limit,
+    error,
+    isLoading: isPending,
+  };
 }
 
 export function useSheep(id) {
@@ -59,8 +61,6 @@ export function useSheep(id) {
     isLoading: isPending,
   };
 }
-
-
 
 export const useAddSheep = () =>
   useMutate({

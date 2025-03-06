@@ -7,7 +7,7 @@ export const SheepCard = ({ sheep }) => {
     OLD: "+4 ans",
   };
   return (
-    <div className=" bg-gradient-to-tl from-background-secondary to-background-primary rounded-md shadow-xl p-5 border-border border transform transition-all hover:scale-90">
+    <div className="h-fit bg-gradient-to-tl from-background-secondary to-background-primary rounded-md shadow-xl p-5 border-border border transform transition-all hover:scale-90">
       <div className="text-center mb-2">
         <h2 className="text-2xl font-bold text-text-primary mb-2">
           Sheep #{number}
@@ -24,7 +24,7 @@ export const SheepCard = ({ sheep }) => {
               Price
             </span>
           </div>
-          <span className="text-lg font-bold text-text-primary group-hover:text-green-600">
+          <span className="text-md font-bold text-text-primary group-hover:text-green-600">
             {price.toLocaleString()} Dh
           </span>
         </div>
@@ -35,7 +35,7 @@ export const SheepCard = ({ sheep }) => {
               Weight
             </span>
           </div>
-          <span className="text-lg font-bold text-text-primary group-hover:text-blue-600">
+          <span className="text-md font-bold text-text-primary group-hover:text-blue-600">
             {weight} kg
           </span>
         </div>
@@ -46,7 +46,7 @@ export const SheepCard = ({ sheep }) => {
               Age
             </span>
           </div>
-          <span className="text-lg font-bold text-text-primary group-hover:text-purple-600">
+          <span className="text-md font-bold text-text-primary group-hover:text-purple-600">
             {ages[age]}
           </span>
         </div>

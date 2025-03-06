@@ -1,8 +1,6 @@
 package Gestfarm.Controller;
 
-import Gestfarm.Dto.CategoryDTO;
-import Gestfarm.Dto.PublicCategoryDTO;
-import Gestfarm.Dto.SheepDTO;
+import Gestfarm.Dto.*;
 import Gestfarm.Enum.SheepStatus;
 import Gestfarm.Mapper.CategoryMapper;
 import Gestfarm.Mapper.SheepMapper;
@@ -11,6 +9,9 @@ import Gestfarm.Model.Sheep;
 import Gestfarm.Repository.CategoryRepository;
 import Gestfarm.Repository.SheepRepository;
 import Gestfarm.Service.CategoryService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,10 +47,13 @@ public class PublicController {
 
     }
     @GetMapping("/sheep/available")
-    public ResponseEntity<Object> getAvailableSheep(){
-        List<SheepDTO> sheep = sheepRepository.findByStatus(SheepStatus.AVAILABLE)
-                .stream().map(sheepMapper::mapToDTO).toList();
-        return ResponseEntity.ok().body(sheep);
+    public ResponseEntity<Object> getAvailableSheep(@RequestParam int page ,@RequestParam int limit){
+        Pageable pageable = PageRequest.of(page-1, limit);
+        int total = sheepRepository.findByStatus(SheepStatus.AVAILABLE).size();
+        Page<Sheep> sheepPage = sheepRepository.findPaginateByStatus(SheepStatus.AVAILABLE, pageable);
+        List<PublicSheepDTO> publicSheepDTOS = sheepPage.map(sheepMapper::mapToPublicSheep).toList();
+
+        return ResponseEntity.ok().body(new PaginateDTO<>(page,limit,total,publicSheepDTOS));
     }
 
 }
