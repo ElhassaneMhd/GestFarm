@@ -2,18 +2,14 @@ package Gestfarm.Service;
 
 import Gestfarm.Dto.PaginateDTO;
 import Gestfarm.Dto.Request.ShipmentRequest;
-import Gestfarm.Dto.SheepDTO;
 import Gestfarm.Dto.ShipmentDTO;
-import Gestfarm.Enum.SheepStatus;
 import Gestfarm.Mapper.ShipmentMapper;
 import Gestfarm.Model.Sale;
-import Gestfarm.Model.Sheep;
 import Gestfarm.Model.Shipment;
 import Gestfarm.Model.User;
 import Gestfarm.Repository.SaleRepository;
 import Gestfarm.Repository.ShipmentRepository;
 import Gestfarm.Repository.UserRepository;
-import Gestfarm.Security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ShipmentService {

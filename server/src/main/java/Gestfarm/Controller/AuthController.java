@@ -6,7 +6,7 @@ import Gestfarm.Dto.UserDTO;
 import Gestfarm.Mapper.UserMapper;
 import Gestfarm.Model.User;
 import Gestfarm.Repository.UserRepository;
-import Gestfarm.Security.UserService;
+import Gestfarm.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

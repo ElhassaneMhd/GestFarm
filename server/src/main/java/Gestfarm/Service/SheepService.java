@@ -56,7 +56,7 @@ public class SheepService {
 
     @Transactional
     public Sheep save(SheepRequest sheepRequest) {
-        Category category = categoryService.find(sheepRequest.category());
+        Category category = categoryService.find(sheepRequest.category().getId());
         Sheep sheep = new Sheep();
         sheep.setNumber(sheepRequest.number());
         sheep.setAge(sheepRequest.age());
@@ -79,7 +79,7 @@ public class SheepService {
             sheep.setSale(null);
         }
         if (sheepRequest.category()!= null){
-            Category category = categoryService.find(sheepRequest.category());
+            Category category = categoryService.find(sheepRequest.category().getId());
             sheep.setCategory(category);
         }
         return sheepRepository.save(sheep);

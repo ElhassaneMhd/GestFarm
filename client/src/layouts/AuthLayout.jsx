@@ -20,7 +20,7 @@ export function AuthLayout() {
   return (
     <div className="grid h-full w-full grid-cols-1 md:grid-cols-2">
       <div className="relative hidden items-center justify-center bg-gradient-to-b from-background-tertiary to-background-secondary md:flex">
-        <Logo to={null} className="w-2/3" />
+        <Logo to={"/"} className="w-2/3 text-4xl" />
       </div>
       <div
         ref={parent}

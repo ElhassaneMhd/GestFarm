@@ -2,14 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import {
   getAllSheep,
   getSheep,
-  getSheepByField,
+  getAvailableSheep,
   addSheep,
   updateSheep,
   deleteSheep,
   multipleDeleteSheep,
   getPaginateSheep,
 } from "@/services/SheepAPI";
-import { formatEmbeddedData } from "@/utils/helpers";
 import { useMutate } from "@/hooks/useMutate";
 
 export function useAllSheep() {
@@ -36,6 +35,19 @@ export function usePaginateSheep(page, limit) {
   };
 }
 
+
+export function useAvailableSheep() {
+   const { data, error, isPending } = useQuery({
+     queryKey: ["sheep","available"],
+     queryFn: getAvailableSheep,
+   });
+   return {
+     sheep: data,
+     error,
+     isLoading: isPending,
+   };
+}
+
 export function useSheep(id) {
   const { data, error, isPending } = useQuery({
     queryKey: ["sheep", id],
@@ -48,20 +60,7 @@ export function useSheep(id) {
   };
 }
 
-export function useSheepByField(field = "status", value = "available") {
-  const { data, error, isPending } = useQuery({
-    queryKey: ["sheep", field, value],
-    queryFn: getSheepByField(field, value),
-  });
-  if (!data) return { sheep: [], error, isLoading: isPending };
-  return {
-    sheep: formatEmbeddedData(data, "sheep"),
-    links: data?._links,
-    page: data?.page,
-    error,
-    isLoading: isPending,
-  };
-}
+
 
 export const useAddSheep = () =>
   useMutate({

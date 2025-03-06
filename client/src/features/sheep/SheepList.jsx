@@ -30,134 +30,130 @@ export function SheepList() {
   };
 
   return (
-    <>
-      {/* <Heading count={sheep?.length}>{t("app.sidebar.sheep")}</Heading> */}
-      <TableLayout
-        data={sheep}
-        isLoading={isLoading}
-        error={error}
-        resourceName="Sheep"
-        columns={[
-          {
-            key: "number",
-            displayLabel: "Number",
-            type: "number",
-            visible: true,
-          },
-          {
-            key: "weight",
-            displayLabel: "Weight",
-            type: "number",
-            visible: true,
-            format: (weight) => `${weight} kg`,
-          },
-          {
-            key: "age",
-            displayLabel: "Age",
-            type: "string",
-            visible: true,
-            format: (age) => (
-              <span className="px-2 py-1 rounded-full">
-                <span className={`${age?.toLowerCase()}`}>{ages[age]} </span>
+    <TableLayout
+      data={sheep}
+      isLoading={isLoading}
+      error={error}
+      resourceName="Sheep"
+      columns={[
+        {
+          key: "number",
+          displayLabel: "Number",
+          type: "number",
+          visible: true,
+        },
+        {
+          key: "weight",
+          displayLabel: "Weight",
+          type: "number",
+          visible: true,
+          format: (weight) => `${weight} kg`,
+        },
+        {
+          key: "age",
+          displayLabel: "Age",
+          type: "string",
+          visible: true,
+          format: (age) => (
+            <span className="px-2 py-1 rounded-full">
+              <span className={`${age?.toLowerCase()}`}>{ages[age]} </span>
+            </span>
+          ),
+        },
+        {
+          key: "price",
+          displayLabel: "Price",
+          type: "number",
+          visible: true,
+          format: (price) => `${price} Dh`,
+        },
+        {
+          key: "status",
+          displayLabel: "Status",
+          type: "string",
+          visible: true,
+          format: (status) => (
+            <span className="px-2 py-1 rounded-full">
+              <span className={`${status?.toLowerCase()} capitalize `}>
+                {status.toLowerCase()}{" "}
               </span>
-            ),
-          },
-          {
-            key: "price",
-            displayLabel: "Price",
-            type: "number",
-            visible: true,
-            format: (price) => `${price} Dh`,
-          },
-          {
-            key: "status",
-            displayLabel: "Status",
-            type: "string",
-            visible: true,
-            format: (status) => (
-              <span className="px-2 py-1 rounded-full">
-                <span className={`${status?.toLowerCase()} capitalize `}>
-                  {status.toLowerCase()}{" "}
-                </span>
-              </span>
-            ),
-          },
-          {
-            key: "categoryName",
-            displayLabel: "Category",
-            type: "string",
-            visible: true,
-            format: (category) => (category ? category : "Any category"),
-          },
-        ]}
-        formFields={[
-          {
-            name: "number",
-            label: "Number",
-            type: "number",
-            min: 1000,
-            required: true,
-          },
-          {
-            name: "category",
-            required: true,
-            customComponent: <CategoriesDropDown />,
-          },
-          {
-            name: "status",
-            required: true,
-            customComponent: <CostumDropDown dataName="status" data={status} />,
-          },
-          {
-            name: "weight",
-            label: "Weight (kg)",
-            type: "number",
-            min: 0,
-            required: true,
-          },
-          {
-            name: "age",
-            required: true,
-            customComponent: (
-              <CostumDropDown dataName="age" data={Object.keys(ages)} />
-            ),
-          },
-        ]}
-        formDefaults={{
-          number: 0,
-          weight: 0,
-          status: "UNLISTED",
-          category: null,
-        }}
-        onAdd={addSheep}
-        onUpdate={updateSheep}
-        onDelete={deleteSheep}
-        fieldsToSearch={["number", "amount", "price", "status"]}
-        downloadOptions={{
-          pdfFileName: "Sheep",
-        }}
-        layoutOptions={{
-          displayNewRecord: true,
-          displayTableRecord: true,
-          actions: (def) => [def.edit, def.delete],
-        }}
-        selectedOptions={{
-          deleteOptions: {
-            resourceName: "sheep",
-            onConfirm: (ids) => multipleDelete(ids),
-          },
-        }}
-      />
-    </>
+            </span>
+          ),
+        },
+        {
+          key: "categoryName",
+          displayLabel: "Category",
+          type: "string",
+          visible: true,
+          format: (category) => (category ? category : "Any category"),
+        },
+      ]}
+      formFields={[
+        {
+          name: "number",
+          label: "Number",
+          type: "number",
+          min: 1000,
+          required: true,
+        },
+        {
+          name: "category",
+          required: true,
+          customComponent: <CategoriesDropDown />,
+        },
+        {
+          name: "status",
+          required: true,
+          customComponent: <CostumDropDown dataName="status" data={status} />,
+        },
+        {
+          name: "weight",
+          label: "Weight (kg)",
+          type: "number",
+          min: 0,
+          required: true,
+        },
+        {
+          name: "age",
+          required: true,
+          customComponent: (
+            <CostumDropDown dataName="age" data={Object.keys(ages)} />
+          ),
+        },
+      ]}
+      formDefaults={{
+        number: 0,
+        weight: 0,
+        status: "UNLISTED",
+        category: null,
+        age:null,
+      }}
+      onAdd={addSheep}
+      onUpdate={updateSheep}
+      onDelete={deleteSheep}
+      fieldsToSearch={["number", "amount", "price", "status"]}
+      downloadOptions={{
+        pdfFileName: "Sheep",
+      }}
+      layoutOptions={{
+        displayNewRecord: true,
+        displayTableRecord: true,
+        actions: (def) => [def.edit, def.delete],
+      }}
+      selectedOptions={{
+        deleteOptions: {
+          resourceName: "sheep",
+          onConfirm: (ids) => multipleDelete(ids),
+        },
+      }}
+    />
   );
 }
 
 const CategoriesDropDown = ({ getValue, setValue }) => {
   const { categories } = useCategories();
   const navigate = useNavigate();
-  const categoryName = categories?.map(
-    (c) => (getValue("category")?.id || getValue("category")) === c.id && c.name
-  )[0];
+
   return (
     <div className="flex flex-col space-y-2">
       <p className="text-sm font-medium text-text-tertiary">Category</p>
@@ -171,7 +167,7 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
             color="tertiary"
           >
             <span className="p-0.5 text-sm font-medium text-text-tertiary w-full text-start">
-              {typeof categoryName == "string" ? categoryName : "Category"}
+              {getValue("category") ? getValue("category").name : "Category"}
             </span>
             <ChevronDown className="text-text-tertiary" />
           </Button>
@@ -184,18 +180,15 @@ const CategoriesDropDown = ({ getValue, setValue }) => {
           </DropDown.Option>
         )}
         <div className="h-min overflow-scroll">
-          {categories?.length > 0 &&
-            categories?.map((category) => (
-              <DropDown.Option
-                onClick={() => {
-                  setValue("category", category.id);
-                }}
-                isCurrent={getValue("category")?.id === category.id}
-                key={category.id}
-              >
-                {category.name}
-              </DropDown.Option>
-            ))}
+          {categories?.map((category) => (
+            <DropDown.Option
+              onClick={() => setValue("category", category)}
+              isCurrent={getValue("category")?.id === category.id}
+              key={category.id}
+            >
+              {category.name}
+            </DropDown.Option>
+          ))}
         </div>
       </DropDown>
     </div>

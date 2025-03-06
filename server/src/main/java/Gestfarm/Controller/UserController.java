@@ -1,8 +1,7 @@
 package Gestfarm.Controller;
 
 import Gestfarm.Dto.Request.UserRequest;
-import Gestfarm.Model.User;
-import Gestfarm.Security.UserService;
+import Gestfarm.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

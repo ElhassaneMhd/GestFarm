@@ -17,10 +17,10 @@ const exportAsPdf = ({ data, config, headers }) => {
     styles: { cellPadding: 3 },
   });
   doc.save(filename);
-  // doc.output('dataurlnewwindow');
 };
 
 const cleanData = (data, columns) => {
+  console.log(data);
   return (
     data
       // Filter the visible columns
@@ -53,18 +53,11 @@ const cleanData = (data, columns) => {
 export function Download() {
   const { rows, pdfConfig, columns, hiddenColumns, page } = useTable();
 
-  const download = (
-    downloadType,
-    dataSubset,
-    selectedRows = null
-  ) => {
-    const filteredData = selectedRows
-      ? dataSubset.filter((el) => selectedRows.includes(el.id))
-      : dataSubset;
+  const download = (downloadType, selectedRows = null) => {
     const headers = columns.filter(
       (c) => !hiddenColumns.includes(c.displayLabel)
     );
-    const data = cleanData(filteredData, headers);
+    const data = cleanData(selectedRows, headers);
 
     const options = { data, headers };
 

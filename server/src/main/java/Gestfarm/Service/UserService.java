@@ -1,4 +1,4 @@
-package Gestfarm.Security;
+package Gestfarm.Service;
 
 import Gestfarm.Dto.PaginateDTO;
 import Gestfarm.Dto.Request.UserRequest;
@@ -10,6 +10,7 @@ import Gestfarm.Model.Shipment;
 import Gestfarm.Model.User;
 import Gestfarm.Repository.RoleRepository;
 import Gestfarm.Repository.UserRepository;
+import Gestfarm.Security.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

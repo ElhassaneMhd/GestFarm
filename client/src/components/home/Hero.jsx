@@ -3,7 +3,6 @@ import { Button, DropDown } from "../ui";
 import {
   ChevronDown,
   Cloud,
-  MapPin,
   Moon,
   Search as SearchIcon,
   Sun,
@@ -12,9 +11,8 @@ import {
   TreePine,
   Trees,
 } from "lucide-react";
-import { Operations } from "../shared/Operations/Operations";
-import { useOperations } from "../shared/Operations/useOperations";
 import { Sheep } from "../ui/Sheep";
+import { usePublicCategories } from "@/features/categories/useCategory";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useSearchParams } from "react-router-dom";
 import { useTheme } from "@/context/ThemeContext";
@@ -23,42 +21,32 @@ export default function Hero() {
   const [searchParams] = useSearchParams();
 
   return (
-    <Operations>
-      <div className="flex w-full   justify-center ">
-        <div className=" relative overflow-hidden flex flex-col items-center justify-center bg-background-tertiary h-[60vh] w-full  p-5 space-y-9">
-          <div className=" text-xl text-center font-bold text-text-primary md:text-3xl z-20">
-            Where Every
-            <span className=" font-extrabold text-primary skew-y-12">
-              {" "}
-              Sheep{" "}
-            </span>
-            Matters <br />
-            <p className=" text-lg text-text-tertiary">
-              Quality You Can Count On!
-            </p>
-          </div>
-          <Search query={searchParams.get("search")} />
-          <Shapes />
+    <div className="flex w-full   justify-center ">
+      <div className=" relative overflow-hidden flex flex-col items-center justify-center bg-background-tertiary h-[60vh] w-full  p-5 space-y-9">
+        <div className=" text-xl text-center font-bold text-text-primary md:text-3xl z-20">
+          Where Every
+          <span className=" font-extrabold text-primary skew-y-12">
+            {" "}
+            Sheep{" "}
+          </span>
+          Matters <br />
+          <p className=" text-lg text-text-tertiary">
+            Quality You Can Count On!
+          </p>
         </div>
+        <Search query={searchParams.get("search")} />
+        <Shapes />
       </div>
-    </Operations>
+    </div>
   );
 }
 
 function Search({ query }) {
   const [category, setCategory] = useState("Category");
-  const [city, setCity] = useState("City");
   const [keyword, setKeyword] = useState(query || "");
-  const { onFilter, onSearch } = useOperations();
   return (
     <div className="flex z-20 flex-col gap-3 rounded-xl bg-background-primary p-2 shadow-md sm:gap-5 sm:p-4 md:flex-row md:items-center md:self-center md:justify-center w-full mx-2 md:w-fit md:mx-auto">
-      <FilterDropDown
-        icon={<MapPin size={16} />}
-        value={city}
-        setValue={setCity}
-        type="cities"
-      />
-      <FilterDropDown
+      <CategoriesDropDown
         icon={<Sheep size={"xs"} />}
         value={category}
         setValue={setCategory}
@@ -77,12 +65,8 @@ function Search({ query }) {
       </div>
       <div className="grid grid-cols-2 gap-1.5">
         <Button
-          disabled={category === "Category" && city === "City" && !keyword}
+          disabled={category === "Category" && !keyword}
           onClick={() => {
-            onSearch(keyword);
-            onSearch(category);
-            category !== "category" && onFilter("category", category);
-            city !== "City" && onFilter("city", city);
             document
               .getElementById("sheep")
               .scrollIntoView({ behavior: "smooth" });
@@ -92,12 +76,10 @@ function Search({ query }) {
         </Button>
         <Button
           color="tertiary"
-          disabled={category === "Category" && city === "City" && !keyword}
+          disabled={category === "Category" && !keyword}
           onClick={() => {
             setCategory("Category");
-            setCity("City");
             setKeyword("");
-            onSearch("");
           }}
         >
           Reset
@@ -107,40 +89,18 @@ function Search({ query }) {
   );
 }
 
-function FilterDropDown({ icon, value, setValue, type }) {
+function CategoriesDropDown({ icon, value, setValue }) {
   const [parent] = useAutoAnimate({ duration: 300 });
-
-  const { category, cities } = {
-    category: ["sardi", "bniGuil", "bergui"],
-    cities: ["tanger", "Sale", "Sidi Kacem"],
-  };
-  const [query, setQuery] = useState("");
-
-  const results = { category, cities }[type]?.filter((e) =>
-    e.toLowerCase().includes(query.toLowerCase())
-  );
+  const { categories } = usePublicCategories();
 
   const render = () => {
-    if ({ sheep: false, cities: false }[type]) {
-      return (
-        <p className="mt-10 text-center font-medium text-text-tertiary">
-          Loading...
-        </p>
-      );
-    }
-    if (!results?.length)
-      return (
-        <p className="mt-10 text-center font-medium text-text-tertiary">
-          No results found
-        </p>
-      );
-    return results?.map((e) => (
+    return categories?.map((e) => (
       <DropDown.Option
         key={e}
-        onClick={() => setValue(e)}
-        isCurrent={e === value}
+        onClick={() => setValue(e?.name)}
+        isCurrent={e?.name === value}
       >
-        {e}
+        {e?.name}
       </DropDown.Option>
     ));
   };
@@ -159,16 +119,11 @@ function FilterDropDown({ icon, value, setValue, type }) {
         }
         togglerClassName="w-full justify-between hover:bg-background-secondary"
         options={{
-          className: "overflow-auto w-[230px] max-h-[250px] min-h-[150px]",
+          className: "overflow-auto w-[230px] max-h-[250px] ",
           shouldCloseOnClick: false,
           placement: "bottom",
         }}
       >
-        <DropDown.SearchBar
-          query={query}
-          onChange={setQuery}
-          placeholder="Search..."
-        />
         <div ref={parent}>{render()}</div>
       </DropDown>
     </div>
@@ -177,7 +132,6 @@ function FilterDropDown({ icon, value, setValue, type }) {
 
 function Shapes() {
   const { theme } = useTheme();
-
   return (
     <>
       <Tractor

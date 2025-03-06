@@ -47,7 +47,7 @@ export function Selected() {
   return (
     <Modal
       isOpen={isOpen}
-      className={`fixed left-1/2 z-30 h-fit w-[40%] -translate-x-1/2 -bottom-[50px] flex-row items-center justify-between rounded-lg border px-3 py-3 shadow-2xl transition-[bottom] duration-300 mobile:w-[500px] mobile:px-5 ${
+      className={`fixed left-1/2 z-30 h-fit w-80 md:w-[40%] -translate-x-1/2 -bottom-[50px] flex-row items-center justify-between rounded-lg border px-3 py-3 shadow-2xl transition-[bottom] duration-300 mobile:w-[500px] mobile:px-5 ${
         isOpen && "bottom-11"
       }`}
       hideOverlay={true}
