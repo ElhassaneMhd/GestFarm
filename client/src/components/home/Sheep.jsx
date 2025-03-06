@@ -30,7 +30,7 @@ export const Sheep = () => {
 
   return (
     <div className="relative p-2 pt-0">
-      <div className="flex justify-between py-2 my-2 mb-4">
+      <div className="flex justify-between py-2 my-2 mb-2">
         <div className="flex items-center gap-2 text-2xl font-bold font-sans">
           sheep
           <SheepIcon size={"sm"} />
@@ -66,7 +66,7 @@ function SheepList({ sheep, totalItems, totalPages, isLoading, error }) {
     <div className="relative">
       <div
         ref={parent}
-        className="relative pb-5 h-full min-h-[60vh] max-h-[90vh] overflow-scroll grid  grid-cols-1 md:grid-cols-2 xl:grid-cols-3  gap-6 "
+        className="relative p-2 pb-5 h-full min-h-[60vh] max-h-[90vh] overflow-scroll grid  grid-cols-1 xl:grid-cols-2  gap-6 "
       >
         {sheep?.length == 0 && (
           <Status

@@ -50,10 +50,10 @@ export function useAvailableSheep(page, limit) {
   };
 }
 
-export function useSheep(id) {
+export function useSheepByNumber(number) {
   const { data, error, isPending } = useQuery({
-    queryKey: ["sheep", id],
-    queryFn: () => getSheep(id),
+    queryKey: ["sheep", number],
+  queryFn: () => getSheep(number),
   });
   return {
     sheep: data,

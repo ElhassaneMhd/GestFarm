@@ -2,14 +2,14 @@ import { axiosFetch } from ".";
 
 export const getAllSheep = async () => await axiosFetch("api/sheep");
 
-export const getAvailableSheep = async () =>
-  await axiosFetch("api/public/sheep/available");
+export const getAvailableSheep = async (page, limit) =>
+  await axiosFetch(`api/public/sheep/available?page=${page}&limit=${limit}`);
 
 export const getPaginateSheep = async (page, limit) =>
   await axiosFetch(`api/sheep/paginate?page=${page}&limit=${limit}`);
 
-export const getSheep = async (id) =>
-  !id ? null : await axiosFetch(`api/sheep/${id}`);
+export const getSheep = async (number) =>
+  !number ? null : await axiosFetch(`api/public/sheep/${number}`);
 
 export const addSheep = async (data) =>
   await axiosFetch("api/sheep", "POST", { ...data });

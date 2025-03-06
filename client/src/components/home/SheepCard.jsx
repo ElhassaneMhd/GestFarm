@@ -1,3 +1,5 @@
+import { Clock, DollarSign, Scale, Tag } from "lucide-react";
+
 export const SheepCard = ({ sheep }) => {
   const { number, categoryName, price, weight, age } = sheep;
   const ages = {
@@ -6,50 +8,51 @@ export const SheepCard = ({ sheep }) => {
     MATURE: " 3 | 4 ans",
     OLD: "+4 ans",
   };
+  const InfoItem = ({ icon: Icon, label, value }) => (
+    <div className="flex items-center gap-4 p-2 bg-background-tertiary backdrop-blur-sm rounded-xl border border-white/20 hover:bg-background-disabled transition-all duration-300">
+      <div className="flex-shrink-0">
+        <div className="p-2.5 bg-gradient-to-br from-primary to-secondary rounded-xl shadow-lg">
+          <Icon className="w-5 h-5 text-white stroke-[2.5]" />
+        </div>
+      </div>
+      <div>
+        <p className="text-sm font-medium text-text-secondary">{label}</p>
+        <p className="text-lg font-semibold text-text-primary">{value}</p>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="h-fit bg-gradient-to-tl from-background-secondary to-background-primary rounded-md shadow-xl p-5 border-border border transform transition-all hover:scale-90">
-      <div className="text-center mb-2">
-        <h2 className="text-2xl font-bold text-text-primary mb-2">
-          Sheep #{number}
-        </h2>
-        <span className="px-4 py-1.5 bg-green-100 text-green-800 rounded-full text-sm font-semibold inline-block">
-          {categoryName}
-        </span>
+    <div className="bg-background-primary h-fit backdrop-blur-xl rounded-xl shadow-xl overflow-hidden border border-border">
+      {/* Header */}
+      <div className="bg-primary p-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-teal-50 text-sm font-medium tracking-wide">
+              Sheep ID
+            </p>
+            <h1 className="text-4xl font-bold text-white mt-1 tracking-tight">
+              #{number}
+            </h1>
+          </div>
+          <div className="mt-6">
+            <span className="inline-flex items-center px-4 py-1.5 rounded-full text-sm font-semibold bg-white/10 text-white border border-white/20 backdrop-blur-sm">
+              {categoryName.toUpperCase()}
+            </span>
+          </div>
+        </div>
       </div>
 
-      <div className="space-y-4">
-        <div className="flex justify-between items-center border-b  pb-2 group border-text-placeholder">
-          <div className="flex items-center space-x-1">
-            <span className="text-text-secondary group-hover:text-text-tertiary">
-              Price
-            </span>
-          </div>
-          <span className="text-md font-bold text-text-primary group-hover:text-green-600">
-            {price.toLocaleString()} Dh
-          </span>
-        </div>
-
-        <div className="flex justify-between items-center border-b  pb-2 group border-text-placeholder">
-          <div className="flex items-center space-x-2">
-            <span className="text-text-secondary group-hover:text-text-tertiary">
-              Weight
-            </span>
-          </div>
-          <span className="text-md font-bold text-text-primary group-hover:text-blue-600">
-            {weight} kg
-          </span>
-        </div>
-
-        <div className="flex justify-between items-center group">
-          <div className="flex items-center space-x-2">
-            <span className="text-text-secondary group-hover:text-text-tertiary">
-              Age
-            </span>
-          </div>
-          <span className="text-md font-bold text-text-primary group-hover:text-purple-600">
-            {ages[age]}
-          </span>
-        </div>
+      {/* Details Grid */}
+      <div className="grid grid-cols-2 gap-4 p-2 bg-background-secondary">
+        <InfoItem icon={Scale} label="Weight" value={`${weight} kg`} />
+        <InfoItem
+          icon={DollarSign}
+          label="Price"
+          value={`${price.toLocaleString()} Dh`}
+        />
+        <InfoItem icon={Clock} label="Age" value={ages[age]} />
+        <InfoItem icon={Tag} label="Category" value={categoryName} />
       </div>
     </div>
   );

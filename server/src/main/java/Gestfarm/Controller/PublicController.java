@@ -4,11 +4,9 @@ import Gestfarm.Dto.*;
 import Gestfarm.Enum.SheepStatus;
 import Gestfarm.Mapper.CategoryMapper;
 import Gestfarm.Mapper.SheepMapper;
-import Gestfarm.Model.Category;
 import Gestfarm.Model.Sheep;
 import Gestfarm.Repository.CategoryRepository;
 import Gestfarm.Repository.SheepRepository;
-import Gestfarm.Service.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,8 +40,12 @@ public class PublicController {
 
     @GetMapping("/sheep/{number}")
     public ResponseEntity<Object> getSheepByNumber(@PathVariable int number){
-        Sheep sheep = sheepRepository.findByNumber(number);
-        return ResponseEntity.ok().body(sheepMapper.mapToPublicSheep(sheep));
+        if (sheepRepository.existsByNumber(number)){
+            Sheep sheep = sheepRepository.findByNumber(number);
+            return ResponseEntity.ok().body(sheepMapper.mapToPublicSheep(sheep));
+        }else{
+            return ResponseEntity.badRequest().body("Undefined Sheep");
+        }
 
     }
     @GetMapping("/sheep/available")

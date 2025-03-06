@@ -23,4 +23,5 @@ public interface SheepRepository extends JpaRepository<Sheep, Integer> {
     @Modifying
     @Query("UPDATE Sheep s SET s.sale = NULL WHERE s.sale.id = :saleId")
     void setSaleToNull(Integer saleId);
+    boolean existsByNumber(int number);
 }
