@@ -4,5 +4,5 @@ import Gestfarm.Model.Permission;
 
 import java.util.List;
 
-public record RoleRequest(int id, List<Permission> permissions ) {
+public record RoleRequest(String name ,int id, List<Permission> permissions ) {
 }

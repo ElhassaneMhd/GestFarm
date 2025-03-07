@@ -35,6 +35,11 @@ public class RoleController {
     public ResponseEntity<Object> getAllPermissions(){
         return ResponseEntity.ok(permissionRepository.findAll());
     }
+    @PreAuthorize("hasAuthority('WRITE_ROLES')")
+    @PostMapping()
+    public ResponseEntity<Object> save(@RequestBody RoleRequest roleRequest){
+        return ResponseEntity.ok().body( roleService.save(roleRequest));
+    }
 
     @PreAuthorize("hasAuthority('UPDATE_ROLES')")
     @PutMapping("/{id}")

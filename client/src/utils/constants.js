@@ -196,4 +196,11 @@ export const RULES = {
     validate: (value, getValue) =>
       value === getValue("password") || "Passwords do not match",
   },
+  role: {
+    pattern: {
+      value: /^ROLE_[a-zA-Z0-9_]+$/,
+      message:
+        "Role must start with 'ROLE_' and contain only letters, numbers, and underscores",
+    },
+  },
 };

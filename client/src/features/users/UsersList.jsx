@@ -99,9 +99,9 @@ export default function UsersList() {
         onUpdate={updateUser}
         onDelete={deleteUser}
         layoutOptions={{
-          displayNewRecord: true,
-          displayTableRecord: true,
-          actions: (def) => [def.edit, def.delete],
+          displayNewRecord: false,
+          displayTableRecord: false,
+          actions: (def) => [def.delete],
         }}
         selectedOptions={{
           deleteOptions: {

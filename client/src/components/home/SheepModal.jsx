@@ -20,7 +20,7 @@ export function SheepModal({ setIsOpen, isOpen }) {
   return (
     <Modal
       isOpen={isOpen}
-      className="p-5 min-h-[50%] sm:h-5/6 sm:w-3/4 md:h-fit md:border  lg:w-1/2"
+      className=" min-h-[50%] sm:h-5/6 sm:w-3/4 md:h-fit md:border  lg:w-1/2"
       closeOnBlur={true}
       onClose={() => setIsOpen(false)}
     >
@@ -110,16 +110,16 @@ const SheepDetails = ({ sheep }) => {
   );
 
   return (
-    <div className="bg-background-primary  rounded-2xl shadow-xl overflow-hidden max-w-2xl w-full">
+    <div className="bg-background-primary max-h-[80vh] rounded-xl shadow-xl overflow-hidden max-w-2xl w-full">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-secondary px-6 py-3 text-white">
+      <div className="bg-secondary-hover px-6 py-3 text-white">
         <div className="flex items-center gap-4">
           <div className="p-2 bg-white/10 rounded-lg">
             <Sheep className="w-8 h-8 " />
           </div>
           <div>
-            <h2 className="text-2xl text-black font-bold">Sheep #{number}</h2>
-            <p className="text-text-placeholder mt-1">
+            <h2 className="text-2xl text-white font-bold">Sheep #{number}</h2>
+            <p className="text-white mt-1">
               {categoryName.toUpperCase()} • {age}
             </p>
           </div>
@@ -127,7 +127,7 @@ const SheepDetails = ({ sheep }) => {
       </div>
 
       {/* Main Content */}
-      <div className="p-6 space-y-4">
+      <div className="p-6 space-y-4 max-h-[80vh] py-5 overflow-scroll">
         {/* Basic Details */}
         <div className="grid grid-cols-2 gap-4">
           <InfoRow icon={Weight} label="Weight" value={`${weight} kg`} />

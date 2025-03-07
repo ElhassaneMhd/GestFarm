@@ -25,7 +25,7 @@ export const SheepCard = ({ sheep }) => {
   return (
     <div className="bg-background-primary h-fit backdrop-blur-xl rounded-xl shadow-xl overflow-hidden border border-border">
       {/* Header */}
-      <div className="bg-primary p-3">
+      <div className="bg-secondary-hover p-3">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-teal-50 text-sm font-medium tracking-wide">

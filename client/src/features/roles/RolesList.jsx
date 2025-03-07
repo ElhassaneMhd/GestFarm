@@ -6,8 +6,9 @@ import {
   useUpdateRole,
 } from "./useRole";
 import { useSearchParams } from "react-router-dom";
-import { Button, CheckBox, DropDown } from "../../components/ui";
+import { Button, CheckBox, DropDown } from "@/components/ui";
 import { ChevronDown } from "lucide-react";
+import { RULES } from "@/utils/constants";
 
 export function RolesList() {
   const [searchParams] = useSearchParams();
@@ -50,12 +51,20 @@ export function RolesList() {
         ]}
         formFields={[
           {
+            name: "name",
+            label: "Role",
+            type: "text",
+            required: true,
+            rules: { ...RULES.role },
+          },
+          {
             name: "permissions",
             required: true,
             customComponent: <PermissionsDropDown />,
           },
         ]}
         formDefaults={{
+          name: "ROLE_",
           permissions: [],
         }}
         onAdd={addrole}

@@ -11,6 +11,7 @@ import Gestfarm.Repository.RoleRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,7 +42,12 @@ public class RoleService {
         return new PaginateDTO<>(page,limit,total,roleDTOS);
     }
 
-
+    public Object save(RoleRequest roleRequest) {
+        Role role = new Role();
+        role.setName(roleRequest.name());
+        role.setPermissions(roleRequest.permissions());
+        return roleRepository.save(role);
+    }
     @Transactional
     public Object update(int id, RoleRequest roleRequest) {
         Role role = roleRepository.findById(id).orElse(null);
@@ -60,4 +66,6 @@ public class RoleService {
         roleRepository.save(role);
         return "Role updated successfully";
     }
+
+
 }
