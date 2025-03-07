@@ -4,11 +4,11 @@ import { useTranslation } from "react-i18next";
 import {
   BadgeDollarSign,
   ChartNoAxesGantt,
-  Home,
   LogOut,
   PanelRightClose,
   PanelRightOpen,
   Truck,
+  UserRoundCog,
   Users2,
 } from "lucide-react";
 import { Button } from "../ui";
@@ -17,7 +17,7 @@ import { Logo } from "../ui/Logo";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Sheep } from "../ui/Sheep";
 import { useUser } from "../../hooks/useUser";
-import { APP_ROUTES } from "../../utils/constants";
+import { getAccessiblePages } from "../../utils/helpers";
 
 export default function Sidebar() {
   const [isExpanded, setIsExpanded] = useState(
@@ -43,7 +43,6 @@ export default function Sidebar() {
 
   const size = isExpanded ? 18 : 20;
   const sideBarElements = [
-    { name: "overview", icon: <Home size={size} /> },
     {
       name: "sheep",
       icon: <Sheep size={`${isExpanded ? "xs" : "xs"}`} />,
@@ -55,9 +54,10 @@ export default function Sidebar() {
     { name: "sales", icon: <BadgeDollarSign size={size} /> },
     { name: "shipments", icon: <Truck size={size} /> },
     { name: "users", icon: <Users2 size={size} /> },
+    { name: "roles", icon: <UserRoundCog size={size} /> },
   ];
   const routeSideBar = sideBarElements.filter((s) =>
-    APP_ROUTES[user?.role].includes(s?.name)
+    getAccessiblePages(user?.permissions).includes(s?.name)
   );
 
   return (

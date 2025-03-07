@@ -19,6 +19,7 @@ export function TableLayout({
   ...tableProps
 }) {
   const [parent] = useAutoAnimate({ duration: 300 });
+  
   const { displayTableRecord, displayNewRecord, actions } = {
     ...defaultOptions,
     ...(layoutOptions && layoutOptions),

@@ -142,9 +142,11 @@ export const SalesDropDown = ({ setValue, getValue }) => {
   const { sales } = useSales();
   const pendingSales = sales?.filter(
     (sale) =>
-      !["DELIVERED", "CANCELLED"].includes(sale?.status?.toLowerCase()) &&
-      sale?.shipment === null
+      (!["DELIVERED", "CANCELLED"].includes(sale?.status?.toLowerCase()) &&
+        sale?.shipment === null) ||
+      sale?.id === getValue("sale")?.id
   );
+  console.log(getValue("sale"));
 
   const selectedSale = getValue("sale") || null;
   return (

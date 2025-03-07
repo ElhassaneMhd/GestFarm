@@ -25,43 +25,43 @@ public class SaleController {
 
 
     @GetMapping()
-    @PreAuthorize("hasPermission('READ_SALES')")
+    @PreAuthorize("hasAuthority('READ_SALES')")
     public ResponseEntity<Object> getAll(){
         return ResponseEntity.ok(saleService.findAll()) ;
     }
 
     @GetMapping("/paginate")
-    @PreAuthorize("hasPermission('READ_SALES')")
+    @PreAuthorize("hasAuthority('READ_SALES')")
     public ResponseEntity<Object> paginate(@RequestParam int page ,@RequestParam int limit  ) {
         return ResponseEntity.ok(saleService.paginate(page,limit));
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasPermission('READ_SALES')")
+    @PreAuthorize("hasAuthority('READ_SALES')")
     public ResponseEntity<SaleDTO> find(@PathVariable Integer id){
         return ResponseEntity.ok(saleService.findById(id)) ;
     }
 
 
-    @PreAuthorize("hasPermission('CREATE_SALES')")
+    @PreAuthorize("hasAuthority('WRITE_SALES')")
     @PostMapping()
     public ResponseEntity<Sale> create(@RequestBody SaleRequest request){
         return saleService.save(request);
     }
 
-    @PreAuthorize("hasPermission('UPDATE_SALES')")
+    @PreAuthorize("hasAuthority('UPDATE_SALES')")
     @PutMapping("/{id}")
     public ResponseEntity<Sale> update(@PathVariable Integer id,@RequestBody SaleRequest saleRequest){
      return saleService.update(id,saleRequest);
     }
 
-    @PreAuthorize("hasPermission('DELETE_SALES')")
+    @PreAuthorize("hasAuthority('DELETE_SALES')")
     @DeleteMapping("/{id}")
     public  ResponseEntity<Object> delete(@PathVariable Integer id){
         return saleService.delete(id);
     }
 
-    @PreAuthorize("hasPermission('DELETE_SALES')")
+    @PreAuthorize("hasAuthority('DELETE_SALES')")
     @PostMapping("/delete/multiple")
     public void multipleDelete(@RequestBody List<Integer> ids){
         saleService.multipleDelete(ids);

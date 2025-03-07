@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Table } from "./Table";
 import { Search } from "./Search";
 import { View } from "./View";
@@ -53,13 +53,12 @@ export function TableProvider({
     limit,
     sortBy,
     direction,
-    filters,
-    setFilters,
+
     onSearch,
     onPaginate,
     onChangeLimit,
     onSort,
-    onFilter,
+
     appliedFiltersNumber,
   } = useMethods({
     defaultSortBy,
@@ -69,7 +68,6 @@ export function TableProvider({
   // Variables
   const rows = data?.data
     ?.search(query, fieldsToSearch)
-    .customFilter(filters, "AND")
     .customSort(sortBy, direction, columns);
 
   const totalItems = data?.total;
@@ -91,19 +89,6 @@ export function TableProvider({
     title: `Delete ${resourceName}`,
     confirmText: "Delete",
   };
-
-  useEffect(() => {
-    const newFilters =
-      columns
-        .filter((col) => col.filter && col.filter.length > 0)
-        .reduce((acc, col) => {
-          acc[col.key] = col.filter;
-          return acc;
-        }, {}) || {};
-    if (Object.keys(newFilters).length !== Object.keys(filters).length) {
-      setFilters(newFilters);
-    }
-  }, [columns, filters, setFilters]);
 
   // Handlers
 
@@ -155,7 +140,6 @@ export function TableProvider({
     isLoading,
     error,
     // table
-    // tableColumns,
     columns,
     rows,
     hiddenColumns,
@@ -172,10 +156,6 @@ export function TableProvider({
     // search
     query,
     onSearch,
-    // filter
-    filters,
-    appliedFiltersNumber,
-    onFilter,
     // pagination
     totalItems,
     totalPages,

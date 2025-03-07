@@ -21,36 +21,36 @@ public class UserController {
     }
 
     @GetMapping()
-    @PreAuthorize("hasPermission('READ_USERS')")
+    @PreAuthorize("hasAuthority('READ_USERS')")
     public ResponseEntity<Object> getAll() {
         return ResponseEntity.ok(userService.findAll());
     }
 
     @GetMapping("/paginate")
-    @PreAuthorize("hasPermission('READ_USERS')")
+    @PreAuthorize("hasAuthority('READ_USERS')")
     public ResponseEntity<Object> paginate(@RequestParam int page ,@RequestParam int limit ) {
         return ResponseEntity.ok(userService.paginate(page,limit));
     }
 
     @GetMapping("/shippers")
-    @PreAuthorize("hasPermission('READ_USERS')")
+    @PreAuthorize("hasAuthority('READ_USERS')")
     public ResponseEntity<Object> getShippers() {
         return ResponseEntity.ok(userService.findAllShippers());
     }
 
     @PostMapping()
-    @PreAuthorize("hasPermission('CREATE_USERS')")
+    @PreAuthorize("hasAuthority('CREATE_USERS')")
     public ResponseEntity<Object> save(@RequestBody UserRequest userRequest){
         return  userService.save(userRequest);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasPermission('DELETE_USERS')")
+    @PreAuthorize("hasAuthority('DELETE_USERS')")
     public ResponseEntity<Object> delete( @PathVariable Integer id){
         return  userService.delete(id);
     }
 
-    @PreAuthorize("hasPermission('DELETE_USERS')")
+    @PreAuthorize("hasAuthority('DELETE_USERS')")
     @PostMapping("/delete/multiple")
     public void multipleDelete(@RequestBody List<Integer> ids){
         userService.multipleDelete(ids);

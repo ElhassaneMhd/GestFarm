@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -30,8 +31,8 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
-
 
     private final UserDetailsService userDetailsService;
     private final JwtFilter jwtFilter;
@@ -63,13 +64,11 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login","/register","/error","/api/public/**").permitAll()
-                        .requestMatchers("/api/users/**").hasRole("ADMIN")
-                        .requestMatchers("/api/sheep/**").hasRole("FARMER")
-                        .requestMatchers("/api/categories/**").hasRole("FARMER" )
-                        .requestMatchers("/api/sales/**").hasRole("FARMER")
-                        .requestMatchers("/api/shipments/**").hasRole("SHIPPER")
+//                        .requestMatchers("/api/users/**","/api/roles/**").hasRole("ADMIN")
+//                        .requestMatchers("/api/sheep/**","/api/categories/**","/api/sales/**").hasRole("FARMER")
+//                        .requestMatchers("/api/shipments/**").hasRole("SHIPPER")
                         .requestMatchers(HttpMethod.DELETE,"/api/**")
-                        .hasAnyAuthority("ROLE_ADMIN")
+                        .hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults())

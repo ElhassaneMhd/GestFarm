@@ -25,25 +25,25 @@ public class CategoryController {
     }
 
     @GetMapping()
-    @PreAuthorize("hasPermission('READ_CATEGORIES')")
+    @PreAuthorize("hasAuthority('READ_CATEGORIES')")
     public ResponseEntity<Object> findAll(  ) {
         return ResponseEntity.ok(categoryService.findAll());
     }
 
     @GetMapping("/paginate")
-    @PreAuthorize("hasPermission('READ_CATEGORIES')")
+    @PreAuthorize("hasAuthority('READ_CATEGORIES')")
     public ResponseEntity<Object> paginate(@RequestParam int page ,@RequestParam int limit  ) {
         return ResponseEntity.ok(categoryService.paginate(page,limit));
     }
 
     @PostMapping()
-    @PreAuthorize("hasPermission('CREATE_CATEGORIES')")
+    @PreAuthorize("hasAuthority('WRITE_CATEGORIES')")
     public ResponseEntity<Object> create(@RequestBody CategoryRequest categoryRequest){
         return categoryService.save(categoryRequest);
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasPermission('UPDATE_CATEGORIES')")
+    @PreAuthorize("hasAuthority('UPDATE_CATEGORIES')")
     public ResponseEntity<Object> update(@PathVariable Integer id , @RequestBody CategoryRequest req){
        if (categoryRepository.existsById(id)){
           return ResponseEntity.ok(categoryService.update(id,req))  ;
@@ -52,7 +52,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasPermission('DELETE_CATEGORIES')")
+    @PreAuthorize("hasAuthority('DELETE_CATEGORIES')")
     public ResponseEntity<Object> delete(@PathVariable Integer id){
         if (categoryRepository.existsById(id)){
            return  categoryService.delete(id);
@@ -60,7 +60,7 @@ public class CategoryController {
         return new ResponseEntity<>("Cannot delete undefined category" ,HttpStatusCode.valueOf(404));
     }
 
-    @PreAuthorize("hasPermission('DELETE_CATEGORIES')")
+    @PreAuthorize("hasAuthority('DELETE_CATEGORIES')")
     @PostMapping("/delete/multiple")
     public void multipleDelete(@RequestBody List<Integer> ids){
         categoryService.multipleDelete(ids);

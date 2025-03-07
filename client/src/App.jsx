@@ -17,24 +17,28 @@ import {
   Categories,
   Shipments,
   Sales,
+  Roles,
 } from "./pages";
 import { useAutoAnimate } from "@formkit/auto-animate/react";
-import { APP_ROUTES } from "./utils/constants";
 import { useUser } from "@/hooks/useUser";
+import { getAccessiblePages } from "./utils/helpers";
 
 function App() {
   const { theme } = useTheme();
   const { user } = useUser();
   const [parent] = useAutoAnimate({ duration: 300 });
   const routesElements = {
-    overview: <Overview />,
+    // overview: <Overview />,
     sheep: <Sheep />,
     users: <Users />,
     categories: <Categories />,
     shipments: <Shipments />,
     sales: <Sales />,
+    roles: <Roles />,
   };
-  const routes = APP_ROUTES[user?.role];
+
+  // const routes = APP_ROUTES[user?.role];
+  const routes = getAccessiblePages(user?.permissions);
 
   return (
     <>
@@ -56,7 +60,7 @@ function App() {
             >
               <Route
                 index
-                element={<Navigate to="/app/overview" replace={true} />}
+                element={<Navigate to={`/app/${routes[0]}`} replace={true} />}
               />
               {/*  Routes of specific role */}
               {routes?.map((route) => (

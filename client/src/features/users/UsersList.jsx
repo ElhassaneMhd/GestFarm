@@ -59,12 +59,6 @@ export default function UsersList() {
               <span className=" capitalize">{role.slice(5).toLowerCase()}</span>
             ),
           },
-          {
-            key: "createdAt",
-            displayLabel: "Created At",
-            type: "date",
-            visible: true,
-          },
         ]}
         formFields={[
           {

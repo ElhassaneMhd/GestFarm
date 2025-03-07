@@ -107,6 +107,7 @@
       "sessions": "Sessions",
       "emails": "Emails",
       "settings": "Settings",
+      "roles":"Roles",
       "logout": "Logout"
     }
   }

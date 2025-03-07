@@ -7,10 +7,36 @@ export const HOMEPAGE_ROUTES = [
 ];
 
 export const APP_ROUTES = {
-  ADMIN: ["overview", "sheep", "users", "shipments", "categories", "sales"],
+  ADMIN: [
+    "overview",
+    "sheep",
+    "users",
+    "shipments",
+    "categories",
+    "sales",
+    "roles",
+  ],
   FARMER: ["overview", "sheep", "categories", "sales"],
   SHIPPER: ["overview", "shipments"],
   USER: ["overview", "sheep"],
+};
+export const PAGE_PERMISSIONS = {
+  sheep: ["READ_SHEEP", "WRITE_SHEEP", "UPDATE_SHEEP", "DELETE_SHEEP"],
+  users: ["READ_USERS", "WRITE_USERS", "UPDATE_USERS", "DELETE_USERS"],
+  categories: [
+    "READ_CATEGORIES",
+    "WRITE_CATEGORIES",
+    "UPDATE_CATEGORIES",
+    "DELETE_CATEGORIES",
+  ],
+  shipments: [
+    "READ_SHIPMENTS",
+    "WRITE_SHIPMENTS",
+    "UPDATE_SHIPMENTS",
+    "DELETE_SHIPMENTS",
+  ],
+  sales: ["READ_SALES", "WRITE_SALES", "UPDATE_SALES", "DELETE_SALES"],
+  roles: ["READ_ROLES", "WRITE_ROLES", "UPDATE_ROLES", "DELETE_ROLES"],
 };
 
 export const PAGE_LIMIT = 10;

@@ -8,3 +8,4 @@ export { Users } from "./Users";
 export { Categories } from "./Categories";
 export { Shipments } from "./Shipments.jsx";
 export { Sales } from "./Sales.jsx";
+export {Roles} from "./Roles.jsx"

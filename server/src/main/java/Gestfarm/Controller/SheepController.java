@@ -24,24 +24,24 @@ public class SheepController {
 
 
     @GetMapping()
-    @PreAuthorize("hasPermission('READ_SHEEP')")
+    @PreAuthorize("hasAuthority('READ_SHEEP')")
     public ResponseEntity<Object> findAll( ) {
         return ResponseEntity.ok(sheepService.getAll());
     }
 
     @GetMapping("/paginate")
-    @PreAuthorize("hasPermission('READ_SHEEP')")
+    @PreAuthorize("hasAuthority('READ_SHEEP')")
     public ResponseEntity<Object> paginate(@RequestParam int page ,@RequestParam int limit  ) {
         return ResponseEntity.ok(sheepService.paginate(page,limit));
     }
 
     @PostMapping()
-    @PreAuthorize("hasPermission('CREATE_SHEEP')")
+    @PreAuthorize("hasAuthority('WRITE_SHEEP')")
     public Sheep create(@RequestBody SheepRequest sheepRequest) {
         return  sheepService.save(sheepRequest);
     }
 
-    @PreAuthorize("hasPermission('UPDATE_SHEEP')")
+    @PreAuthorize("hasAuthority('UPDATE_SHEEP')")
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody SheepRequest sheep) {
         Sheep updatedSheep = sheepService.update(id, sheep);
@@ -51,13 +51,13 @@ public class SheepController {
         return ResponseEntity.ok(updatedSheep);
     }
 
-    @PreAuthorize("hasPermission('DELETE_SHEEP')")
+    @PreAuthorize("hasAuthority('DELETE_SHEEP')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete( @PathVariable Integer id){
         return  sheepService.delete(id);
     }
 
-    @PreAuthorize("hasPermission('DELETE_SHEEP')")
+    @PreAuthorize("hasAuthority('DELETE_SHEEP')")
     @PostMapping("/delete/multiple")
     public void multipleDelete(@RequestBody List<Integer> ids){
         sheepService.multipleDelete(ids);

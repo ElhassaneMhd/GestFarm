@@ -1,7 +1,7 @@
 import { twMerge } from "tailwind-merge";
 import { clsx } from "clsx";
 import { DateTime, Interval } from "luxon";
-import { intervals } from "./constants";
+import { intervals, PAGE_PERMISSIONS } from "./constants";
 
 export const cn = (...inputs) => twMerge(clsx(inputs));
 
@@ -99,4 +99,15 @@ export const filterObject = (obj, keys, keysType) => {
     if (keysType === "exclude" && !keys.includes(key)) filtered[key] = obj[key];
   }
   return filtered;
+};
+
+export const canAccessPage = (userPermissions, page) => {
+  const requiredPermissions = PAGE_PERMISSIONS[page] || [];
+  return requiredPermissions.every((perm) => userPermissions?.includes(perm));
+};
+
+export const getAccessiblePages = (userPermissions) => {
+  return Object.keys(PAGE_PERMISSIONS).filter((page) =>
+    canAccessPage(userPermissions, page)
+  );
 };

@@ -50,13 +50,15 @@ export function Login() {
       </Button>
 
       <div className="relative flex items-center justify-center gap-1 border-t border-border py-6 text-center text-text-primary">
-        <span className=" absolute -top-3 px-2 text-text-tertiary  bg-background-primary">Or</span>
+        <span className=" absolute -top-3 px-2 text-text-tertiary  bg-background-primary">
+          Or
+        </span>
         <Button
           className="w-full text-text-secondary border border-border font-semibold"
           color="tertiary"
           onClick={() => {
             const provider = OAuthProviders.GOOGLE;
-            const url = `${import.meta.env.VITE_SERVER_URL}/${provider}`;
+            const url = `${import.meta.env.VITE_SERVER_URL}${provider}`;
             window.location.href = url;
           }}
         >

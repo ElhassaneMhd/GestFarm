@@ -12,11 +12,10 @@ import { useConfirmationModal } from "./useConfModal";
 
 const useRedirect = () => {
   const navigate = useNavigate();
-  const source = useLocation().state?.source;
 
-  return (message, role) => {
+  return (message) => {
     toast.success(message);
-    navigate(source ? source : role === "user" ? "/" : "/app");
+    navigate("/app");
   };
 };
 
@@ -64,10 +63,7 @@ export function useRegister() {
     mutationKey: ["register"],
     mutationFn: (user) => register(user),
     onSuccess: (data) => {
-      redirect(
-        "Registered in successfully. You'll be redirected now.",
-        data?.role || data?.data?.role
-      );
+      redirect("Registered in successfully. You'll be redirected now.");
       localStorage.setItem("token", data);
     },
     onError: (error) => toast.error(error.message),

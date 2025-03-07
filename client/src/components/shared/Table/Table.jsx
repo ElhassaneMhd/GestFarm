@@ -21,7 +21,6 @@ export function Table({
     onSelect,
     isLoading,
     query,
-    appliedFiltersNumber,
     data,
   } = useTable();
   const table = useRef();
@@ -38,12 +37,11 @@ export function Table({
   if (
     !isLoading &&
     rows?.length === 0 &&
-    !query &&
-    !appliedFiltersNumber("all")
+    !query 
   ) {
     return (
       <div className="absolute grid h-full w-full place-content-center place-items-center gap-5 pt-5">
-        <img src="/SVG/no-applications.svg" alt="" className="w-[100px]" />
+        <img src="/images/no_result.png" alt="" className="w-[100px]" />
         <div className="space-y-2 text-center">
           <h2 className="font-medium text-text-primary">
             {data?.length === 0 ? "No Data Available" : "Page Not Found"}{" "}
@@ -216,4 +214,3 @@ function Select({ id, checked, onChange }) {
     </td>
   );
 }
-
