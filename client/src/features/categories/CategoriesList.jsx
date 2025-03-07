@@ -1,4 +1,3 @@
-import { useSearchParams } from "react-router-dom";
 import {
   useAddCategory,
   useUpdateCategory,
@@ -8,13 +7,11 @@ import {
 } from "./useCategory";
 import { TableLayout } from "@/layouts/TableLayout";
 import { FileUploader } from "@/components/ui/File";
+import { usePaginate } from "../../hooks/usePaginate";
 
 export function CategoriesList() {
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get("page") || 1;
-  const limit = searchParams.get("limit") || 5;
+  const { page, limit } = usePaginate();
   const { categories, isLoading, error } = usePaginateCategories(page, limit);
-
   const { mutate: addCategory } = useAddCategory();
   const { mutate: updateCategory } = useUpdateCategory();
   const { mutate: deleteCategory } = useDeleteCategory();

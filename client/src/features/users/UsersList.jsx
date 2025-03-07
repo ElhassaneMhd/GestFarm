@@ -1,29 +1,16 @@
 import {
-  useAddUser,
   useDeleteUser,
   useMultipleDeleteUsers,
   usePaginateUsers,
-  useUpdateUser,
 } from "./useUser";
 import { TableLayout } from "@/layouts/TableLayout";
-import { useSearchParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { RULES } from "@/utils/constants";
-import { CostumDropDown } from "../sheep/SheepList";
+import { usePaginate } from "@/hooks/usePaginate";
 
 export default function UsersList() {
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get("page") || 1;
-  const limit = searchParams.get("limit") || 10;
+  const { page, limit } = usePaginate();
   const { users, error, isLoading } = usePaginateUsers(page, limit);
-
-  const { mutate: addUser } = useAddUser();
-  const { mutate: updateUser } = useUpdateUser();
   const { mutate: deleteUser } = useDeleteUser();
   const { mutate: multipledeleteUsers } = useMultipleDeleteUsers();
-
-  const roles = ["FARMER", "SHIPPER", "USER"];
-  const { t } = useTranslation();
   return (
     <>
       <TableLayout
@@ -60,43 +47,10 @@ export default function UsersList() {
             ),
           },
         ]}
-        formFields={[
-          {
-            name: "username",
-            label: t("form.username.label"),
-            rules: { ...RULES.username },
-          },
-          {
-            name: "email",
-            type: "email",
-            label: t("form.email.label"),
-          },
-          {
-            name: "phone",
-            label: t("form.phone.label"),
-          },
-          {
-            name: "role",
-            customComponent: <CostumDropDown dataName="role" data={roles} />,
-          },
-          {
-            name: "password",
-            type: "password",
-            label: t("form.password.label"),
-          },
-          {
-            name: "passwordConfirmation",
-            type: "password",
-            label: t("form.confirmPassword.label"),
-            rules: { ...RULES.passwordConfirmation },
-          },
-        ]}
         fieldsToSearch={["username", "email"]}
         downloadOptions={{
           pdfFileName: "Users",
         }}
-        onAdd={addUser}
-        onUpdate={updateUser}
         onDelete={deleteUser}
         layoutOptions={{
           displayNewRecord: false,

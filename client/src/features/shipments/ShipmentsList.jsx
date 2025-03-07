@@ -19,19 +19,16 @@ import { Button, DropDown } from "@/components/ui";
 import { CostumDropDown } from "../sheep/SheepList";
 import { useSales } from "../sales/useSale";
 import { useShippers } from "../users/useUser";
-import { useSearchParams } from "react-router-dom";
+import { usePaginate } from "@/hooks/usePaginate";
+import { SHIPMENT_STATUS } from "@/utils/constants";
 
 export function ShipmentsList() {
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get("page") || 1;
-  const limit = searchParams.get("limit") || 10;
-
+  const { page, limit } = usePaginate();
   const { shipments, error, isLoading } = usePaginateShipments(page, limit);
   const { mutate: addShipment } = useAddShipment();
   const { mutate: updateShipment } = useUpdateShipment();
   const { mutate: deleteShipment } = useDeleteShipment();
   const { mutate: deleteMultipleShipment } = useMultipleDeleteShipments();
-  const status = ["PENDING", "DELIVERED", "CANCELLED"];
 
   return (
     <>
@@ -95,7 +92,9 @@ export function ShipmentsList() {
           {
             name: "status",
             required: true,
-            customComponent: <CostumDropDown dataName="status" data={status} />,
+            customComponent: (
+              <CostumDropDown dataName="status" data={SHIPMENT_STATUS} />
+            ),
           },
           {
             name: "sale",

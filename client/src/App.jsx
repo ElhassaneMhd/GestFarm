@@ -9,7 +9,6 @@ import AppLayout from "./layouts/AppLayout";
 import {
   HomePage,
   NotFound,
-  Overview,
   Sheep,
   Login,
   Register,
@@ -28,7 +27,6 @@ function App() {
   const { user } = useUser();
   const [parent] = useAutoAnimate({ duration: 300 });
   const routesElements = {
-    // overview: <Overview />,
     sheep: <Sheep />,
     users: <Users />,
     categories: <Categories />,
@@ -37,7 +35,6 @@ function App() {
     roles: <Roles />,
   };
 
-  // const routes = APP_ROUTES[user?.role];
   const routes = getAccessiblePages(user?.permissions);
 
   return (

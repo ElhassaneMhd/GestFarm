@@ -57,7 +57,8 @@ export const Sheep = () => {
 };
 
 function SheepList({ sheep, totalItems, totalPages, isLoading, error }) {
-  const [parent] = useAutoAnimate();
+  const [parent] = useAutoAnimate({ duration: 300 });
+
   const { page, limit, onPaginate, onChangeLimit } = useMethods({
     defaultSortBy: "id",
     defaultDirection: "desc",

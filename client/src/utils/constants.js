@@ -1,25 +1,20 @@
-import { DateTime } from "luxon";
-
 export const HOMEPAGE_ROUTES = [
   { label: "home", path: "/" },
-  { label: "contact", path: "/contact" },
-  { label: "about", path: "/about" },
+  // { label: "contact", path: "/contact" },
+  // { label: "about", path: "/about" },
 ];
 
-export const APP_ROUTES = {
-  ADMIN: [
-    "overview",
-    "sheep",
-    "users",
-    "shipments",
-    "categories",
-    "sales",
-    "roles",
-  ],
-  FARMER: ["overview", "sheep", "categories", "sales"],
-  SHIPPER: ["overview", "shipments"],
-  USER: ["overview", "sheep"],
+export const SALE_STATUS = ["PARTIALLY", "PAID", "DELIVERED", "CANCELLED"];
+
+export const SHEEP_STATUS = ["UNLISTED", "AVAILABLE", "SOLD", "RESERVED"];
+export const SHEEP_AGES = {
+  LAMBS: "0-1 year",
+  YEARLINGS: "1-2 year",
+  MATURE: "2-5 year",
+  OLD: "5+ year",
 };
+export const SHIPMENT_STATUS = ["PENDING", "DELIVERED", "CANCELLED"];
+
 export const PAGE_PERMISSIONS = {
   sheep: ["READ_SHEEP", "WRITE_SHEEP", "UPDATE_SHEEP", "DELETE_SHEEP"],
   users: ["READ_USERS", "WRITE_USERS", "UPDATE_USERS", "DELETE_USERS"],
@@ -40,122 +35,6 @@ export const PAGE_PERMISSIONS = {
 };
 
 export const PAGE_LIMIT = 10;
-
-//date and time
-export const intervals = [
-  {
-    name: "Yesterday",
-    interval: {
-      start: DateTime.local().minus({ days: 1 }).startOf("day"),
-      end: DateTime.local().minus({ days: 1 }).endOf("day"),
-    },
-    time: "past",
-  },
-  {
-    name: "Today",
-    interval: {
-      start: DateTime.local().startOf("day"),
-      end: DateTime.local().endOf("day"),
-    },
-    time: "present",
-  },
-  {
-    name: "Tomorrow",
-    interval: {
-      start: DateTime.local().plus({ days: 1 }).startOf("day"),
-      end: DateTime.local().plus({ days: 1 }).endOf("day"),
-    },
-    time: "future",
-  },
-  {
-    name: "Last 7 Days",
-    interval: {
-      start: DateTime.local().minus({ days: 7 }).startOf("day"),
-      end: DateTime.local().startOf("day").minus({ milliseconds: 1 }),
-    },
-    time: "past",
-  },
-  {
-    name: "This Week",
-    interval: {
-      start: DateTime.local().startOf("week"),
-      end: DateTime.local().endOf("week"),
-    },
-    time: "present",
-  },
-  {
-    name: "Next Week",
-    interval: {
-      start: DateTime.local().plus({ weeks: 1 }).startOf("week"),
-      end: DateTime.local().plus({ weeks: 1 }).endOf("week"),
-    },
-    time: "future",
-  },
-  {
-    name: "Last 30 Days",
-    interval: {
-      start: DateTime.local().minus({ days: 30 }).startOf("day"),
-      end: DateTime.local().startOf("day").minus({ milliseconds: 1 }),
-    },
-    time: "past",
-  },
-  {
-    name: "This Month",
-    interval: {
-      start: DateTime.local().startOf("month"),
-      end: DateTime.local().endOf("month"),
-    },
-    time: "present",
-  },
-  {
-    name: "Next Month",
-    interval: {
-      start: DateTime.local().plus({ months: 1 }).startOf("month"),
-      end: DateTime.local().plus({ months: 1 }).endOf("month"),
-    },
-    time: "future",
-  },
-  {
-    name: "Last 90 Days",
-    interval: {
-      start: DateTime.local().minus({ days: 90 }).startOf("day"),
-      end: DateTime.local().startOf("day").minus({ milliseconds: 1 }),
-    },
-    time: "past",
-  },
-  {
-    name: "Last 6 Months",
-    interval: {
-      start: DateTime.local().minus({ months: 6 }).startOf("month"),
-      end: DateTime.local().startOf("month").minus({ milliseconds: 1 }),
-    },
-    time: "past",
-  },
-  {
-    name: "This Year",
-    interval: {
-      start: DateTime.local().startOf("year"),
-      end: DateTime.local().endOf("year"),
-    },
-    time: "present",
-  },
-  {
-    name: "Next Year",
-    interval: {
-      start: DateTime.local().plus({ years: 1 }).startOf("year"),
-      end: DateTime.local().plus({ years: 1 }).endOf("year"),
-    },
-    time: "future",
-  },
-  {
-    name: "Last Year",
-    interval: {
-      start: DateTime.local().minus({ years: 1 }).startOf("year"),
-      end: DateTime.local().startOf("year").minus({ milliseconds: 1 }),
-    },
-    time: "past",
-  },
-];
 
 //OAUth2
 export const OAuthProviders = {

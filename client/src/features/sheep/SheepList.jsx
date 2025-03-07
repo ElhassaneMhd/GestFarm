@@ -9,25 +9,17 @@ import { useCategories } from "@/features/categories/useCategory";
 import { TableLayout } from "@/layouts/TableLayout";
 import { ChevronDown } from "lucide-react";
 import { DropDown, Button } from "@/components/ui";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { usePaginate } from "@/hooks/usePaginate";
+import { SHEEP_AGES, SHEEP_STATUS } from "@/utils/constants";
 
 export function SheepList() {
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get("page") || 1;
-  const limit = searchParams.get("limit") || 10;
-
+  const { page, limit } = usePaginate();
   const { sheep, error, isLoading } = usePaginateSheep(page, limit);
   const { mutate: addSheep } = useAddSheep();
   const { mutate: updateSheep } = useUpdateSheep();
   const { mutate: deleteSheep } = useDeleteSheep();
   const { mutate: multipleDelete } = useMultipleDeleteSheep();
-  const status = ["UNLISTED", "AVAILABLE", "SOLD", "RESERVED"];
-  const ages = {
-    LAMBS: "0-1 year",
-    YEARLINGS: "1-2 year",
-    MATURE: "2-5 year",
-    OLD: "5+ year",
-  };
 
   return (
     <TableLayout
@@ -56,7 +48,9 @@ export function SheepList() {
           visible: true,
           format: (age) => (
             <span className="px-2 py-1 rounded-full">
-              <span className={`${age?.toLowerCase()}`}>{ages[age]} </span>
+              <span className={`${age?.toLowerCase()}`}>
+                {SHEEP_AGES[age]}{" "}
+              </span>
             </span>
           ),
         },
@@ -104,7 +98,9 @@ export function SheepList() {
         {
           name: "status",
           required: true,
-          customComponent: <CostumDropDown dataName="status" data={status} />,
+          customComponent: (
+            <CostumDropDown dataName="status" data={SHEEP_STATUS} />
+          ),
         },
         {
           name: "weight",
@@ -117,7 +113,7 @@ export function SheepList() {
           name: "age",
           required: true,
           customComponent: (
-            <CostumDropDown dataName="age" data={Object.keys(ages)} />
+            <CostumDropDown dataName="age" data={Object.keys(SHEEP_AGES)} />
           ),
         },
       ]}
@@ -126,7 +122,7 @@ export function SheepList() {
         weight: 0,
         status: "UNLISTED",
         category: null,
-        age:null,
+        age: null,
       }}
       onAdd={addSheep}
       onUpdate={updateSheep}

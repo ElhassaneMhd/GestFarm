@@ -1,7 +1,7 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export function Heading({ children, count }) {
-  const [parent] = useAutoAnimate();
+  const [parent] = useAutoAnimate({ duration: 300 });
 
   return (
     <h1

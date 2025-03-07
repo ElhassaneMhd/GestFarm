@@ -5,16 +5,13 @@ import {
   usePermissions,
   useUpdateRole,
 } from "./useRole";
-import { useSearchParams } from "react-router-dom";
 import { Button, CheckBox, DropDown } from "@/components/ui";
 import { ChevronDown } from "lucide-react";
 import { RULES } from "@/utils/constants";
+import { usePaginate } from "../../hooks/usePaginate";
 
 export function RolesList() {
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get("page") || 1;
-  const limit = searchParams.get("limit") || 10;
-
+  const { page, limit } = usePaginate();
   const { roles, error, isLoading } = usePaginateRoles(page, limit);
   const { mutate: addrole } = useAddRole();
   const { mutate: updateRole } = useUpdateRole();

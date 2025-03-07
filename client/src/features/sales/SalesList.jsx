@@ -10,19 +10,17 @@ import {
 import { Button, CheckBox, DropDown } from "@/components/ui";
 import { useAllSheep } from "../sheep/useSheep";
 import { CostumDropDown } from "../sheep/SheepList";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+import { usePaginate } from "../../hooks/usePaginate";
+import { SALE_STATUS } from "../../utils/constants";
 
 export function SalesList() {
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get("page") || 1;
-  const limit = searchParams.get("limit") || 10;
-
+  const { page, limit } = usePaginate();
   const { sales, isLoading, error } = usePaginateSales(page, limit);
   const { mutate: addSale } = useAddSale();
   const { mutate: updateSale } = useUpdateSale();
   const { mutate: deleteSale } = useDeleteSale();
   const { mutate: multipleDelete } = useMultipleDeleteSale();
-  const status = ["PARTIALLY", "PAID", "DELIVERED", "CANCELLED"];
   return (
     <>
       <TableLayout
@@ -86,7 +84,9 @@ export function SalesList() {
 
           {
             name: "status",
-            customComponent: <CostumDropDown dataName="status" data={status} />,
+            customComponent: (
+              <CostumDropDown dataName="status" data={SALE_STATUS} />
+            ),
           },
           {
             name: "sheep",
