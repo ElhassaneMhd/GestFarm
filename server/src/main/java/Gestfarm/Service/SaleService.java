@@ -49,7 +49,7 @@ public class SaleService {
         List<SaleDTO> SaleDTOS= sheep.stream()
                 .map(saleMapper::mapToDto)
                 .toList();
-        return new PaginateDTO<SaleDTO>(page,limit,total,SaleDTOS);
+        return new PaginateDTO<>(page,limit,total,SaleDTOS);
     }
     public SaleDTO findById(Integer id){
         Sale sale= saleRepository.findById(id).orElse(null);
@@ -78,7 +78,7 @@ public class SaleService {
     }
 
     @Transactional
-    public ResponseEntity<Sale> update(Integer id ,SaleRequest request) {
+    public ResponseEntity<Object> update(Integer id ,SaleRequest request) {
         Sale sale = saleRepository.findById(id).orElse(null);
         if (sale != null ){
             if (request.sheep()!= null){
@@ -96,6 +96,7 @@ public class SaleService {
             }
             if (request.amount() != null) sale.setAmount(request.amount());
             if (request.name()!= null) sale.setName(request.name());
+            if (request.price()!= null) sale.setPrice(request.price());
             if (request.status()!= null) sale.setStatus(request.status());
         }
         return ResponseEntity.ok(sale);
@@ -105,12 +106,17 @@ public class SaleService {
     @Transactional
     public ResponseEntity<Object> delete(Integer id) {
         Sale sale = saleRepository.findById(id).orElse(null);
-        if (sale != null){
-            sheepRepository.setSaleToNull(id);
-            saleRepository.delete(sale);
-            return ResponseEntity.ok("Deleted successfully");
+        if (sale == null){
+            return new ResponseEntity<>("Cannot delete undefined Sale" , HttpStatusCode.valueOf(404));
         }
-        return new ResponseEntity<>("Cannot delete undefined Sale" , HttpStatusCode.valueOf(404));
+        sale.getSheep().forEach(sheep -> {
+            sheep.setStatus(SheepStatus.AVAILABLE);
+            sheep.setSale(null);
+            sheepRepository.save(sheep);
+        });
+//        sheepRepository.setSaleToNull(id);
+        saleRepository.delete(sale);
+        return ResponseEntity.ok("Deleted successfully");
     }
 
     public void multipleDelete(List<Integer> ids){

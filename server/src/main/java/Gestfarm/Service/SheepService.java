@@ -68,9 +68,10 @@ public class SheepService {
     }
 
     @Transactional
-    public Sheep update(Integer sheepId, SheepRequest sheepRequest) {
+    public ResponseEntity<Object> update(Integer sheepId, SheepRequest sheepRequest) {
         Sheep sheep = sheepRepository.findById(sheepId)
                 .orElseThrow(() -> new RuntimeException("Sheep not found"));
+
         if (sheepRequest.number() != null) sheep.setNumber(sheepRequest.number());
         if (sheepRequest.weight() != null) sheep.setWeight(sheepRequest.weight());
         if (sheepRequest.age() != null) sheep.setAge(sheepRequest.age());
@@ -82,7 +83,8 @@ public class SheepService {
             Category category = categoryService.find(sheepRequest.category().getId());
             sheep.setCategory(category);
         }
-        return sheepRepository.save(sheep);
+
+        return ResponseEntity.ok().body( sheepRepository.save(sheep)) ;
     }
 
     @Transactional

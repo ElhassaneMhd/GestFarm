@@ -32,7 +32,7 @@ public class Sale {
     private Integer price;
     private SaleStatus status;
 
-    @OneToMany(mappedBy = "sale", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "sale", cascade = CascadeType.PERSIST)
     @JsonIgnore
     private List<Sheep> sheep;
 

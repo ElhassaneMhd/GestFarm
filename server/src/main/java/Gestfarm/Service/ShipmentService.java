@@ -52,7 +52,7 @@ public class ShipmentService {
         List<ShipmentDTO> ShipmentDTOS= sheep.stream()
                 .map(shipmentMapper::mapToDto)
                 .toList();
-        return new PaginateDTO<ShipmentDTO>(page,limit,total,ShipmentDTOS);
+        return new PaginateDTO<>(page,limit,total,ShipmentDTOS);
     }
 
     public Shipment find(Integer id) {
@@ -104,7 +104,8 @@ public class ShipmentService {
     public ResponseEntity<Object> delete(Integer id) {
         Shipment shipment = shipmentRepository.findById(id).orElse(null);
         if (shipment != null){
-            shipment.getSale().setShipment(null);
+            Sale sale =shipment.getSale();
+            sale.setShipment(null);
             User shipper = shipment.getShipper();
             List<Shipment> shipments = shipper.getShipments()
                     .stream().filter( sp -> !sp.getId().equals(id) ).toList();

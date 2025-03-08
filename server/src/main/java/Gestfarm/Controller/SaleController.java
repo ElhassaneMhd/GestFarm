@@ -17,10 +17,12 @@ import java.util.List;
 public class SaleController {
 
     private final SaleService saleService;
+    private final SaleRepository saleRepository;
 
     @Autowired
-    public SaleController(SaleService saleService) {
+    public SaleController(SaleService saleService, SaleRepository saleRepository) {
         this.saleService = saleService;
+        this.saleRepository = saleRepository;
     }
 
 
@@ -51,7 +53,10 @@ public class SaleController {
 
     @PreAuthorize("hasAuthority('UPDATE_SALES')")
     @PutMapping("/{id}")
-    public ResponseEntity<Sale> update(@PathVariable Integer id,@RequestBody SaleRequest saleRequest){
+    public ResponseEntity<Object> update(@PathVariable Integer id,@RequestBody SaleRequest saleRequest){
+        if (!saleRepository.existsById(id)){
+            return  ResponseEntity.badRequest().body("Cannot update undefined Sheep");
+        }
      return saleService.update(id,saleRequest);
     }
 

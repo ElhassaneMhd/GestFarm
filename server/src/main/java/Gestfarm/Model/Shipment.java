@@ -36,12 +36,12 @@ public class Shipment {
     private Date shippingDate;
 
     @JoinColumn(name = "user_id",nullable = true)
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private User shipper;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "sale_id")
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore

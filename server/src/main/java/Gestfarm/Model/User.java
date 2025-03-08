@@ -46,7 +46,7 @@ public class User {
     @JsonIgnore
     private Role role;
 
-    @OneToMany(mappedBy = "shipper", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "shipper", cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JsonIgnore
     private List<Shipment> shipments;
